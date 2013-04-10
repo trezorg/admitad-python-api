@@ -178,6 +178,48 @@ class OAuthServerAuthorisation(object):
         return response
 
 
+class HttpTransportPagination(object):
+
+    DEFAULT_LIMIT = 20
+    DEFAULT_OFFSET = 0
+
+    def __init__(self, **kwargs):
+        self.offset = self._get_pagination_offset(**kwargs)
+        self.limit = self._get_pagination_limit(**kwargs)
+
+    @staticmethod
+    def _check_pagination_value(value, maximum=None, minimum=None):
+        try:
+            value = int(value)
+        except (ValueError, TypeError):
+            return
+        if value < 0:
+            return
+        if maximum is not None and value > maximum:
+            return
+        if minimum is not None and value < minimum:
+            return
+        return value
+
+    def _get_pagination_limit(self, **kwargs):
+        if 'limit' in kwargs:
+            limit = self._check_pagination_value(
+                kwargs['limit'], MAX_PAGINATION_LIMIT, 1)
+            if limit is not None:
+                return limit
+        return self.DEFAULT_LIMIT
+
+    def _get_pagination_offset(self, **kwargs):
+        if 'offset' in kwargs:
+            offset = self._check_pagination_value(kwargs['offset'])
+            if offset is not None:
+                return offset
+        return self.DEFAULT_OFFSET
+
+    def to_value(self):
+        return {'limit': self.limit, 'offset': self.offset}
+
+
 class HttpTransport(object):
 
     def __init__(self, access_token, method=None, user_agent=None):
@@ -207,6 +249,16 @@ class HttpTransport(object):
         self._data = data
         return self
 
+    def update_data(self, values):
+        if self._data is None:
+            self._data = {}
+        self._data.update(values)
+        return self
+
+    def set_pagination(self, **kwargs):
+        self.update_data(HttpTransportPagination(**kwargs).to_value())
+        return self
+
     def set_method(self, method):
         if method in self._supported_methods:
             self._method = method
@@ -214,6 +266,9 @@ class HttpTransport(object):
             raise AttributeError(
                 'This http method "%s" is not supported' % method)
         return self
+
+    def _prepare_pagination(self, **kwargs):
+        pass
 
     def _handle_response(self, response):
         return response
@@ -224,7 +279,7 @@ class HttpTransport(object):
     def api_request(self, url, **kwargs):
         return api_request(url, **kwargs)
 
-    def __call__(self, **kwargs):
+    def request(self, **kwargs):
         if 'language' in kwargs:
             self.set_language(kwargs['language'])
         if 'url' in kwargs:
@@ -238,3 +293,6 @@ class HttpTransport(object):
             return kwargs['handler'](response)
         else:
             return self._handle_response(response)
+
+    def __call__(self, **kwargs):
+        return self.request(**kwargs)

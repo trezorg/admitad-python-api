@@ -1,8 +1,8 @@
 import unittest
 from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
-from pyadmitad.constants import ME_URL
-from pyadmitad.transport import prepare_api_url, build_headers
+from pyadmitad.constants import *
+from pyadmitad.transport import prepare_api_url, build_headers, HttpTransportPagination
 
 
 class MeTestCase(MockerTestCase):
