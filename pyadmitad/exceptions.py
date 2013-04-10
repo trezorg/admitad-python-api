@@ -1,18 +1,22 @@
 
 
 class HttpException(Exception):
-    def __init__(self, status, content):
+
+    def __init__(self, status, message, content):
         self.status = status
+        self.message = message
         self.content = content
 
     def __str__(self):
         return repr(self)
 
     def __repr__(self):
-        return "HttpException(%s): %s" % (self.status, self.content)
+        return "HttpException(%s): %s\n%s" % (
+            self.status, self.content, self.message)
 
 
 class ConnectionException(Exception):
+
     def __init__(self, content):
         self.content = content
 
@@ -20,10 +24,11 @@ class ConnectionException(Exception):
         return repr(self)
 
     def __repr__(self):
-        return "ConnectionException(%s): %s" % self.content
+        return "ConnectionException: %s" % self.content
 
 
 class JsonException(Exception):
+
     def __init__(self, content):
         self.content = content
 
@@ -35,6 +40,7 @@ class JsonException(Exception):
 
 
 class ApiException(Exception):
+
     def __init__(self, content):
         self.content = content
 
@@ -42,4 +48,4 @@ class ApiException(Exception):
         return repr(self)
 
     def __repr__(self):
-        return "ApiException(%s): %s" % self.content
+        return "ApiException: %s" % self.content

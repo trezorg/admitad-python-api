@@ -4,11 +4,12 @@ import simplejson
 import urllib
 import urlparse
 import uuid
-from .constants import *
-from .exceptions import *
+from pyadmitad.constants import *
+from pyadmitad.exceptions import *
 
 
-def api_request(url, data=None, headers=None, method='GET', timeout=None):
+def prepare_request_data(data=None, headers=None, method='GET',
+                         timeout=None, ssl_verify=False):
     if headers is None:
         headers = {}
     kwargs = {}
@@ -21,14 +22,25 @@ def api_request(url, data=None, headers=None, method='GET', timeout=None):
         kwargs['params'] = data
     kwargs['headers'] = headers
     kwargs['allow_redirects'] = True
+    kwargs['verify'] = ssl_verify
+    return kwargs
+
+
+def api_request(url, data=None, headers=None, method='GET',
+                timeout=None, ssl_verify=False):
+    kwargs = prepare_request_data(
+        data=data, headers=headers, method=method,
+        timeout=timeout, ssl_verify=ssl_verify)
     status_code = 500
+    content = {}
     try:
         response = requests.request(method, url, **kwargs)
         status_code = response.status_code
+        content = response.json()
         response.raise_for_status()
-        return response.json()
+        return content
     except requests.HTTPError as err:
-        raise HttpException(status_code, err)
+        raise HttpException(status_code, content, err)
     except requests.RequestException as err:
         raise ConnectionException(err)
     except simplejson.JSONDecodeError as err:
@@ -58,7 +70,7 @@ def build_headers(access_token, user_agent=None):
 
 
 def prepare_api_url(url, language=DEFAULT_LANGUAGE):
-    return url % {'language': language}
+    return url % {'language': language or DEFAULT_LANGUAGE}
 
 
 def oauth_password_authorization(data):
@@ -164,3 +176,65 @@ class OAuthServerAuthorisation(object):
         if 'access_token' not in response:
             raise ApiException('Invalid response. The access_token is absent.')
         return response
+
+
+class HttpTransport(object):
+
+    def __init__(self, access_token, method=None, user_agent=None):
+        self._headers = build_headers(access_token, user_agent=user_agent)
+        self._method = method or 'GET'
+        self._supported_methods = ('GET', 'POST')
+        self._supported_languages = ('ru', 'en', 'de', 'pl')
+        self._data = None
+        self._url = None
+        self._language = None
+
+    def set_url(self, url, language=None):
+        if language:
+            self.set_language(language)
+        self._url = prepare_api_url(url, language)
+        return self
+
+    def set_language(self, language):
+        if language in self._supported_languages:
+            self._language = language
+        else:
+            raise AttributeError(
+                'This language "%s" is not supported' % language)
+        return self
+
+    def set_data(self, data):
+        self._data = data
+        return self
+
+    def set_method(self, method):
+        if method in self._supported_methods:
+            self._method = method
+        else:
+            raise AttributeError(
+                'This http method "%s" is not supported' % method)
+        return self
+
+    def _handle_response(self, response):
+        return response
+
+    def __getattr__(self, name):
+        return self.set_method(name)
+
+    def api_request(self, url, **kwargs):
+        return api_request(url, **kwargs)
+
+    def __call__(self, **kwargs):
+        if 'language' in kwargs:
+            self.set_language(kwargs['language'])
+        if 'url' in kwargs:
+            self.set_url(kwargs['url'], self._language)
+        if not self._url:
+            raise AttributeError('Absent url parameter. Use set_url method')
+        response = self.api_request(
+            self._url, method=self._method,
+            headers=self._headers, data=self._data)
+        if 'handler' in kwargs:
+            return kwargs['handler'](response)
+        else:
+            return self._handle_response(response)

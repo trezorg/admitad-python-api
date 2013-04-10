@@ -15,6 +15,8 @@ setup(
     keywords='admitad',
     packages=find_packages(),
     install_requires=['requests', 'simplejson'],
+    test_suite='unittest2.collector',
+    tests_require=['mocker', 'unittest2'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
