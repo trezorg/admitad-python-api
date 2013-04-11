@@ -8,7 +8,8 @@ from pyadmitad.transport import prepare_api_url, build_headers, \
     HttpTransportPagination
 
 
-class AuxiliaryBase(MockerTestCase):
+class AuxiliaryBaseTestCase(MockerTestCase):
+
     def set_mocker(self, url, **kwargs):
         access_token = 'access_token'
         with_pagination = kwargs.pop('with_pagination', True)
@@ -24,7 +25,8 @@ class AuxiliaryBase(MockerTestCase):
         obj.api_request(url, **kwargs)
 
 
-class WebsiteTypesTestCase(AuxiliaryBase):
+class WebsiteTypesTestCase(AuxiliaryBaseTestCase):
+
     def test_get_website_types_request(self):
         self.set_mocker(WEBSITE_TYPES_URL)
         result = {
@@ -78,7 +80,8 @@ class WebsiteTypesTestCase(AuxiliaryBase):
         self.mocker.verify()
 
 
-class WebsiteRegionsTestCase(AuxiliaryBase):
+class WebsiteRegionsTestCase(AuxiliaryBaseTestCase):
+
     def test_get_website_regions_request(self):
         self.set_mocker(WEBSITE_REGIONS_URL)
         result = {
@@ -127,7 +130,8 @@ class WebsiteRegionsTestCase(AuxiliaryBase):
         self.mocker.verify()
 
 
-class SystemLanguagesTestCase(AuxiliaryBase):
+class SystemLanguagesTestCase(AuxiliaryBaseTestCase):
+
     def test_get_languages_request(self):
         self.set_mocker(LANGUAGES_URL)
         result = {
@@ -175,6 +179,74 @@ class SystemLanguagesTestCase(AuxiliaryBase):
         self.assertIn(u'language_code', res)
         self.mocker.verify()
 
+
+class SystemCurrenciesTestCase(AuxiliaryBaseTestCase):
+
+    def test_get_currencies_request(self):
+        self.set_mocker(CURRENCIES_URL)
+        result = {
+            u'results': [
+                {
+                    u'code': u'EUR',
+                    u'min_sum': u'20.00',
+                    u'name': u'Евро',
+                    u'sign': u'€'
+                },
+                {
+                    u'code': u'RUB',
+                    u'min_sum': u'750.00',
+                    u'name': u'Российский рубль',
+                    u'sign': u'руб.'
+                },
+                {
+                    u'code': u'USD',
+                    u'min_sum': u'25.00',
+                    u'name': u'Американский доллар',
+                    u'sign': u'$'
+                }
+            ],
+            u'_meta': {
+                u'count': 3,
+                u'limit': 20,
+                u'offset': 0
+            },
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.SystemCurrencies.get()
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+    def test_get_currencies_request_with_pagination(self):
+        self.set_mocker(CURRENCIES_URL, offset=1, limit=1)
+        result = {
+            u'results': [
+                {
+                    u'code': u'RUB',
+                    u'min_sum': u'750.00',
+                    u'name': u'Российский рубль',
+                    u'sign': u'руб.'
+                }
+            ],
+            u'_meta': {
+                u'count': 3,
+                u'limit': 1,
+                u'offset': 1
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.SystemCurrencies.get(offset=1, limit=1)
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.assertEqual(res[u'_meta'][u'limit'], 1)
+        self.assertEqual(res[u'_meta'][u'offset'], 1)
+        self.mocker.verify()
 
 if __name__ == '__main__':
     unittest.main()

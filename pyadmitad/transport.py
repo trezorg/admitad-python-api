@@ -36,8 +36,8 @@ def api_request(url, data=None, headers=None, method='GET',
     try:
         response = requests.request(method, url, **kwargs)
         status_code = response.status_code
-        content = response.json()
         response.raise_for_status()
+        content = response.json()
         return content
     except requests.HTTPError as err:
         raise HttpException(status_code, content, err)

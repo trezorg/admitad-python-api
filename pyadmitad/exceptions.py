@@ -11,8 +11,9 @@ class HttpException(Exception):
         return repr(self)
 
     def __repr__(self):
-        return "HttpException(%s): %s\n%s" % (
-            self.status, self.content, self.message)
+        return "HttpException(%s): %s%s" % (
+            self.status, self.content,
+            "\n%s" % self.message if self.message else "")
 
 
 class ConnectionException(Exception):
