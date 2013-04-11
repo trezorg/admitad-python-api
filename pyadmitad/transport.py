@@ -285,7 +285,9 @@ class HttpTransport(object):
         if 'url' in kwargs:
             self.set_url(kwargs['url'], self._language)
         if not self._url:
-            raise AttributeError('Absent url parameter. Use set_url method')
+            raise AttributeError(
+                'Absent url parameter. Use set_url method or pass '
+                'url parameter in this method.')
         response = self.api_request(
             self._url, method=self._method,
             headers=self._headers, data=self._data)
