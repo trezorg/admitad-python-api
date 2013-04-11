@@ -69,8 +69,14 @@ def build_headers(access_token, user_agent=None):
     return headers
 
 
-def prepare_api_url(url, language=DEFAULT_LANGUAGE):
-    return url % {'language': language or DEFAULT_LANGUAGE}
+def prepare_api_url(url, **kwargs):
+    if kwargs is None:
+        kwargs = {}
+    # set default language
+    language = kwargs.get('language')
+    if not language:
+        kwargs['language'] = DEFAULT_LANGUAGE
+    return url % kwargs
 
 
 def oauth_password_authorization(data):
@@ -94,7 +100,8 @@ def oauth_password_authorization(data):
         'Authorization': 'Basic %s' % credentials
     }
     return api_post_request(
-        prepare_api_url(TOKEN_URL, language), data=params, headers=headers)
+        prepare_api_url(TOKEN_URL, language=language),
+        data=params, headers=headers)
 
 
 def oauth_client_authorization(data):
@@ -116,7 +123,8 @@ def oauth_client_authorization(data):
         'Authorization': 'Basic %s' % credentials
     }
     return api_post_request(
-        prepare_api_url(TOKEN_URL, language), data=params, headers=headers)
+        prepare_api_url(TOKEN_URL, language=language),
+        data=params, headers=headers)
 
 
 class OAuthServerAuthorisation(object):
@@ -143,7 +151,7 @@ class OAuthServerAuthorisation(object):
             'redirect_uri': self.redirect_uri
         }
         return "%s?%s" % (
-            prepare_api_url(AUTHORIZE_URL, self.language),
+            prepare_api_url(AUTHORIZE_URL, language=self.language),
             urllib.urlencode(params))
 
     def get_access_token(self, url):
@@ -171,7 +179,7 @@ class OAuthServerAuthorisation(object):
         }
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         response = api_post_request(
-            prepare_api_url(TOKEN_URL, self.language),
+            prepare_api_url(TOKEN_URL, language=self.language),
             data=params, headers=headers)
         if 'access_token' not in response:
             raise ApiException('Invalid response. The access_token is absent.')
@@ -231,10 +239,13 @@ class HttpTransport(object):
         self._url = None
         self._language = None
 
-    def set_url(self, url, language=None):
+    def set_url(self, url, **kwargs):
+        language = kwargs.get('language')
         if language:
             self.set_language(language)
-        self._url = prepare_api_url(url, language)
+        if self._language:
+            kwargs['language'] = self._language
+        self._url = prepare_api_url(url, **kwargs)
         return self
 
     def set_language(self, language):
@@ -283,7 +294,8 @@ class HttpTransport(object):
         if 'language' in kwargs:
             self.set_language(kwargs['language'])
         if 'url' in kwargs:
-            self.set_url(kwargs['url'], self._language)
+            url = kwargs.pop('url')
+            self.set_url(url, **kwargs)
         if not self._url:
             raise AttributeError(
                 'Absent url parameter. Use set_url method or pass '

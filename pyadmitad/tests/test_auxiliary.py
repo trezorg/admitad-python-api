@@ -1,21 +1,23 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
 from pyadmitad.constants import *
-from pyadmitad.transport import prepare_api_url, build_headers,\
+from pyadmitad.transport import prepare_api_url, build_headers, \
     HttpTransportPagination
 
 
 class AuxiliaryBase(MockerTestCase):
-
-    def set_mocker(self, limit=None, offset=None):
+    def set_mocker(self, url, **kwargs):
         access_token = 'access_token'
+        with_pagination = kwargs.pop('with_pagination', True)
         self.client = get_oauth_client(access_token)
         obj = self.mocker.patch(self.client.transport)
-        url = prepare_api_url(WEBSITE_TYPES_URL)
+        url = prepare_api_url(url, **kwargs)
         kwargs = {
-            'data': HttpTransportPagination(
-                limit=limit, offset=offset).to_value(),
+            'data': with_pagination and
+            HttpTransportPagination(**kwargs).to_value() or None,
             'headers': build_headers(access_token),
             'method': 'GET'
         }
@@ -23,9 +25,8 @@ class AuxiliaryBase(MockerTestCase):
 
 
 class WebsiteTypesTestCase(AuxiliaryBase):
-
-    def test_website_types_request(self):
-        self.set_mocker()
+    def test_get_website_types_request(self):
+        self.set_mocker(WEBSITE_TYPES_URL)
         result = {
             u'results': [
                 u'website',
@@ -50,8 +51,8 @@ class WebsiteTypesTestCase(AuxiliaryBase):
         self.assertIsInstance(res[u'results'], list)
         self.mocker.verify()
 
-    def test_website_types_request_with_pagination(self):
-        self.set_mocker(offset=1, limit=2)
+    def test_get_website_types_request_with_pagination(self):
+        self.set_mocker(WEBSITE_TYPES_URL, offset=1, limit=2)
         result = {
             u'results': [
                 u'doorway',
@@ -78,9 +79,8 @@ class WebsiteTypesTestCase(AuxiliaryBase):
 
 
 class WebsiteRegionsTestCase(AuxiliaryBase):
-
-    def test_website_regions_request(self):
-        self.set_mocker()
+    def test_get_website_regions_request(self):
+        self.set_mocker(WEBSITE_REGIONS_URL)
         result = {
             u'results': [
                 u'RU', u'UA', u'BY', u'KZ', u'DE', u'FR', u'US', u'AM', u'AU',
@@ -95,15 +95,15 @@ class WebsiteRegionsTestCase(AuxiliaryBase):
         }
         self.mocker.result(result)
         self.mocker.replay()
-        res = self.client.WebsiteTypes.get()
+        res = self.client.WebsiteRegions.get()
         self.assertIn(u'results', res)
         self.assertIn(u'_meta', res)
         self.assertIsInstance(res[u'results'], list)
         self.assertIsInstance(res[u'_meta'], dict)
         self.mocker.verify()
 
-    def test_website_regions_request_with_pagination(self):
-        self.set_mocker(offset=1, limit=2)
+    def test_get_website_regions_request_with_pagination(self):
+        self.set_mocker(WEBSITE_REGIONS_URL, offset=1, limit=2)
         result = {
             u'results': [u'UA', u'BY'],
             u'_meta': {
@@ -114,7 +114,7 @@ class WebsiteRegionsTestCase(AuxiliaryBase):
         }
         self.mocker.result(result)
         self.mocker.replay()
-        res = self.client.WebsiteTypes.get(offset=1, limit=2)
+        res = self.client.WebsiteRegions.get(offset=1, limit=2)
         self.assertIn(u'results', res)
         self.assertIn(u'_meta', res)
         self.assertIsInstance(res[u'results'], list)
@@ -124,6 +124,55 @@ class WebsiteRegionsTestCase(AuxiliaryBase):
         self.assertEqual(_meta[u'count'], 20)
         self.assertEqual(_meta[u'limit'], 2)
         self.assertEqual(_meta[u'offset'], 1)
+        self.mocker.verify()
+
+
+class SystemLanguagesTestCase(AuxiliaryBase):
+    def test_get_languages_request(self):
+        self.set_mocker(LANGUAGES_URL)
+        result = {
+            u'results': [
+                {
+                    u'flag': u'https://admitad.com/media/images/flags/'
+                             u'c8ef33a926799c7c3d7103212a78b187.png',
+                    u'language': u'Русский',
+                    u'language_code': u'ru'
+                },
+                {
+                    u'flag': u'',
+                    u'language': u'Deutsch',
+                    u'language_code': u'de'
+                }
+            ],
+            u'_meta': {
+                u'count': 2,
+                u'limit': 20,
+                u'offset': 0
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.SystemLanguages.get()
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+    def test_get_language_request(self):
+        self.set_mocker(LANGUAGES_SINGLE_URL, code='ru', with_pagination=False)
+        result = {
+            u'flag': u'https://admitad.trezor.by/media/images/flags/'
+                     u'c8ef33a926799c7c3d7103212a78b187.png',
+            u'language': u'Русский',
+            u'language_code': u'ru'
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.SystemLanguages.getOne(code='ru')
+        self.assertIn(u'flag', res)
+        self.assertIn(u'language', res)
+        self.assertIn(u'language_code', res)
         self.mocker.verify()
 
 
