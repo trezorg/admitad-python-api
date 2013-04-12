@@ -5,7 +5,6 @@ MAX_PAGINATION_LIMIT = 200
 
 # urls
 BASE_URL = 'https://api.admitad.com/%(language)s/'
-BASE_URL = 'https://api.admitad.trezor.by/%(language)s/'
 # authorizing urls
 AUTHORIZE_URL = '%s%s' % (BASE_URL,  'authorize/')
 TOKEN_URL = '%s%s' % (BASE_URL,  'token/')
@@ -22,4 +21,6 @@ ADVERTISER_SERVICES_SINGLE_URL = '%s%s' % (BASE_URL,  'adservices/%(id)s/')
 ADVERTISER_SERVICES_KIND_URL = '%s%s' % (BASE_URL,  'adservices/kind/%(kind)s/')
 ADVERTISER_SERVICES_KIND_SINGLE_URL = '%s%s' % (
     BASE_URL,  'adservices/%(id)s/kind/%(kind)s/')
+ADVCAMPAIGNS_CATEGORIES_URL = '%s%s' % (BASE_URL,  'categories/')
+ADVCAMPAIGNS_CATEGORIES_SINGLE_URL = '%s%s' % (BASE_URL,  'categories/%(id)s/')
 

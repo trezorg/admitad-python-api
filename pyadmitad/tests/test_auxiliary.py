@@ -5,20 +5,28 @@ from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
 from pyadmitad.constants import *
 from pyadmitad.transport import prepare_api_url, build_headers, \
-    HttpTransportPagination
+    HttpTransportPagination, HttpTransportOrdering
 
 
 class AuxiliaryBaseTestCase(MockerTestCase):
 
+    def prepare_data(self, **kwargs):
+        with_pagination = kwargs.pop('with_pagination', True)
+        with_ordering = kwargs.pop('with_ordering', False)
+        data = {}
+        if with_pagination:
+            data.update(HttpTransportPagination(**kwargs).to_value())
+        if with_ordering:
+            data.update(HttpTransportOrdering(**kwargs).to_value())
+        return data or None
+
     def set_mocker(self, url, **kwargs):
         access_token = 'access_token'
-        with_pagination = kwargs.pop('with_pagination', True)
         self.client = get_oauth_client(access_token)
         obj = self.mocker.patch(self.client.transport)
         url = prepare_api_url(url, **kwargs)
         kwargs = {
-            'data': with_pagination and
-            HttpTransportPagination(**kwargs).to_value() or None,
+            'data': self.prepare_data(**kwargs),
             'headers': build_headers(access_token),
             'method': 'GET'
         }
@@ -386,6 +394,116 @@ class AdvertiserServiceTestCase(AuxiliaryBaseTestCase):
         self.mocker.replay()
         res = self.client.AdvertiserServices.getForKindOne(2, 'contextual')
         self.assertEquals(res[u'id'], 2)
+        self.mocker.verify()
+
+
+class AdcampaignsCategoriesTestCase(AuxiliaryBaseTestCase):
+
+    def test_get_advcampaigns_categories(self):
+        self.set_mocker(ADVCAMPAIGNS_CATEGORIES_URL)
+        result = {
+            u'results': [
+                {
+                    u'id': 3,
+                    u'name': u'Браузерные',
+                    u'parent': {
+                        u'id': 2,
+                        u'name': u'Онлайн-игр',
+                        u'parent': None
+                    }
+                },
+                {
+                    u'id': 5,
+                    u'name': u'Другая',
+                    u'parent': None
+                },
+                {
+                    u'id': 4,
+                    u'name': u'Клиентские',
+                    u'parent': {
+                        u'id': 2,
+                        u'name': u'Онлайн-игры',
+                        u'parent': None
+                    }
+                }
+            ],
+            u'_meta': {
+                u'count': 3,
+                u'limit': 20,
+                u'offset': 0
+            }
+        }
+
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvcampaignsCategories.get()
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+    def test_get_advcampaigns_categories_with_pagination(self):
+        self.set_mocker(ADVCAMPAIGNS_CATEGORIES_URL, limit=3)
+        result = {
+            u'results': [
+                {
+                    u'id': 3,
+                    u'name': u'Браузерные',
+                    u'parent': {
+                        u'id': 2,
+                        u'name': u'Онлайн-игр',
+                        u'parent': None
+                    }
+                },
+                {
+                    u'id': 5,
+                    u'name': u'Другая',
+                    u'parent': None
+                },
+                {
+                    u'id': 4,
+                    u'name': u'Клиентские',
+                    u'parent': {
+                        u'id': 2,
+                        u'name': u'Онлайн-игры',
+                        u'parent': None
+                    }
+                }
+            ],
+            u'_meta': {
+                u'count': 3,
+                u'limit': 3,
+                u'offset': 0
+            }
+        }
+
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvcampaignsCategories.get(limit=3)
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.assertEqual(res[u'_meta'][u'limit'], 3)
+        self.mocker.verify()
+
+    def test_get_advcampaigns_categories_with_id(self):
+        self.set_mocker(
+            ADVCAMPAIGNS_CATEGORIES_SINGLE_URL, id=3, with_pagination=False)
+        result = {
+            u'id': 3,
+            u'name': u'Браузерные',
+            u'parent': {
+                u'id': 2,
+                u'name': u'Онлайн-игр',
+                u'parent': None
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvcampaignsCategories.getOne(3)
+        self.assertEqual(res[u'id'], 3)
         self.mocker.verify()
 
 

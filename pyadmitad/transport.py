@@ -228,6 +228,29 @@ class HttpTransportPagination(object):
         return {'limit': self.limit, 'offset': self.offset}
 
 
+class HttpTransportOrdering(object):
+
+    ORDER_PARAMETER = 'order_by'
+
+    def __init__(self, **kwargs):
+        allowed_ordering = kwargs.get('allowed_ordering', ())
+        ordering = str(kwargs.get(self.ORDER_PARAMETER, ''))
+        suffix = ''
+        if ordering:
+            if ordering.startswith('-'):
+                suffix = '-'
+                ordering = ordering[1:]
+            if ordering not in allowed_ordering:
+                ordering = None
+        self.ordering = ordering
+        self.suffix = suffix
+
+    def to_value(self):
+        if self.ordering:
+            return {self.ORDER_PARAMETER: '%s%s' % (self.suffix, self.ordering)}
+        return {}
+
+
 class HttpTransport(object):
 
     def __init__(self, access_token, method=None, user_agent=None):
@@ -267,8 +290,10 @@ class HttpTransport(object):
         return self
 
     def set_pagination(self, **kwargs):
-        self.update_data(HttpTransportPagination(**kwargs).to_value())
-        return self
+        return self.update_data(HttpTransportPagination(**kwargs).to_value())
+
+    def set_ordering(self, **kwargs):
+        return self.update_data(HttpTransportOrdering(**kwargs).to_value())
 
     def set_method(self, method):
         if method in self._supported_methods:

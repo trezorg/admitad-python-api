@@ -9,9 +9,9 @@ class Item(object):
         elif type(_id) == str:
             if _id.isdigit():
                 return _id
-        raise ValueError("Wrong _id value: %s" % _id)
+        raise ValueError("Invalid _id value: %s" % _id)
 
     def sanitize_non_blank_value(self, value, name):
         if not value:
-            raise ValueError("Wrong non-blank value %s: %s" % (name, value))
+            raise ValueError("Invalid non-blank value %s: %s" % (name, value))
         return value

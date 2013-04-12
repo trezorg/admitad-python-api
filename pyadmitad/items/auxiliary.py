@@ -8,6 +8,7 @@ __all__ = (
     'SystemLanguages',
     'SystemCurrencies',
     'AdvertiserServices',
+    'AdvcampaignsCategories',
 )
 
 
@@ -169,4 +170,39 @@ class AdvertiserServices(Item):
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['url'] = ADVERTISER_SERVICES_KIND_SINGLE_URL
+        return self.transport.GET.request(**kwargs)
+
+
+class AdvcampaignsCategories(Item):
+    """
+    List of advcampaigns categories
+
+    How to prepare client:
+
+    scope = "public_data"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+    def get(self, **kwargs):
+        """
+        print client.AdvcampaignsCategories.get()
+        print client.AdvcampaignsCategories.get(limit=2, offset=1)
+        """
+        kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_URL
+        kwargs['allowed_ordering'] = ('name',)
+        return self.transport.GET.set_pagination(**kwargs).\
+            set_ordering(**kwargs).request(**kwargs)
+
+    def getOne(self, _id, **kwargs):
+        """
+        print client.AdvcampaignsCategories.getOne(_id=2)
+        print client.AdvcampaignsCategories.getOne(2)
+        """
+        kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_SINGLE_URL
+        kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)
