@@ -6,7 +6,8 @@ __all__ = (
     'WebsiteTypes',
     'WebsiteRegions',
     'SystemLanguages',
-    'SystemCurrencies'
+    'SystemCurrencies',
+    'AdvertiserServices',
 )
 
 
@@ -113,3 +114,59 @@ class SystemCurrencies(Item):
         """
         kwargs['url'] = CURRENCIES_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+
+
+class AdvertiserServices(Item):
+    """
+    List of advertiser services
+
+    How to prepare client:
+
+    scope = "public_data"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+    def get(self, **kwargs):
+        """
+        print client.AdvertiserServices.get()
+        print client.AdvertiserServices.get(limit=2, offset=1)
+        """
+        kwargs['url'] = ADVERTISER_SERVICES_URL
+        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+
+    def getOne(self, _id, **kwargs):
+        """
+        print client.AdvertiserServices.getOne(_id=2)
+        print client.AdvertiserServices.getOne(1)
+        """
+        kwargs['id'] = self.sanitize_id(_id)
+        kwargs['url'] = ADVERTISER_SERVICES_SINGLE_URL
+        return self.transport.GET.request(**kwargs)
+
+    def getForKind(self, kind=None, **kwargs):
+        """
+        Returns advertiser services for website types
+
+        print client.AdvertiserServices.getForKind(kind='website')
+        print client.AdvertiserServices.getForKind('website')
+        """
+        kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
+        kwargs['url'] = ADVERTISER_SERVICES_KIND_URL
+        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+
+    def getForKindOne(self, _id, kind, **kwargs):
+        """
+        Returns advertiser service for website types
+
+        print client.AdvertiserServices.getForKindOne(_id=2, kind='website')
+        print client.AdvertiserServices.getForKindOne(2, 'website')
+        """
+        kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
+        kwargs['id'] = self.sanitize_id(_id)
+        kwargs['url'] = ADVERTISER_SERVICES_KIND_SINGLE_URL
+        return self.transport.GET.request(**kwargs)

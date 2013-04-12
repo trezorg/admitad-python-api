@@ -17,4 +17,9 @@ WEBSITE_REGIONS_URL = '%s%s' % (BASE_URL,  'websites/regions/')
 LANGUAGES_URL = '%s%s' % (BASE_URL,  'languages/')
 LANGUAGES_SINGLE_URL = '%s%s' % (BASE_URL,  'languages/%(code)s/')
 CURRENCIES_URL = '%s%s' % (BASE_URL,  'currencies/')
+ADVERTISER_SERVICES_URL = '%s%s' % (BASE_URL,  'adservices/')
+ADVERTISER_SERVICES_SINGLE_URL = '%s%s' % (BASE_URL,  'adservices/%(id)s/')
+ADVERTISER_SERVICES_KIND_URL = '%s%s' % (BASE_URL,  'adservices/kind/%(kind)s/')
+ADVERTISER_SERVICES_KIND_SINGLE_URL = '%s%s' % (
+    BASE_URL,  'adservices/%(id)s/kind/%(kind)s/')
 

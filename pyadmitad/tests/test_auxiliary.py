@@ -210,7 +210,7 @@ class SystemCurrenciesTestCase(AuxiliaryBaseTestCase):
                 u'limit': 20,
                 u'offset': 0
             },
-        }
+            }
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.SystemCurrencies.get()
@@ -247,6 +247,147 @@ class SystemCurrenciesTestCase(AuxiliaryBaseTestCase):
         self.assertEqual(res[u'_meta'][u'limit'], 1)
         self.assertEqual(res[u'_meta'][u'offset'], 1)
         self.mocker.verify()
+
+
+class AdvertiserServiceTestCase(AuxiliaryBaseTestCase):
+
+    def test_get_advertiser_services(self):
+        self.set_mocker(ADVERTISER_SERVICES_URL)
+        result = {
+            u'results': [
+                {
+                    u'allowed_referrers': u'',
+                    u'id': 1,
+                    u'logo': u'https://admitad.com/media/adservice/images/'
+                             u'755c6ece4a7f2a45548737c212906434.png',
+                    u'name': u'Yandex.Direct',
+                    u'url': u'http://direct.yandex.ru/'
+                },
+                {
+                    u'allowed_referrers': u'',
+                    u'id': 2,
+                    u'logo': u'https://admitad.com/media/adservice/images/'
+                             u'273ad9483718164ffd05066a8bebec46.png',
+                    u'name': u'Бегун',
+                    u'url': u'http://begun.ru/'
+                }
+            ],
+            u'_meta': {
+                u'count': 2,
+                u'limit': 20,
+                u'offset': 0
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvertiserServices.get()
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+    def test_get_advertiser_services_with_pagination(self):
+        self.set_mocker(ADVERTISER_SERVICES_URL, offset=1, limit=1)
+        result = {
+            u'results': [
+                {
+                    u'allowed_referrers': u'',
+                    u'id': 2,
+                    u'logo': u'https://admitad.com/media/adservice/images/'
+                             u'273ad9483718164ffd05066a8bebec46.png',
+                    u'name': u'Бегун',
+                    u'url': u'http://begun.ru/'
+                }
+            ],
+            u'_meta': {
+                u'count': 2,
+                u'limit': 1,
+                u'offset': 1
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvertiserServices.get(offset=1, limit=1)
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.assertEqual(res[u'_meta'][u'limit'], 1)
+        self.assertEqual(res[u'_meta'][u'offset'], 1)
+        self.mocker.verify()
+
+    def test_get_advertiser_services_with_id(self):
+        self.set_mocker(
+            ADVERTISER_SERVICES_SINGLE_URL,
+            **{'id': 2, 'with_pagination': False})
+        result = {
+            u'allowed_referrers': u'',
+            u'id': 2,
+            u'logo': u'https://admitad.com/media/adservice/images/'
+                     u'273ad9483718164ffd05066a8bebec46.png',
+            u'name': u'Бегун',
+            u'url': u'http://begun.ru/'
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvertiserServices.getOne(_id=2)
+        self.assertEquals(res[u'id'], 2)
+        self.mocker.verify()
+
+    def test_get_advertiser_services_with_kind(self):
+        self.set_mocker(ADVERTISER_SERVICES_KIND_URL, kind='contextual')
+        result = {
+            u'results': [
+                {
+                    u'allowed_referrers': u'',
+                    u'id': 1,
+                    u'logo': u'https://admitad.com/media/adservice/images/'
+                             u'755c6ece4a7f2a45548737c212906434.png',
+                    u'name': u'Yandex.Direct',
+                    u'url': u'http://direct.yandex.ru/'
+                },
+                {
+                    u'allowed_referrers': u'',
+                    u'id': 2,
+                    u'logo': u'https://admitad.com/media/adservice/images/'
+                             u'273ad9483718164ffd05066a8bebec46.png',
+                    u'name': u'Бегун',
+                    u'url': u'http://begun.ru/'
+                }
+            ],
+            u'_meta': {
+                u'count': 2,
+                u'limit': 20,
+                u'offset': 0
+            }
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvertiserServices.getForKind(kind='contextual')
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+    def test_get_advertiser_services_with_kind_and_id(self):
+        self.set_mocker(ADVERTISER_SERVICES_KIND_SINGLE_URL,
+                        id=2, kind='contextual', with_pagination=False)
+        result = {
+            u'allowed_referrers': u'',
+            u'id': 2,
+            u'logo': u'https://admitad.com/media/adservice/images/'
+                     u'273ad9483718164ffd05066a8bebec46.png',
+            u'name': u'Бегун',
+            u'url': u'http://begun.ru/'
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.AdvertiserServices.getForKindOne(2, 'contextual')
+        self.assertEquals(res[u'id'], 2)
+        self.mocker.verify()
+
 
 if __name__ == '__main__':
     unittest.main()
