@@ -23,4 +23,7 @@ ADVERTISER_SERVICES_KIND_SINGLE_URL = '%s%s' % (
     BASE_URL,  'adservices/%(id)s/kind/%(kind)s/')
 ADVCAMPAIGNS_CATEGORIES_URL = '%s%s' % (BASE_URL,  'categories/')
 ADVCAMPAIGNS_CATEGORIES_SINGLE_URL = '%s%s' % (BASE_URL,  'categories/%(id)s/')
+# coupons
+COUPONS_URL = '%s%s' % (BASE_URL,  'coupons/')
+COUPONS_SINGLE_URL = '%s%s' % (BASE_URL,  'coupons/%(id)s/')
 

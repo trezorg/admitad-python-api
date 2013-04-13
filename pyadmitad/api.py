@@ -31,7 +31,7 @@ def get_oauth_client_client(client_id, client_secret, scopes, user_agent=None):
     return get_authorizing_client(auth['access_token'], user_agent=user_agent)
 
 
-def get_oauth_client(access_token):
-    return get_authorizing_client(access_token, user_agent=None)
+def get_oauth_client(access_token, user_agent=None):
+    return get_authorizing_client(access_token, user_agent=user_agent)
 
 

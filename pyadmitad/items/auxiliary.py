@@ -188,13 +188,16 @@ class AdvcampaignsCategories(Item):
         scope
     )
     """
+
+    ORDERING = ('name',)
+
     def get(self, **kwargs):
         """
         print client.AdvcampaignsCategories.get()
         print client.AdvcampaignsCategories.get(limit=2, offset=1)
         """
         kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_URL
-        kwargs['allowed_ordering'] = ('name',)
+        kwargs['allowed_ordering'] = self.ORDERING
         return self.transport.GET.set_pagination(**kwargs).\
             set_ordering(**kwargs).request(**kwargs)
 

@@ -1,39 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from mocker import MockerTestCase
-from pyadmitad.api import get_oauth_client
 from pyadmitad.constants import *
-from pyadmitad.transport import prepare_api_url, build_headers, \
-    HttpTransportPagination, HttpTransportOrdering
+from pyadmitad.tests.base import BaseTestCase
 
 
-class AuxiliaryBaseTestCase(MockerTestCase):
-
-    def prepare_data(self, **kwargs):
-        with_pagination = kwargs.pop('with_pagination', True)
-        with_ordering = kwargs.pop('with_ordering', False)
-        data = {}
-        if with_pagination:
-            data.update(HttpTransportPagination(**kwargs).to_value())
-        if with_ordering:
-            data.update(HttpTransportOrdering(**kwargs).to_value())
-        return data or None
-
-    def set_mocker(self, url, **kwargs):
-        access_token = 'access_token'
-        self.client = get_oauth_client(access_token)
-        obj = self.mocker.patch(self.client.transport)
-        url = prepare_api_url(url, **kwargs)
-        kwargs = {
-            'data': self.prepare_data(**kwargs),
-            'headers': build_headers(access_token),
-            'method': 'GET'
-        }
-        obj.api_request(url, **kwargs)
-
-
-class WebsiteTypesTestCase(AuxiliaryBaseTestCase):
+class WebsiteTypesTestCase(BaseTestCase):
 
     def test_get_website_types_request(self):
         self.set_mocker(WEBSITE_TYPES_URL)
@@ -88,7 +60,7 @@ class WebsiteTypesTestCase(AuxiliaryBaseTestCase):
         self.mocker.verify()
 
 
-class WebsiteRegionsTestCase(AuxiliaryBaseTestCase):
+class WebsiteRegionsTestCase(BaseTestCase):
 
     def test_get_website_regions_request(self):
         self.set_mocker(WEBSITE_REGIONS_URL)
@@ -138,7 +110,7 @@ class WebsiteRegionsTestCase(AuxiliaryBaseTestCase):
         self.mocker.verify()
 
 
-class SystemLanguagesTestCase(AuxiliaryBaseTestCase):
+class SystemLanguagesTestCase(BaseTestCase):
 
     def test_get_languages_request(self):
         self.set_mocker(LANGUAGES_URL)
@@ -171,7 +143,7 @@ class SystemLanguagesTestCase(AuxiliaryBaseTestCase):
         self.assertIsInstance(res[u'_meta'], dict)
         self.mocker.verify()
 
-    def test_get_language_request(self):
+    def test_get_language_request_with_code(self):
         self.set_mocker(LANGUAGES_SINGLE_URL, code='ru', with_pagination=False)
         result = {
             u'flag': u'https://admitad.trezor.by/media/images/flags/'
@@ -188,7 +160,7 @@ class SystemLanguagesTestCase(AuxiliaryBaseTestCase):
         self.mocker.verify()
 
 
-class SystemCurrenciesTestCase(AuxiliaryBaseTestCase):
+class SystemCurrenciesTestCase(BaseTestCase):
 
     def test_get_currencies_request(self):
         self.set_mocker(CURRENCIES_URL)
@@ -257,7 +229,7 @@ class SystemCurrenciesTestCase(AuxiliaryBaseTestCase):
         self.mocker.verify()
 
 
-class AdvertiserServiceTestCase(AuxiliaryBaseTestCase):
+class AdvertiserServiceTestCase(BaseTestCase):
 
     def test_get_advertiser_services(self):
         self.set_mocker(ADVERTISER_SERVICES_URL)
@@ -397,7 +369,7 @@ class AdvertiserServiceTestCase(AuxiliaryBaseTestCase):
         self.mocker.verify()
 
 
-class AdcampaignsCategoriesTestCase(AuxiliaryBaseTestCase):
+class AdcampaignsCategoriesTestCase(BaseTestCase):
 
     def test_get_advcampaigns_categories(self):
         self.set_mocker(ADVCAMPAIGNS_CATEGORIES_URL)

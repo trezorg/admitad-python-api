@@ -251,6 +251,48 @@ class HttpTransportOrdering(object):
         return {}
 
 
+class HttpTransportFiltering(object):
+
+    def __init__(self, **kwargs):
+        self.result = {}
+        allowed_filtering = kwargs.get('allowed_filtering', {}) or {}
+        if not allowed_filtering:
+            return
+        self.allowed_filtering = allowed_filtering
+        self.check_filtering(**kwargs)
+        additional_filter = kwargs.get('filtering')
+        if additional_filter and isinstance(additional_filter, dict):
+            self.check_filtering(**additional_filter)
+
+    def check_value(self, val, func):
+        if not func:
+            return val
+        try:
+            return func(val)
+        except (TypeError, ValueError):
+            pass
+
+    def check_values(self, values, func):
+        return filter(None, [self.check_value(value, func) for value in values])
+
+    def check_filtering(self, **filtering):
+        for val in self.allowed_filtering:
+            value = filtering.get(val)
+            if value is None:
+                continue
+            if not isinstance(value, (tuple, list)):
+                value = [value]
+            func = self.allowed_filtering[val]
+            res = self.check_values(value, func)
+            if res:
+                self.result.setdefault(val, []).extend(res)
+
+    def to_value(self):
+        for key in self.result:
+            self.result[key] = list(set(self.result[key]))
+        return self.result
+
+
 class HttpTransport(object):
 
     def __init__(self, access_token, method=None, user_agent=None):
@@ -295,6 +337,9 @@ class HttpTransport(object):
     def set_ordering(self, **kwargs):
         return self.update_data(HttpTransportOrdering(**kwargs).to_value())
 
+    def set_filtering(self, **kwargs):
+        return self.update_data(HttpTransportFiltering(**kwargs).to_value())
+
     def set_method(self, method):
         if method in self._supported_methods:
             self._method = method
@@ -302,9 +347,6 @@ class HttpTransport(object):
             raise AttributeError(
                 'This http method "%s" is not supported' % method)
         return self
-
-    def _prepare_pagination(self, **kwargs):
-        pass
 
     def _handle_response(self, response):
         return response
