@@ -369,10 +369,10 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.verify()
 
 
-class AdcampaignsCategoriesTestCase(BaseTestCase):
+class CampaignsCategoriesTestCase(BaseTestCase):
 
-    def test_get_advcampaigns_categories(self):
-        self.set_mocker(ADVCAMPAIGNS_CATEGORIES_URL)
+    def test_get_campaigns_categories(self):
+        self.set_mocker(CAMPAIGN_CATEGORIES_URL)
         result = {
             u'results': [
                 {
@@ -408,15 +408,15 @@ class AdcampaignsCategoriesTestCase(BaseTestCase):
 
         self.mocker.result(result)
         self.mocker.replay()
-        res = self.client.AdvcampaignsCategories.get()
+        res = self.client.CampaignCategories.get()
         self.assertIn(u'results', res)
         self.assertIn(u'_meta', res)
         self.assertIsInstance(res[u'results'], list)
         self.assertIsInstance(res[u'_meta'], dict)
         self.mocker.verify()
 
-    def test_get_advcampaigns_categories_with_pagination(self):
-        self.set_mocker(ADVCAMPAIGNS_CATEGORIES_URL, limit=3)
+    def test_get_campaigns_categories_with_pagination(self):
+        self.set_mocker(CAMPAIGN_CATEGORIES_URL, limit=3)
         result = {
             u'results': [
                 {
@@ -452,7 +452,7 @@ class AdcampaignsCategoriesTestCase(BaseTestCase):
 
         self.mocker.result(result)
         self.mocker.replay()
-        res = self.client.AdvcampaignsCategories.get(limit=3)
+        res = self.client.CampaignCategories.get(limit=3)
         self.assertIn(u'results', res)
         self.assertIn(u'_meta', res)
         self.assertIsInstance(res[u'results'], list)
@@ -460,9 +460,9 @@ class AdcampaignsCategoriesTestCase(BaseTestCase):
         self.assertEqual(res[u'_meta'][u'limit'], 3)
         self.mocker.verify()
 
-    def test_get_advcampaigns_categories_with_id(self):
+    def test_get_campaigns_categories_with_id(self):
         self.set_mocker(
-            ADVCAMPAIGNS_CATEGORIES_SINGLE_URL, id=3, with_pagination=False)
+            CAMPAIGN_CATEGORIES_SINGLE_URL, id=3, with_pagination=False)
         result = {
             u'id': 3,
             u'name': u'Браузерные',
@@ -474,7 +474,7 @@ class AdcampaignsCategoriesTestCase(BaseTestCase):
         }
         self.mocker.result(result)
         self.mocker.replay()
-        res = self.client.AdvcampaignsCategories.getOne(3)
+        res = self.client.CampaignCategories.getOne(3)
         self.assertEqual(res[u'id'], 3)
         self.mocker.verify()
 

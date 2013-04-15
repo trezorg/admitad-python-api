@@ -106,12 +106,12 @@ API Items
     res = client.AdvertiserServices.getForKindOne(2, 'website')
 
 
-### AdvcampaignsCategories ###
+### CampaignCategories ###
 
-    res = client.AdvcampaignsCategories.get()
-    res = client.AdvcampaignsCategories.get(limit=2, offset=1)
-    res = client.AdvcampaignsCategories.getOne(_id=2)
-    res = client.AdvcampaignsCategories.getOne(2)
+    res = client.CampaignCategories.get()
+    res = client.CampaignCategories.get(limit=2, offset=1)
+    res = client.CampaignCategories.getOne(_id=2)
+    res = client.CampaignCategories.getOne(2)
 
 ### Coupons ##
 
@@ -133,6 +133,13 @@ API Items
     res = client.CouponsForWebsite.getOne(_id=2, c_id=1)
     res = client.CouponsForWebsite.getOne(2, 1)
 
+
+### Websites ###
+
+    res = client.Websites.get()
+    res = client.Websites.get(status='new', campaign_status='active')
+    res = client.Websites.getOne(_id=2)
+    res = client.Websites.getOne2(2)
 
 Notes
 ------

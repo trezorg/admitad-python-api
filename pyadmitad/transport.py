@@ -36,8 +36,9 @@ def api_request(url, data=None, headers=None, method='GET',
     try:
         response = requests.request(method, url, **kwargs)
         status_code = response.status_code
-        response.raise_for_status()
         content = response.json()
+        if status_code > 300:
+            response.raise_for_status()
         return content
     except requests.HTTPError as err:
         raise HttpException(status_code, content, err)
@@ -265,6 +266,7 @@ class HttpTransportFiltering(object):
             self.check_filtering(**additional_filter)
 
     def check_value(self, val, func):
+        """Should return None in case of unsupported or wrong value"""
         if not func:
             return val
         try:

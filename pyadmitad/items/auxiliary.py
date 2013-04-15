@@ -8,7 +8,7 @@ __all__ = (
     'SystemLanguages',
     'SystemCurrencies',
     'AdvertiserServices',
-    'AdvcampaignsCategories',
+    'CampaignCategories',
 )
 
 
@@ -173,9 +173,9 @@ class AdvertiserServices(Item):
         return self.transport.GET.request(**kwargs)
 
 
-class AdvcampaignsCategories(Item):
+class CampaignCategories(Item):
     """
-    List of advcampaigns categories
+    List of campaigns categories
 
     How to prepare client:
 
@@ -193,19 +193,19 @@ class AdvcampaignsCategories(Item):
 
     def get(self, **kwargs):
         """
-        res = client.AdvcampaignsCategories.get()
-        res = client.AdvcampaignsCategories.get(limit=2, offset=1)
+        res = client.CampaignCategories.get()
+        res = client.CampaignCategories.get(limit=2, offset=1)
         """
-        kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_URL
+        kwargs['url'] = CAMPAIGN_CATEGORIES_URL
         kwargs['allowed_ordering'] = self.ORDERING
         return self.transport.GET.set_pagination(**kwargs).\
             set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
         """
-        res = client.AdvcampaignsCategories.getOne(_id=2)
-        res = client.AdvcampaignsCategories.getOne(2)
+        res = client.CampaignCategories.getOne(_id=2)
+        res = client.CampaignCategories.getOne(2)
         """
-        kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_SINGLE_URL
+        kwargs['url'] = CAMPAIGN_CATEGORIES_SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)
