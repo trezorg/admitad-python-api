@@ -29,9 +29,9 @@ class WebsiteTypes(Item):
     """
     def get(self, **kwargs):
         """
-        print client.WebsiteTypes.get()
-        print client.WebsiteTypes.get(limit=2, offset=1)
-        print client.WebsiteTypes.get(limit=2, offset=1, language='ru')
+        res = client.WebsiteTypes.get()
+        res = client.WebsiteTypes.get(limit=2, offset=1)
+        res = client.WebsiteTypes.get(limit=2, offset=1, language='ru')
         """
         kwargs['url'] = WEBSITE_TYPES_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
@@ -54,9 +54,9 @@ class WebsiteRegions(Item):
     """
     def get(self, **kwargs):
         """
-        print client.WebsiteRegions.get()
-        print client.WebsiteRegions.get(limit=2, offset=1)
-        print client.WebsiteRegions.get(limit=2, offset=1, language='ru')
+        res = client.WebsiteRegions.get()
+        res = client.WebsiteRegions.get(limit=2, offset=1)
+        res = client.WebsiteRegions.get(limit=2, offset=1, language='ru')
         """
         kwargs['url'] = WEBSITE_REGIONS_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
@@ -80,15 +80,15 @@ class SystemLanguages(Item):
 
     def get(self, **kwargs):
         """
-        print client.SystemLanguages.get()
-        print client.SystemLanguages.get(limit=2, offset=1)
+        res = client.SystemLanguages.get()
+        res = client.SystemLanguages.get(limit=2, offset=1)
         """
         kwargs['url'] = LANGUAGES_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, code='ru'):
         """
-        print client.SystemLanguages.getOne(code='ru')
+        res = client.SystemLanguages.getOne(code='ru')
         """
         return self.transport.GET.request(url=LANGUAGES_SINGLE_URL, code=code)
 
@@ -110,8 +110,8 @@ class SystemCurrencies(Item):
     """
     def get(self, **kwargs):
         """
-        print client.SystemCurrencies.get()
-        print client.SystemCurrencies.get(limit=2, offset=1)
+        res = client.SystemCurrencies.get()
+        res = client.SystemCurrencies.get(limit=2, offset=1)
         """
         kwargs['url'] = CURRENCIES_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
@@ -134,16 +134,16 @@ class AdvertiserServices(Item):
     """
     def get(self, **kwargs):
         """
-        print client.AdvertiserServices.get()
-        print client.AdvertiserServices.get(limit=2, offset=1)
+        res = client.AdvertiserServices.get()
+        res = client.AdvertiserServices.get(limit=2, offset=1)
         """
         kwargs['url'] = ADVERTISER_SERVICES_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
         """
-        print client.AdvertiserServices.getOne(_id=2)
-        print client.AdvertiserServices.getOne(1)
+        res = client.AdvertiserServices.getOne(_id=2)
+        res = client.AdvertiserServices.getOne(1)
         """
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['url'] = ADVERTISER_SERVICES_SINGLE_URL
@@ -153,8 +153,8 @@ class AdvertiserServices(Item):
         """
         Returns advertiser services for website types
 
-        print client.AdvertiserServices.getForKind(kind='website')
-        print client.AdvertiserServices.getForKind('website')
+        res = client.AdvertiserServices.getForKind(kind='website')
+        res = client.AdvertiserServices.getForKind('website')
         """
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['url'] = ADVERTISER_SERVICES_KIND_URL
@@ -164,8 +164,8 @@ class AdvertiserServices(Item):
         """
         Returns advertiser service for website types
 
-        print client.AdvertiserServices.getForKindOne(_id=2, kind='website')
-        print client.AdvertiserServices.getForKindOne(2, 'website')
+        res = client.AdvertiserServices.getForKindOne(_id=2, kind='website')
+        res = client.AdvertiserServices.getForKindOne(2, 'website')
         """
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['id'] = self.sanitize_id(_id)
@@ -193,8 +193,8 @@ class AdvcampaignsCategories(Item):
 
     def get(self, **kwargs):
         """
-        print client.AdvcampaignsCategories.get()
-        print client.AdvcampaignsCategories.get(limit=2, offset=1)
+        res = client.AdvcampaignsCategories.get()
+        res = client.AdvcampaignsCategories.get(limit=2, offset=1)
         """
         kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_URL
         kwargs['allowed_ordering'] = self.ORDERING
@@ -203,8 +203,8 @@ class AdvcampaignsCategories(Item):
 
     def getOne(self, _id, **kwargs):
         """
-        print client.AdvcampaignsCategories.getOne(_id=2)
-        print client.AdvcampaignsCategories.getOne(2)
+        res = client.AdvcampaignsCategories.getOne(_id=2)
+        res = client.AdvcampaignsCategories.getOne(2)
         """
         kwargs['url'] = ADVCAMPAIGNS_CATEGORIES_SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)

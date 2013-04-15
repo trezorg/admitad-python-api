@@ -25,5 +25,11 @@ ADVCAMPAIGNS_CATEGORIES_URL = '%s%s' % (BASE_URL,  'categories/')
 ADVCAMPAIGNS_CATEGORIES_SINGLE_URL = '%s%s' % (BASE_URL,  'categories/%(id)s/')
 # coupons
 COUPONS_URL = '%s%s' % (BASE_URL,  'coupons/')
+COUPONS_WEBSITE_URL = '%s%s' % (BASE_URL,  'coupons/website/%(id)s/')
 COUPONS_SINGLE_URL = '%s%s' % (BASE_URL,  'coupons/%(id)s/')
+COUPONS_WEBSITE_SINGLE_URL = '%s%s' % (
+    BASE_URL,  'coupons/%(c_id)s/website/%(id)s/')
+# websites
+WEBSITES_URL = '%s%s' % (BASE_URL,  'websites/')
+WEBSITES_SINGLE_URL = '%s%s' % (BASE_URL,  'websites/%(id)s/')
 

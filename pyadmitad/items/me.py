@@ -17,8 +17,8 @@ class Me(Item):
             password,
             scope
         )
-        print client.Me.get()
-        print client.Me.get(language='ru')
+        res = client.Me.get()
+        res = client.Me.get(language='ru')
         """
         kwargs['url'] = ME_URL
         return self.transport.GET(**kwargs)

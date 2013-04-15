@@ -59,6 +59,81 @@ Example
     print client.WebsiteTypes.get()
     print client.WebsiteTypes.get(limit=2, offset=1)
 
+
+API Items
+-------------
+
+### Me ###
+
+    res = client.Me.get()
+    res = client.Me.get(language='ru')
+
+
+### WebsiteTypes ###
+
+    res = client.WebsiteTypes.get()
+    res = client.WebsiteTypes.get(limit=2, offset=1)
+    res = client.WebsiteTypes.get(limit=2, offset=1, language='ru')
+
+
+### WebsiteRegions ###
+
+    res = client.WebsiteRegions.get()
+    res = client.WebsiteRegions.get(limit=2, offset=1)
+    res = client.WebsiteRegions.get(limit=2, offset=1, language='ru')
+
+### SystemLanguages ###
+
+    res = client.SystemLanguages.get()
+    res = client.SystemLanguages.get(limit=2, offset=1)
+    res = client.SystemLanguages.getOne(code='ru')
+
+### SystemCurrencies ###
+
+    res = client.SystemCurrencies.get()
+    res = client.SystemCurrencies.get(limit=2, offset=1)
+
+
+### AdvertiserServices ###
+
+    res = client.AdvertiserServices.get()
+    res = client.AdvertiserServices.get(limit=2, offset=1)
+    res = client.AdvertiserServices.getOne(_id=2)
+    res = client.AdvertiserServices.getOne(1)
+    res = client.AdvertiserServices.getForKind(kind='website')
+    res = client.AdvertiserServices.getForKind('website')
+    res = client.AdvertiserServices.getForKindOne(_id=2, kind='website')
+    res = client.AdvertiserServices.getForKindOne(2, 'website')
+
+
+### AdvcampaignsCategories ###
+
+    res = client.AdvcampaignsCategories.get()
+    res = client.AdvcampaignsCategories.get(limit=2, offset=1)
+    res = client.AdvcampaignsCategories.getOne(_id=2)
+    res = client.AdvcampaignsCategories.getOne(2)
+
+### Coupons ##
+
+    res = client.Coupons.get()
+    res = client.Coupons.get(order_by=date_start)
+    res = client.Coupons.get(order_by=-date_end)
+    res = client.Coupons.get(campaign=1, category=2)
+    res = client.Coupons.get(filtering={'campaign': [1, 2]}, category=2)
+    res = client.Coupons.getOne(_id=2)
+    res = client.Coupons.getOne(2)
+
+### CouponsForWebsite ###
+
+    res = client.CouponsForWebsite.get(_id=2)
+    res = client.CouponsForWebsite.get(2)
+    res = client.CouponsForWebsite.get(2, order_by=date_start)
+    res = client.CouponsForWebsite.get(2, campaign=1, category=2)
+    res = client.CouponsForWebsite.get(2, filtering={'campaign': [1, 2]}, category=2)
+    res = client.CouponsForWebsite.getOne(_id=2, c_id=1)
+    res = client.CouponsForWebsite.getOne(2, 1)
+
+
 Notes
 ------
 
