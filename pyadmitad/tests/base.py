@@ -2,7 +2,7 @@
 
 from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
-from pyadmitad.transport import prepare_api_url, build_headers, \
+from pyadmitad.transport import build_headers, \
     HttpTransportPagination, HttpTransportOrdering, HttpTransportFiltering
 
 
@@ -29,7 +29,7 @@ class BaseTestCase(MockerTestCase):
         access_token = 'access_token'
         self.client = get_oauth_client(access_token)
         obj = self.mocker.patch(self.client.transport)
-        url = prepare_api_url(url, **kwargs)
+        url = url % kwargs
         kwargs = {
             'data': self.prepare_data(**kwargs),
             'headers': build_headers(access_token),

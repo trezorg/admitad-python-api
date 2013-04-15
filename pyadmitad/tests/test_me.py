@@ -2,7 +2,7 @@ import unittest
 from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
 from pyadmitad.constants import *
-from pyadmitad.transport import prepare_api_url, build_headers
+from pyadmitad.transport import build_headers
 
 
 class MeTestCase(MockerTestCase):
@@ -11,7 +11,7 @@ class MeTestCase(MockerTestCase):
         access_token = 'access_token'
         client = get_oauth_client(access_token)
         obj = self.mocker.patch(client.transport)
-        url = prepare_api_url(ME_URL)
+        url = ME_URL
         kwargs = {
             'data': None,
             'headers': build_headers(access_token),
