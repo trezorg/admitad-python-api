@@ -2,7 +2,7 @@ class Item(object):
 
     def __init__(self, transport):
         self.transport = transport
-        self._data = None
+        self.transport.clean_data()
 
     def sanitize_id(self, _id):
         if type(_id) == int:

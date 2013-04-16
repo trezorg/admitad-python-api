@@ -282,11 +282,12 @@ class HttpTransportFiltering(object):
 
 class HttpTransport(object):
 
+    SUPPORTED_METHODS = ('GET', 'POST')
+    SUPPORTED_LANGUAGES = ('ru', 'en', 'de', 'pl')
+
     def __init__(self, access_token, method=None, user_agent=None):
         self._headers = build_headers(access_token, user_agent=user_agent)
         self._method = method or 'GET'
-        self._supported_methods = ('GET', 'POST')
-        self._supported_languages = ('ru', 'en', 'de', 'pl')
         self._data = None
         self._url = None
         self._language = None
@@ -296,7 +297,7 @@ class HttpTransport(object):
         return self
 
     def set_language(self, language):
-        if language in self._supported_languages:
+        if language in self.SUPPORTED_LANGUAGES:
             self._language = language
             self._headers['Content-Language'] = language
         else:
@@ -328,7 +329,7 @@ class HttpTransport(object):
         return self.update_data(HttpTransportFiltering(**kwargs).to_value())
 
     def set_method(self, method):
-        if method in self._supported_methods:
+        if method in self.SUPPORTED_METHODS:
             self._method = method
         else:
             raise AttributeError(

@@ -11,6 +11,7 @@ __all__ = (
     'StatisticActions',
     'StatisticSubIds',
     'StatisticSources',
+    'StatisticKeywords',
 )
 
 
@@ -22,6 +23,10 @@ def check_date(d):
 
 
 class StatisticBase(Item):
+
+    STATUSES = (1, 2, 3)
+    SOURCES = ('g', 'y')
+    ACTION_TYPES = ('lead', 'Lead')
 
     ORDERING = (
         'action',
@@ -188,10 +193,6 @@ class StatisticActions(StatisticBase):
     )
     """
 
-    ACTION_STATUSES = (1, 2, 3)
-    ACTION_SOURCES = ('g', 'y')
-    ACTION_TYPES = ('lead', 'Lead')
-
     ORDERING = (
         'action',
         'banner',
@@ -216,16 +217,13 @@ class StatisticActions(StatisticBase):
             lambda x:
             unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
         'source': (
-            lambda x:
-            x if x in StatisticActions.ACTION_SOURCES else None),
+            lambda x: x if x in StatisticBase.SOURCES else None),
         'status': (
-            lambda x:
-            x if x in StatisticActions.ACTION_STATUSES else None),
+            lambda x: x if x in StatisticBase.STATUSES else None),
         'keyword': unicode,
         'action': unicode,
         'action_type': (
-            lambda x:
-            x if x in StatisticActions.ACTION_TYPES else None),
+            lambda x: x if x in StatisticActions.ACTION_TYPES else None),
     }
 
     def get(self, **kwargs):
@@ -335,3 +333,54 @@ class StatisticSources(StatisticBase):
         """
         return super(StatisticSources, self).get(
             STATISTIC_SOURCES_URL, **kwargs)
+
+
+class StatisticKeywords(StatisticBase):
+    """
+    Statistics by keywords
+
+    How to prepare client:
+
+    scope = "statistics"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+
+    ORDERING = (
+        'actions',
+        'clicks',
+        'cr',
+        'ecpc',
+        'keyword',
+        'leads',
+        'payment_sum',
+        'payment_sum_approved',
+        'payment_sum_declined',
+        'payment_sum_open',
+        'sales',
+        'source',
+    )
+
+    FILTERING = {
+        'date_start': check_date,
+        'date_end': check_date,
+        'website': int,
+        'campaign': int,
+        'source': (
+            lambda x: x if x in StatisticBase.SOURCES else None),
+    }
+
+    def get(self, **kwargs):
+        """
+        res = client.StatisticKeywords.get()
+        res = client.StatisticKeywords.get(date_start='01.01.2013')
+        res = client.StatisticKeywords.get(limit=2)
+
+        """
+        return super(StatisticKeywords, self).get(
+            STATISTIC_KEYWORDS_URL, **kwargs)

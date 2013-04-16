@@ -188,6 +188,20 @@ API Items
     res = client.StatisticSubIds.get(sub_id="ADS778")
     res = client.StatisticSubIds.get(limit=2)
 
+
+###### Statistics by sources ######
+
+    res = client.StatisticSources.get()
+    res = client.StatisticSources.get(date_start='01.01.2013')
+    res = client.StatisticSources.get(limit=2)
+
+###### Statistics by keywords ######
+
+    res = client.StatisticKeywords.get()
+    res = client.StatisticKeywords.get(date_start='01.01.2013')
+    res = client.StatisticKeywords.get(limit=2)
+
+
 Notes
 ------
 
