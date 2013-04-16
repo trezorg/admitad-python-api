@@ -248,7 +248,10 @@ class HttpTransportFiltering(object):
             self.check_filtering(**additional_filter)
 
     def check_value(self, val, func):
-        """Should return None in case of unsupported or wrong value"""
+        """
+        Should return False in boolean meaning
+        in case of unsupported or wrong value
+        """
         if not func:
             return val
         try:
@@ -305,6 +308,10 @@ class HttpTransport(object):
         self._data = data
         return self
 
+    def clean_data(self):
+        self._data = None
+        return self
+
     def update_data(self, values):
         if self._data is None:
             self._data = {}
@@ -326,6 +333,8 @@ class HttpTransport(object):
         else:
             raise AttributeError(
                 'This http method "%s" is not supported' % method)
+        # when set method we should clean data to replay all parameters passed
+        self.clean_data()
         return self
 
     def _handle_response(self, response):

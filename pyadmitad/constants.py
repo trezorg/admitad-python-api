@@ -1,7 +1,11 @@
+# API date-format
+DATE_FORMAT = "%d.%m.%Y"
+
 # default values
 DEFAULT_REQUEST_TIMEOUT = 60
 DEFAULT_LANGUAGE = 'ru'
 MAX_PAGINATION_LIMIT = 200
+SUB_ID_MAX_LENGTH = 50
 
 
 def prepare_url(url):
@@ -12,6 +16,7 @@ def prepare_url(url):
 
 # urls
 BASE_URL = 'https://api.admitad.com/'
+BASE_URL = 'https://api.admitad.trezor.by/'
 
 # authorizing urls
 AUTHORIZE_URL = prepare_url('authorize')
@@ -44,3 +49,5 @@ COUPONS_WEBSITE_SINGLE_URL = prepare_url('coupons/%(c_id)s/website/%(id)s')
 WEBSITES_URL = prepare_url('websites')
 WEBSITES_SINGLE_URL = prepare_url('websites/%(id)s')
 
+#statistics
+STATISTIC_WEBSITES_URL = prepare_url('statistics/websites')

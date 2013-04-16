@@ -10,8 +10,8 @@ class BaseTestCase(MockerTestCase):
 
     def prepare_data(self, **kwargs):
         with_pagination = kwargs.pop('with_pagination', True)
-        with_ordering = kwargs.pop('with_ordering', False)
-        with_filtering = kwargs.pop('with_filtering', False)
+        with_ordering = kwargs.pop('with_ordering', True)
+        with_filtering = kwargs.pop('with_filtering', True)
         data = {}
         if with_pagination:
             data.update(HttpTransportPagination(**kwargs).to_value())

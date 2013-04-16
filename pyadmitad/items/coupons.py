@@ -8,7 +8,18 @@ __all__ = (
 )
 
 
-class Coupons(Item):
+class CouponsBase(Item):
+
+    ORDERING = ('name', 'date_start', 'date_end', 'rating',)
+    FILTERING = {
+        'campaign': int,
+        'campaign_category': int,
+        'category': int,
+        'type': int
+    }
+
+
+class Coupons(CouponsBase):
     """
     List of coupons
 
@@ -23,14 +34,6 @@ class Coupons(Item):
         scope
     )
     """
-
-    ORDERING = ('name', 'date_start', 'date_end', 'rating',)
-    FILTERING = {
-        'campaign': int,
-        'campaign_category': int,
-        'category': int,
-        'type': int
-    }
 
     def get(self, **kwargs):
         """
@@ -63,7 +66,7 @@ class Coupons(Item):
         return self.transport.GET.request(**kwargs)
 
 
-class CouponsForWebsite(Item):
+class CouponsForWebsite(CouponsBase):
     """
     List of the website coupons
 
@@ -78,14 +81,6 @@ class CouponsForWebsite(Item):
         scope
     )
     """
-
-    ORDERING = ('name', 'date_start', 'date_end', 'rating',)
-    FILTERING = {
-        'campaign': int,
-        'campaign_category': int,
-        'category': int,
-        'type': int
-    }
 
     def get(self, _id, **kwargs):
         """

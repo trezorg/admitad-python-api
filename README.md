@@ -139,7 +139,17 @@ API Items
     res = client.Websites.get()
     res = client.Websites.get(status='new', campaign_status='active')
     res = client.Websites.getOne(_id=2)
-    res = client.Websites.getOne2(2)
+    res = client.Websites.getOne(2)
+
+### Statistics ###
+
+###### Statistics by websites ######
+
+    res = client.StatisticWebsites.get(website=1, campaign=1)
+    res = client.StatisticWebsites.get(sub_id="ADS778")
+    res = client.StatisticWebsites.get(limit=2)
+    res = client.StatisticWebsites.get(date_start='01.01.2013')
+
 
 Notes
 ------
