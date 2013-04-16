@@ -8,11 +8,11 @@ MAX_PAGINATION_LIMIT = 200
 SUB_ID_MAX_LENGTH = 50
 
 
-def prepare_url(url):
-    res = '%s%s' % (BASE_URL,  url)
-    if not res.endswith('/'):
-        res += '/'
-    return res
+def prepare_url(path):
+    url = '%s%s' % (BASE_URL,  path)
+    if not url.endswith('/'):
+        url += '/'
+    return url
 
 # urls
 BASE_URL = 'https://api.admitad.com/'
@@ -51,3 +51,5 @@ WEBSITES_SINGLE_URL = prepare_url('websites/%(id)s')
 
 #statistics
 STATISTIC_WEBSITES_URL = prepare_url('statistics/websites')
+STATISTIC_CAMPAIGNS_URL = prepare_url('statistics/campaigns')
+STATISTIC_DAYS_URL = prepare_url('statistics/dates')

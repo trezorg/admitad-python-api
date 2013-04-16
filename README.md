@@ -150,6 +150,14 @@ API Items
     res = client.StatisticWebsites.get(limit=2)
     res = client.StatisticWebsites.get(date_start='01.01.2013')
 
+###### Statistics by campaigns ######
+
+    res = client.StatisticCampaigns.get()
+    res = client.StatisticCampaigns.get(website=1, campaign=1)
+    res = client.StatisticCampaigns.get(sub_id="ADS778")
+    res = client.StatisticCampaigns.get(limit=2)
+    res = client.StatisticCampaigns.get(date_start='01.01.2013')
+
 
 Notes
 ------

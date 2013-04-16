@@ -333,7 +333,7 @@ class HttpTransport(object):
         else:
             raise AttributeError(
                 'This http method "%s" is not supported' % method)
-        # when set method we should clean data to replay all parameters passed
+        # here we should clean data
         self.clean_data()
         return self
 
