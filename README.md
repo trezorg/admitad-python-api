@@ -173,6 +173,21 @@ API Items
     res = client.StatisticMonths.get(date_start='01.01.2013')
 
 
+###### Statistics by actions ######
+
+    res = client.StatisticActions.get()
+    res = client.StatisticActions.get(date_start='01.01.2013')
+    res = client.StatisticActions.get(website=1, campaign=1)
+    res = client.StatisticActions.get(sub_id="ADS778")
+    res = client.StatisticActions.get(limit=2)
+
+###### Statistics by sub-ids ######
+
+    res = client.StatisticSubIds.get()
+    res = client.StatisticSubIds.get(date_start='01.01.2013')
+    res = client.StatisticSubIds.get(sub_id="ADS778")
+    res = client.StatisticSubIds.get(limit=2)
+
 Notes
 ------
 

@@ -9,6 +9,7 @@ __all__ = (
     'StatisticDays',
     'StatisticMonths',
     'StatisticActions',
+    'StatisticSubIds',
 )
 
 
@@ -237,3 +238,51 @@ class StatisticActions(StatisticBase):
         """
         return super(StatisticActions, self).get(
             STATISTIC_ACTIONS_URL, **kwargs)
+
+
+class StatisticSubIds(StatisticBase):
+    """
+    Statistics by sub-ids
+
+    How to prepare client:
+
+    scope = "statistics"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+
+    ORDERING = (
+        'actions',
+        'clicks',
+        'cr',
+        'ecpc',
+        'leads',
+        'payment_sum',
+        'payment_sum_approved',
+        'payment_sum_declined',
+        'payment_sum_open',
+        'sales',
+        'subid',
+    )
+
+    FILTERING = {
+        'date_start': check_date,
+        'date_end': check_date,
+        'website': int,
+        'campaign': int,
+    }
+
+    def get(self, **kwargs):
+        """
+        res = client.StatisticSubIds.get()
+        res = client.StatisticSubIds.get(date_start='01.01.2013')
+        res = client.StatisticSubIds.get(sub_id="ADS778")
+        res = client.StatisticSubIds.get(limit=2)
+
+        """
+        return super(StatisticSubIds, self).get(STATISTIC_SUB_IDS_URL, **kwargs)

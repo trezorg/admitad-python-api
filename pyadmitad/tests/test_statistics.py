@@ -2,7 +2,7 @@
 
 import unittest
 from pyadmitad.constants import *
-from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths, StatisticActions
+from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths, StatisticActions, StatisticSubIds
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -239,6 +239,54 @@ class StatisticsActionsTestCase(BaseTestCase):
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.StatisticActions.get(
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1
+        )
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+
+class StatisticsSubIdsTestCase(BaseTestCase):
+
+    def test_get_statistics_sub_ids_request(self):
+        self.set_mocker(
+            STATISTIC_SUB_IDS_URL,
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1,
+            allowed_filtering=StatisticSubIds.FILTERING,
+            allowed_ordering=StatisticSubIds.ORDERING
+        )
+        result = {
+            u'_meta': {
+                u'count': 1,
+                u'limit': 1,
+                u'offset': 0
+            },
+            u'results': [
+                {
+                    u'clicks': 1,
+                    u'cr': 89.0,
+                    u'currency': u'RUB',
+                    u'ecpc': 5202.5,
+                    u'leads_sum': 89,
+                    u'payment_sum_approved': 5002.5,
+                    u'payment_sum_declined': 0.0,
+                    u'payment_sum_open': 200.0,
+                    u'sales_sum': 0,
+                    u'subid': u'sub'
+                }
+            ]
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.StatisticSubIds.get(
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
