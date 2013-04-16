@@ -2,7 +2,8 @@
 
 import unittest
 from pyadmitad.constants import *
-from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths, StatisticActions, StatisticSubIds
+from pyadmitad.items import StatisticWebsites, StatisticCampaigns,\
+    StatisticDays, StatisticMonths, StatisticActions, StatisticSubIds, StatisticSources
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -288,6 +289,55 @@ class StatisticsSubIdsTestCase(BaseTestCase):
         self.mocker.replay()
         res = self.client.StatisticSubIds.get(
             campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1
+        )
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+
+class StatisticsSourcesTestCase(BaseTestCase):
+
+    def test_get_statistics_sources_request(self):
+        self.set_mocker(
+            STATISTIC_SOURCES_URL,
+            campaign=6,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1,
+            allowed_filtering=StatisticSources.FILTERING,
+            allowed_ordering=StatisticSources.ORDERING
+        )
+        result = {
+            u'_meta': {
+                u'count': 2,
+                u'limit': 1,
+                u'offset': 0
+            },
+            u'results': [
+                {
+                    u'clicks': 7,
+                    u'cr': 0.1429,
+                    u'currency': u'RUB',
+                    u'ecpc': 51.785714,
+                    u'leads_sum': 1,
+                    u'payment_sum_approved': 0.0,
+                    u'payment_sum_declined': 0.0,
+                    u'payment_sum_open': 362.5,
+                    u'sales_sum': 0,
+                    u'source': u'g',
+                    u'source_name': u'Google Adwords'
+                }
+            ]
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.StatisticSources.get(
+            campaign=6,
             date_start='01.01.2013',
             date_end='01.31.2013',
             limit=1
