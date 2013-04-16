@@ -2,7 +2,7 @@
 
 import unittest
 from pyadmitad.constants import *
-from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths
+from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths, StatisticActions
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -186,6 +186,59 @@ class StatisticsMonthsTestCase(BaseTestCase):
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.StatisticMonths.get(
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1
+        )
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+
+class StatisticsActionsTestCase(BaseTestCase):
+
+    def test_get_statistics_actions_request(self):
+        self.set_mocker(
+            STATISTIC_ACTIONS_URL,
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1,
+            allowed_filtering=StatisticActions.FILTERING,
+            allowed_ordering=StatisticActions.ORDERING
+        )
+        result = {
+            u'results': [
+                {
+                    u'action': u'action name',
+                    u'action_date': u'2013-01-15 18:23:54',
+                    u'action_id': 281,
+                    u'advcampaign_id': 9,
+                    u'advcampaign_name': u'Campaign',
+                    u'cart': 777.0,
+                    u'click_date': u'2011-01-13 18:23:50',
+                    u'comment': None,
+                    u'conversion_time': 4,
+                    u'currency': u'RUB',
+                    u'keyword': None,
+                    u'payment': 50.0,
+                    u'status': u'pending',
+                    u'subid': None,
+                    u'website_name': u'site1_of_webmaster1'
+                }
+            ],
+            u'_meta': {
+                u'count': 89,
+                u'limit': 1,
+                u'offset': 0
+            },
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.StatisticActions.get(
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',

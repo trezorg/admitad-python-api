@@ -8,6 +8,7 @@ __all__ = (
     'StatisticCampaigns',
     'StatisticDays',
     'StatisticMonths',
+    'StatisticActions',
 )
 
 
@@ -167,3 +168,72 @@ class StatisticMonths(StatisticBase):
 
         """
         return super(StatisticMonths, self).get(STATISTIC_MONTHS_URL, **kwargs)
+
+
+class StatisticActions(StatisticBase):
+    """
+    Statistics by actions
+
+    How to prepare client:
+
+    scope = "statistics"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+
+    ACTION_STATUSES = (1, 2, 3)
+    ACTION_SOURCES = ('g', 'y')
+    ACTION_TYPES = ('lead', 'Lead')
+
+    ORDERING = (
+        'action',
+        'banner',
+        'banner_id',
+        'campaign',
+        'cart',
+        'click_date',
+        'conv_time',
+        'datetime',
+        'payment',
+        'status',
+        'subid',
+        'website'
+    )
+
+    FILTERING = {
+        'date_start': check_date,
+        'date_end': check_date,
+        'website': int,
+        'campaign': int,
+        'sub_id': (
+            lambda x:
+            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
+        'source': (
+            lambda x:
+            x if x in StatisticActions.ACTION_SOURCES else None),
+        'status': (
+            lambda x:
+            x if x in StatisticActions.ACTION_STATUSES else None),
+        'keyword': unicode,
+        'action': unicode,
+        'action_type': (
+            lambda x:
+            x if x in StatisticActions.ACTION_TYPES else None),
+    }
+
+    def get(self, **kwargs):
+        """
+        res = client.StatisticActions.get()
+        res = client.StatisticActions.get(website=1, campaign=1)
+        res = client.StatisticActions.get(sub_id="ADS778")
+        res = client.StatisticActions.get(limit=2)
+        res = client.StatisticActions.get(date_start='01.01.2013')
+
+        """
+        return super(StatisticActions, self).get(
+            STATISTIC_ACTIONS_URL, **kwargs)
