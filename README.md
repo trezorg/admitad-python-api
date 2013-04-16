@@ -66,21 +66,18 @@ API Items
 ### Me ###
 
     res = client.Me.get()
-    res = client.Me.get(language='ru')
 
 
 ### WebsiteTypes ###
 
     res = client.WebsiteTypes.get()
     res = client.WebsiteTypes.get(limit=2, offset=1)
-    res = client.WebsiteTypes.get(limit=2, offset=1, language='ru')
 
 
 ### WebsiteRegions ###
 
     res = client.WebsiteRegions.get()
     res = client.WebsiteRegions.get(limit=2, offset=1)
-    res = client.WebsiteRegions.get(limit=2, offset=1, language='ru')
 
 ### SystemLanguages ###
 
@@ -157,6 +154,23 @@ API Items
     res = client.StatisticCampaigns.get(sub_id="ADS778")
     res = client.StatisticCampaigns.get(limit=2)
     res = client.StatisticCampaigns.get(date_start='01.01.2013')
+
+
+###### Statistics by days ######
+
+    res = client.StatisticDays.get()
+    res = client.StatisticDays.get(website=1, campaign=1)
+    res = client.StatisticDays.get(sub_id="ADS778")
+    res = client.StatisticDays.get(limit=2)
+    res = client.StatisticDays.get(date_start='01.01.2013')
+
+###### Statistics by months ######
+
+    res = client.StatisticMonths.get()
+    res = client.StatisticMonths.get(website=1, campaign=1)
+    res = client.StatisticMonths.get(sub_id="ADS778")
+    res = client.StatisticMonths.get(limit=2)
+    res = client.StatisticMonths.get(date_start='01.01.2013')
 
 
 Notes

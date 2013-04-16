@@ -7,6 +7,7 @@ __all__ = (
     'StatisticWebsites',
     'StatisticCampaigns',
     'StatisticDays',
+    'StatisticMonths',
 )
 
 
@@ -46,6 +47,14 @@ class StatisticBase(Item):
             unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None)
     }
 
+    def get(self, url, **kwargs):
+        """Base GET method"""
+        kwargs['url'] = url
+        kwargs['allowed_filtering'] = self.FILTERING
+        kwargs['allowed_ordering'] = self.ORDERING
+        return self.transport.GET.set_pagination(**kwargs).\
+            set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
+
 
 class StatisticWebsites(StatisticBase):
     """
@@ -72,11 +81,8 @@ class StatisticWebsites(StatisticBase):
         res = client.StatisticWebsites.get(date_start='01.01.2013')
 
         """
-        kwargs['url'] = STATISTIC_WEBSITES_URL
-        kwargs['allowed_filtering'] = self.FILTERING
-        kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs).\
-            set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
+        return super(StatisticWebsites, self).get(
+            STATISTIC_WEBSITES_URL, **kwargs)
 
 
 class StatisticCampaigns(StatisticBase):
@@ -104,11 +110,8 @@ class StatisticCampaigns(StatisticBase):
         res = client.StatisticCampaigns.get(date_start='01.01.2013')
 
         """
-        kwargs['url'] = STATISTIC_CAMPAIGNS_URL
-        kwargs['allowed_filtering'] = self.FILTERING
-        kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs). \
-            set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
+        return super(StatisticCampaigns, self).get(
+            STATISTIC_CAMPAIGNS_URL, **kwargs)
 
 
 class StatisticDays(StatisticBase):
@@ -134,10 +137,33 @@ class StatisticDays(StatisticBase):
         res = client.StatisticDays.get(sub_id="ADS778")
         res = client.StatisticDays.get(limit=2)
         res = client.StatisticDays.get(date_start='01.01.2013')
+        """
+        return super(StatisticDays, self).get(STATISTIC_DAYS_URL, **kwargs)
+
+
+class StatisticMonths(StatisticBase):
+    """
+    Statistics by months
+
+    How to prepare client:
+
+    scope = "statistics"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+
+    def get(self, **kwargs):
+        """
+        res = client.StatisticMonths.get()
+        res = client.StatisticMonths.get(website=1, campaign=1)
+        res = client.StatisticMonths.get(sub_id="ADS778")
+        res = client.StatisticMonths.get(limit=2)
+        res = client.StatisticMonths.get(date_start='01.01.2013')
 
         """
-        kwargs['url'] = STATISTIC_DAYS_URL
-        kwargs['allowed_filtering'] = self.FILTERING
-        kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs). \
-            set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
+        return super(StatisticMonths, self).get(STATISTIC_MONTHS_URL, **kwargs)

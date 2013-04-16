@@ -2,7 +2,7 @@
 
 import unittest
 from pyadmitad.constants import *
-from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays
+from pyadmitad.items import StatisticWebsites, StatisticCampaigns, StatisticDays, StatisticMonths
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -135,6 +135,57 @@ class StatisticsDaysTestCase(BaseTestCase):
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.StatisticDays.get(
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1
+        )
+        self.assertIn(u'results', res)
+        self.assertIn(u'_meta', res)
+        self.assertIsInstance(res[u'results'], list)
+        self.assertIsInstance(res[u'_meta'], dict)
+        self.mocker.verify()
+
+
+class StatisticsMonthsTestCase(BaseTestCase):
+
+    def test_get_statistics_months_request(self):
+        self.set_mocker(
+            STATISTIC_MONTHS_URL,
+            campaign=9,
+            date_start='01.01.2013',
+            date_end='01.31.2013',
+            limit=1,
+            allowed_filtering=StatisticMonths.FILTERING,
+            allowed_ordering=StatisticMonths.ORDERING
+        )
+        result = {
+            u'results': [
+                {
+                    u'clicks': 3,
+                    u'cr': 0.3333,
+                    u'ctr': 0.0,
+                    u'currency': u'RUB',
+                    u'date': u'2013-01-12',
+                    u'ecpc': 27.88,
+                    u'ecpm': 0.0,
+                    u'leads_sum': 1,
+                    u'payment_sum_approved': 83.65,
+                    u'payment_sum_declined': 0.0,
+                    u'payment_sum_open': 0.0,
+                    u'sales_sum': 0,
+                    u'views': 0
+                }
+            ],
+            u'_meta': {
+                u'count': 3,
+                u'limit': 1,
+                u'offset': 0
+            },
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.StatisticMonths.get(
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
