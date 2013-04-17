@@ -1,5 +1,4 @@
 from pyadmitad.items.base import Item
-from pyadmitad.constants import *
 
 
 __all__ = (
@@ -35,6 +34,9 @@ class Coupons(CouponsBase):
     )
     """
 
+    URL = Item.prepare_url('coupons')
+    SINGLE_URL = Item.prepare_url('coupons/%(id)s')
+
     def get(self, **kwargs):
         """
         res = client.Coupons.get()
@@ -50,7 +52,7 @@ class Coupons(CouponsBase):
         res = client.Coupons.get(filtering={'campaign': [1, 2]}, category=2)
 
         """
-        kwargs['url'] = COUPONS_URL
+        kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
         return self.transport.GET.set_pagination(**kwargs).\
@@ -61,7 +63,7 @@ class Coupons(CouponsBase):
         res = client.Coupons.getOne(_id=2)
         res = client.Coupons.getOne(2)
         """
-        kwargs['url'] = COUPONS_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)
 
@@ -82,6 +84,9 @@ class CouponsForWebsite(CouponsBase):
     )
     """
 
+    URL = Item.prepare_url('coupons/website/%(id)s')
+    SINGLE_URL = Item.prepare_url('coupons/%(c_id)s/website/%(id)s')
+
     def get(self, _id, **kwargs):
         """
         res = client.CouponsForWebsite.get(_id=2)
@@ -98,7 +103,7 @@ class CouponsForWebsite(CouponsBase):
             2, filtering={'campaign': [1, 2]}, category=2)
 
         """
-        kwargs['url'] = COUPONS_WEBSITE_URL
+        kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
@@ -110,7 +115,7 @@ class CouponsForWebsite(CouponsBase):
         res = client.CouponsForWebsite.getOne(_id=2, c_id=1)
         res = client.CouponsForWebsite.getOne(2, 1)
         """
-        kwargs['url'] = COUPONS_WEBSITE_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
         return self.transport.GET.request(**kwargs)

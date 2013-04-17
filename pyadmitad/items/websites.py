@@ -1,5 +1,4 @@
 from pyadmitad.items.base import Item
-from pyadmitad.constants import *
 
 
 __all__ = (
@@ -22,6 +21,8 @@ class Websites(Item):
         scope
     )
     """
+    URL = Item.prepare_url('websites')
+    SINGLE_URL = Item.prepare_url('websites/%(id)s')
 
     STATUS_FILTERING = ('new', 'pending', 'active', 'suspended', 'declined')
     CAMPAIGN_STATUS_FILTERING = ('pending', 'active', 'declined', 'disabled')
@@ -37,7 +38,7 @@ class Websites(Item):
         res = client.Websites.get(status='new', campaign_status='active')
 
         """
-        kwargs['url'] = WEBSITES_URL
+        kwargs['url'] = self.URL
         kwargs['allowed_filtering'] = self.FILTERING
         return self.transport.GET.set_pagination(**kwargs).\
             set_filtering(**kwargs).request(**kwargs)
@@ -47,6 +48,6 @@ class Websites(Item):
         res = client.Websites.getOne(_id=2)
         res = client.Websites.getOne2(2)
         """
-        kwargs['url'] = WEBSITES_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)

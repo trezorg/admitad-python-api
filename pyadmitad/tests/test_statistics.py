@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.constants import *
 from pyadmitad.items import StatisticWebsites, StatisticCampaigns,\
     StatisticDays, StatisticMonths, StatisticActions, StatisticSubIds,\
     StatisticSources, StatisticKeywords
@@ -12,7 +11,7 @@ class StatisticsWebsitesTestCase(BaseTestCase):
 
     def test_get_statistics_websites_request(self):
         self.set_mocker(
-            STATISTIC_WEBSITES_URL,
+            StatisticWebsites.URL,
             website=22,
             allowed_filtering=StatisticWebsites.FILTERING,
             allowed_ordering=StatisticWebsites.ORDERING
@@ -57,7 +56,7 @@ class StatisticsCampaignTestCase(BaseTestCase):
 
     def test_get_statistics_campaign_request(self):
         self.set_mocker(
-            STATISTIC_CAMPAIGNS_URL,
+            StatisticCampaigns.URL,
             campaign=9,
             allowed_filtering=StatisticCampaigns.FILTERING,
             allowed_ordering=StatisticCampaigns.ORDERING
@@ -102,7 +101,7 @@ class StatisticsDaysTestCase(BaseTestCase):
 
     def test_get_statistics_days_request(self):
         self.set_mocker(
-            STATISTIC_DAYS_URL,
+            StatisticDays.URL,
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
@@ -153,7 +152,7 @@ class StatisticsMonthsTestCase(BaseTestCase):
 
     def test_get_statistics_months_request(self):
         self.set_mocker(
-            STATISTIC_MONTHS_URL,
+            StatisticMonths.URL,
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
@@ -204,7 +203,7 @@ class StatisticsActionsTestCase(BaseTestCase):
 
     def test_get_statistics_actions_request(self):
         self.set_mocker(
-            STATISTIC_ACTIONS_URL,
+            StatisticActions.URL,
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
@@ -257,7 +256,7 @@ class StatisticsSubIdsTestCase(BaseTestCase):
 
     def test_get_statistics_sub_ids_request(self):
         self.set_mocker(
-            STATISTIC_SUB_IDS_URL,
+            StatisticSubIds.URL,
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
@@ -305,7 +304,7 @@ class StatisticsSourcesTestCase(BaseTestCase):
 
     def test_get_statistics_sources_request(self):
         self.set_mocker(
-            STATISTIC_SOURCES_URL,
+            StatisticSources.URL,
             campaign=6,
             date_start='01.01.2013',
             date_end='01.31.2013',
@@ -354,7 +353,7 @@ class StatisticsKeywordsTestCase(BaseTestCase):
 
     def test_get_statistics_keywords_request(self):
         self.set_mocker(
-            STATISTIC_KEYWORDS_URL,
+            StatisticKeywords.URL,
             campaign=6,
             date_start='01.01.2013',
             date_end='01.31.2013',

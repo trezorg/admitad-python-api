@@ -1,5 +1,4 @@
 from pyadmitad.items.base import Item
-from pyadmitad.constants import *
 
 
 __all__ = (
@@ -27,13 +26,15 @@ class WebsiteTypes(Item):
         scope
     )
     """
+    URL = Item.prepare_url('websites/kinds')
+
     def get(self, **kwargs):
         """
         res = client.WebsiteTypes.get()
         res = client.WebsiteTypes.get(limit=2, offset=1)
         res = client.WebsiteTypes.get(limit=2, offset=1, language='ru')
         """
-        kwargs['url'] = WEBSITE_TYPES_URL
+        kwargs['url'] = self.URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
 
@@ -52,13 +53,16 @@ class WebsiteRegions(Item):
         scope
     )
     """
+
+    URL = Item.prepare_url('websites/regions')
+
     def get(self, **kwargs):
         """
         res = client.WebsiteRegions.get()
         res = client.WebsiteRegions.get(limit=2, offset=1)
         res = client.WebsiteRegions.get(limit=2, offset=1, language='ru')
         """
-        kwargs['url'] = WEBSITE_REGIONS_URL
+        kwargs['url'] = self.URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
 
@@ -78,19 +82,22 @@ class SystemLanguages(Item):
     )
     """
 
+    URL = Item.prepare_url('languages')
+    SINGLE_URL = Item.prepare_url('languages/%(code)s')
+
     def get(self, **kwargs):
         """
         res = client.SystemLanguages.get()
         res = client.SystemLanguages.get(limit=2, offset=1)
         """
-        kwargs['url'] = LANGUAGES_URL
+        kwargs['url'] = self.URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, code='ru'):
         """
         res = client.SystemLanguages.getOne(code='ru')
         """
-        return self.transport.GET.request(url=LANGUAGES_SINGLE_URL, code=code)
+        return self.transport.GET.request(url=self.SINGLE_URL, code=code)
 
 
 class SystemCurrencies(Item):
@@ -108,12 +115,15 @@ class SystemCurrencies(Item):
         scope
     )
     """
+
+    URL = Item.prepare_url('currencies')
+
     def get(self, **kwargs):
         """
         res = client.SystemCurrencies.get()
         res = client.SystemCurrencies.get(limit=2, offset=1)
         """
-        kwargs['url'] = CURRENCIES_URL
+        kwargs['url'] = self.URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
 
@@ -132,12 +142,18 @@ class AdvertiserServices(Item):
         scope
     )
     """
+
+    URL = Item.prepare_url('adservices')
+    SINGLE_URL = Item.prepare_url('adservices/%(id)s')
+    KIND_URL = Item.prepare_url('adservices/kind/%(kind)s')
+    KIND_SINGLE_URL = Item.prepare_url('adservices/%(id)s/kind/%(kind)s')
+
     def get(self, **kwargs):
         """
         res = client.AdvertiserServices.get()
         res = client.AdvertiserServices.get(limit=2, offset=1)
         """
-        kwargs['url'] = ADVERTISER_SERVICES_URL
+        kwargs['url'] = self.URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -146,7 +162,7 @@ class AdvertiserServices(Item):
         res = client.AdvertiserServices.getOne(1)
         """
         kwargs['id'] = self.sanitize_id(_id)
-        kwargs['url'] = ADVERTISER_SERVICES_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         return self.transport.GET.request(**kwargs)
 
     def getForKind(self, kind=None, **kwargs):
@@ -157,7 +173,7 @@ class AdvertiserServices(Item):
         res = client.AdvertiserServices.getForKind('website')
         """
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
-        kwargs['url'] = ADVERTISER_SERVICES_KIND_URL
+        kwargs['url'] = self.KIND_URL
         return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
 
     def getForKindOne(self, _id, kind, **kwargs):
@@ -169,7 +185,7 @@ class AdvertiserServices(Item):
         """
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['id'] = self.sanitize_id(_id)
-        kwargs['url'] = ADVERTISER_SERVICES_KIND_SINGLE_URL
+        kwargs['url'] = self.KIND_SINGLE_URL
         return self.transport.GET.request(**kwargs)
 
 
@@ -191,12 +207,15 @@ class CampaignCategories(Item):
 
     ORDERING = ('name',)
 
+    URL = Item.prepare_url('categories')
+    SINGLE_URL = Item.prepare_url('categories/%(id)s')
+
     def get(self, **kwargs):
         """
         res = client.CampaignCategories.get()
         res = client.CampaignCategories.get(limit=2, offset=1)
         """
-        kwargs['url'] = CAMPAIGN_CATEGORIES_URL
+        kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
         return self.transport.GET.set_pagination(**kwargs).\
             set_ordering(**kwargs).request(**kwargs)
@@ -206,6 +225,6 @@ class CampaignCategories(Item):
         res = client.CampaignCategories.getOne(_id=2)
         res = client.CampaignCategories.getOne(2)
         """
-        kwargs['url'] = CAMPAIGN_CATEGORIES_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)

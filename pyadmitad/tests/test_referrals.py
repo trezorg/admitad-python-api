@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.constants import *
+from pyadmitad.items import Referrals
 from pyadmitad.tests.base import BaseTestCase
 
 
 class ReferralsTestCase(BaseTestCase):
 
     def test_get_referrals_request(self):
-        self.set_mocker(REFERRALS_URL, limit=1)
+        self.set_mocker(Referrals.URL, limit=1)
         result = {
             u'_meta': {
                 u'count': 2,
@@ -34,7 +34,7 @@ class ReferralsTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_referrals_request_with_id(self):
-        self.set_mocker(REFERRALS_SINGLE_URL, id=8, with_pagination=False)
+        self.set_mocker(Referrals.SINGLE_URL, id=8, with_pagination=False)
         result = {
             u'id': 8,
             u'payment': None,

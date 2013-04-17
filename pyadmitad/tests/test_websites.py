@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.constants import *
+from pyadmitad.items import Websites
 from pyadmitad.tests.base import BaseTestCase
 
 
 class WebsitesTestCase(BaseTestCase):
 
     def test_get_websites_request(self):
-        self.set_mocker(WEBSITES_URL, limit=1, offset=2)
+        self.set_mocker(Websites.URL, limit=1, offset=2)
         result = {
             u'results': [
                 {
@@ -57,7 +57,7 @@ class WebsitesTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_websites_request_with_id(self):
-        self.set_mocker(WEBSITES_SINGLE_URL, id=22, with_pagination=False)
+        self.set_mocker(Websites.SINGLE_URL, id=22, with_pagination=False)
         result = {
             u'status': u'active',
             u'kind': u'website',

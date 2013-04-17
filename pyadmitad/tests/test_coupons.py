@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.constants import *
+from pyadmitad.items import Coupons, CouponsForWebsite
 from pyadmitad.tests.base import BaseTestCase
 
 
 class CouponsTestCase(BaseTestCase):
 
     def test_get_coupons_request(self):
-        self.set_mocker(COUPONS_URL, limit=1)
+        self.set_mocker(Coupons.URL, limit=1)
         result = {
             u'results': [
                 {
@@ -66,7 +66,7 @@ class CouponsTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_coupons_request_with_id(self):
-        self.set_mocker(COUPONS_SINGLE_URL, id=1, with_pagination=False)
+        self.set_mocker(Coupons.SINGLE_URL, id=1, with_pagination=False)
         result = {
             u'campaign': {
                 u'id': 8,
@@ -114,7 +114,7 @@ class CouponsTestCase(BaseTestCase):
 class CouponsForWebsiteTestCase(BaseTestCase):
 
     def test_get_coupons_for_website_request(self):
-        self.set_mocker(COUPONS_WEBSITE_URL, id=3, limit=1)
+        self.set_mocker(CouponsForWebsite.URL, id=3, limit=1)
         result = {
             u'results': [
                 {
@@ -173,7 +173,7 @@ class CouponsForWebsiteTestCase(BaseTestCase):
 
     def test_get_coupons_for_website_request_with_id(self):
         self.set_mocker(
-            COUPONS_WEBSITE_SINGLE_URL, id=3, c_id=1, with_pagination=False)
+            CouponsForWebsite.SINGLE_URL, id=3, c_id=1, with_pagination=False)
         result = {
             u'campaign': {
                 u'id': 8,

@@ -1,23 +1,12 @@
 import unittest
-from mocker import MockerTestCase
-from pyadmitad.api import get_oauth_client
-from pyadmitad.constants import *
-from pyadmitad.transport import build_headers
+from pyadmitad.items import Me
+from pyadmitad.tests.base import BaseTestCase
 
 
-class MeTestCase(MockerTestCase):
+class MeTestCase(BaseTestCase):
 
     def test_me_request(self):
-        access_token = 'access_token'
-        client = get_oauth_client(access_token)
-        obj = self.mocker.patch(client.transport)
-        url = ME_URL
-        kwargs = {
-            'data': None,
-            'headers': build_headers(access_token),
-            'method': 'GET'
-        }
-        obj.api_request(url, **kwargs)
+        self.set_mocker(Me.URL, with_pagination=False)
         result = {
             'username': 'username',
             'first_name': 'first_name',
@@ -27,7 +16,7 @@ class MeTestCase(MockerTestCase):
         }
         self.mocker.result(result)
         self.mocker.replay()
-        res = client.Me.get()
+        res = self.client.Me.get()
         self.assertEqual(res['username'], 'username')
         self.assertEqual(res['first_name'], 'first_name')
         self.assertEqual(res['id'], 1)

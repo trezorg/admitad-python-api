@@ -1,5 +1,5 @@
+from pyadmitad.constants import SUB_ID_MAX_LENGTH
 from pyadmitad.items.base import Item
-from pyadmitad.constants import *
 
 
 __all__ = (
@@ -72,6 +72,8 @@ class StatisticWebsites(StatisticBase):
     )
     """
 
+    URL = Item.prepare_url('statistics/websites')
+
     def get(self, **kwargs):
         """
         res = client.StatisticWebsites.get()
@@ -81,8 +83,7 @@ class StatisticWebsites(StatisticBase):
         res = client.StatisticWebsites.get(date_start='01.01.2013')
 
         """
-        return super(StatisticWebsites, self).get(
-            STATISTIC_WEBSITES_URL, **kwargs)
+        return super(StatisticWebsites, self).get(self.URL, **kwargs)
 
 
 class StatisticCampaigns(StatisticBase):
@@ -101,6 +102,8 @@ class StatisticCampaigns(StatisticBase):
     )
     """
 
+    URL = Item.prepare_url('statistics/campaigns')
+
     def get(self, **kwargs):
         """
         res = client.StatisticCampaigns.get()
@@ -110,8 +113,7 @@ class StatisticCampaigns(StatisticBase):
         res = client.StatisticCampaigns.get(date_start='01.01.2013')
 
         """
-        return super(StatisticCampaigns, self).get(
-            STATISTIC_CAMPAIGNS_URL, **kwargs)
+        return super(StatisticCampaigns, self).get(self.URL, **kwargs)
 
 
 class StatisticDays(StatisticBase):
@@ -130,6 +132,8 @@ class StatisticDays(StatisticBase):
     )
     """
 
+    URL = Item.prepare_url('statistics/dates')
+
     def get(self, **kwargs):
         """
         res = client.StatisticDays.get()
@@ -138,7 +142,7 @@ class StatisticDays(StatisticBase):
         res = client.StatisticDays.get(limit=2)
         res = client.StatisticDays.get(date_start='01.01.2013')
         """
-        return super(StatisticDays, self).get(STATISTIC_DAYS_URL, **kwargs)
+        return super(StatisticDays, self).get(self.URL, **kwargs)
 
 
 class StatisticMonths(StatisticBase):
@@ -157,6 +161,8 @@ class StatisticMonths(StatisticBase):
     )
     """
 
+    URL = Item.prepare_url('statistics/months')
+
     def get(self, **kwargs):
         """
         res = client.StatisticMonths.get()
@@ -166,7 +172,7 @@ class StatisticMonths(StatisticBase):
         res = client.StatisticMonths.get(date_start='01.01.2013')
 
         """
-        return super(StatisticMonths, self).get(STATISTIC_MONTHS_URL, **kwargs)
+        return super(StatisticMonths, self).get(self.URL, **kwargs)
 
 
 class StatisticActions(StatisticBase):
@@ -218,6 +224,8 @@ class StatisticActions(StatisticBase):
             lambda x: x if x in StatisticActions.ACTION_TYPES else None),
     }
 
+    URL = Item.prepare_url('statistics/actions')
+
     def get(self, **kwargs):
         """
         res = client.StatisticActions.get()
@@ -227,8 +235,7 @@ class StatisticActions(StatisticBase):
         res = client.StatisticActions.get(date_start='01.01.2013')
 
         """
-        return super(StatisticActions, self).get(
-            STATISTIC_ACTIONS_URL, **kwargs)
+        return super(StatisticActions, self).get(self.URL, **kwargs)
 
 
 class StatisticSubIds(StatisticBase):
@@ -268,6 +275,8 @@ class StatisticSubIds(StatisticBase):
         'campaign': int,
     }
 
+    URL = Item.prepare_url('statistics/sub_ids')
+
     def get(self, **kwargs):
         """
         res = client.StatisticSubIds.get()
@@ -276,7 +285,7 @@ class StatisticSubIds(StatisticBase):
         res = client.StatisticSubIds.get(limit=2)
 
         """
-        return super(StatisticSubIds, self).get(STATISTIC_SUB_IDS_URL, **kwargs)
+        return super(StatisticSubIds, self).get(self.URL, **kwargs)
 
 
 class StatisticSources(StatisticBase):
@@ -316,6 +325,8 @@ class StatisticSources(StatisticBase):
         'campaign': int,
     }
 
+    URL = Item.prepare_url('statistics/sources')
+
     def get(self, **kwargs):
         """
         res = client.StatisticSources.get()
@@ -323,8 +334,7 @@ class StatisticSources(StatisticBase):
         res = client.StatisticSources.get(limit=2)
 
         """
-        return super(StatisticSources, self).get(
-            STATISTIC_SOURCES_URL, **kwargs)
+        return super(StatisticSources, self).get(self.URL, **kwargs)
 
 
 class StatisticKeywords(StatisticBase):
@@ -367,6 +377,8 @@ class StatisticKeywords(StatisticBase):
             lambda x: x if x in StatisticBase.SOURCES else None),
     }
 
+    URL = Item.prepare_url('statistics/keywords')
+
     def get(self, **kwargs):
         """
         res = client.StatisticKeywords.get()
@@ -374,5 +386,4 @@ class StatisticKeywords(StatisticBase):
         res = client.StatisticKeywords.get(limit=2)
 
         """
-        return super(StatisticKeywords, self).get(
-            STATISTIC_KEYWORDS_URL, **kwargs)
+        return super(StatisticKeywords, self).get(self.URL, **kwargs)

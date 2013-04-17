@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.constants import *
 from pyadmitad.tests.base import BaseTestCase
+from pyadmitad.items.auxiliary import *
 
 
 class WebsiteTypesTestCase(BaseTestCase):
 
     def test_get_website_types_request(self):
-        self.set_mocker(WEBSITE_TYPES_URL)
+        self.set_mocker(WebsiteTypes.URL)
         result = {
             u'results': [
                 u'website',
@@ -34,7 +34,7 @@ class WebsiteTypesTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_website_types_request_with_pagination(self):
-        self.set_mocker(WEBSITE_TYPES_URL, offset=1, limit=2)
+        self.set_mocker(WebsiteTypes.URL, offset=1, limit=2)
         result = {
             u'results': [
                 u'doorway',
@@ -63,7 +63,7 @@ class WebsiteTypesTestCase(BaseTestCase):
 class WebsiteRegionsTestCase(BaseTestCase):
 
     def test_get_website_regions_request(self):
-        self.set_mocker(WEBSITE_REGIONS_URL)
+        self.set_mocker(WebsiteRegions.URL)
         result = {
             u'results': [
                 u'RU', u'UA', u'BY', u'KZ', u'DE', u'FR', u'US', u'AM', u'AU',
@@ -86,7 +86,7 @@ class WebsiteRegionsTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_website_regions_request_with_pagination(self):
-        self.set_mocker(WEBSITE_REGIONS_URL, offset=1, limit=2)
+        self.set_mocker(WebsiteRegions.URL, offset=1, limit=2)
         result = {
             u'results': [u'UA', u'BY'],
             u'_meta': {
@@ -113,7 +113,7 @@ class WebsiteRegionsTestCase(BaseTestCase):
 class SystemLanguagesTestCase(BaseTestCase):
 
     def test_get_languages_request(self):
-        self.set_mocker(LANGUAGES_URL)
+        self.set_mocker(SystemLanguages.URL)
         result = {
             u'results': [
                 {
@@ -144,7 +144,8 @@ class SystemLanguagesTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_language_request_with_code(self):
-        self.set_mocker(LANGUAGES_SINGLE_URL, code='ru', with_pagination=False)
+        self.set_mocker(SystemLanguages.SINGLE_URL,
+                        code='ru', with_pagination=False)
         result = {
             u'flag': u'https://admitad.trezor.by/media/images/flags/'
                      u'c8ef33a926799c7c3d7103212a78b187.png',
@@ -163,7 +164,7 @@ class SystemLanguagesTestCase(BaseTestCase):
 class SystemCurrenciesTestCase(BaseTestCase):
 
     def test_get_currencies_request(self):
-        self.set_mocker(CURRENCIES_URL)
+        self.set_mocker(SystemCurrencies.URL)
         result = {
             u'results': [
                 {
@@ -201,7 +202,7 @@ class SystemCurrenciesTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_currencies_request_with_pagination(self):
-        self.set_mocker(CURRENCIES_URL, offset=1, limit=1)
+        self.set_mocker(SystemCurrencies.URL, offset=1, limit=1)
         result = {
             u'results': [
                 {
@@ -232,7 +233,7 @@ class SystemCurrenciesTestCase(BaseTestCase):
 class AdvertiserServiceTestCase(BaseTestCase):
 
     def test_get_advertiser_services(self):
-        self.set_mocker(ADVERTISER_SERVICES_URL)
+        self.set_mocker(AdvertiserServices.URL)
         result = {
             u'results': [
                 {
@@ -268,7 +269,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_advertiser_services_with_pagination(self):
-        self.set_mocker(ADVERTISER_SERVICES_URL, offset=1, limit=1)
+        self.set_mocker(AdvertiserServices.URL, offset=1, limit=1)
         result = {
             u'results': [
                 {
@@ -299,7 +300,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
 
     def test_get_advertiser_services_with_id(self):
         self.set_mocker(
-            ADVERTISER_SERVICES_SINGLE_URL,
+            AdvertiserServices.SINGLE_URL,
             **{'id': 2, 'with_pagination': False})
         result = {
             u'allowed_referrers': u'',
@@ -316,7 +317,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_advertiser_services_with_kind(self):
-        self.set_mocker(ADVERTISER_SERVICES_KIND_URL, kind='contextual')
+        self.set_mocker(AdvertiserServices.KIND_URL, kind='contextual')
         result = {
             u'results': [
                 {
@@ -352,7 +353,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_advertiser_services_with_kind_and_id(self):
-        self.set_mocker(ADVERTISER_SERVICES_KIND_SINGLE_URL,
+        self.set_mocker(AdvertiserServices.KIND_SINGLE_URL,
                         id=2, kind='contextual', with_pagination=False)
         result = {
             u'allowed_referrers': u'',
@@ -372,7 +373,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
 class CampaignsCategoriesTestCase(BaseTestCase):
 
     def test_get_campaigns_categories(self):
-        self.set_mocker(CAMPAIGN_CATEGORIES_URL)
+        self.set_mocker(CampaignCategories.URL)
         result = {
             u'results': [
                 {
@@ -416,7 +417,7 @@ class CampaignsCategoriesTestCase(BaseTestCase):
         self.mocker.verify()
 
     def test_get_campaigns_categories_with_pagination(self):
-        self.set_mocker(CAMPAIGN_CATEGORIES_URL, limit=3)
+        self.set_mocker(CampaignCategories.URL, limit=3)
         result = {
             u'results': [
                 {
@@ -462,7 +463,7 @@ class CampaignsCategoriesTestCase(BaseTestCase):
 
     def test_get_campaigns_categories_with_id(self):
         self.set_mocker(
-            CAMPAIGN_CATEGORIES_SINGLE_URL, id=3, with_pagination=False)
+            CampaignCategories.SINGLE_URL, id=3, with_pagination=False)
         result = {
             u'id': 3,
             u'name': u'Браузерные',

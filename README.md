@@ -11,8 +11,7 @@ Dependencies
 * requests
 * simplejson
 
-PyAdmitad is not yet available on PyPI, we're waiting to have it a bit more
-stable. Install by cloning from the GitHub repo:
+Install by cloning from the GitHub repo:
 
     $ git clone git://github.com/trezorg/admitad-python-api.git
     $ cd admitad-python-api
@@ -208,6 +207,20 @@ API Items
     res = client.Referrals.get(limit=2)
     res = client.Referrals.getOne(_id=2)
     res = client.Referrals.getOne(2)
+
+
+### Banners ###
+
+    res = client.Banners.get(_id=2)
+    res = client.Banners.get(2)
+    res = client.Banners.get(2, limit=2)
+
+
+### BannersForWebsite ###
+
+    res = client.BannersForWebsite.get(_id=2, w_id=3)
+    res = client.BannersForWebsite.get(2, 3)
+    res = client.BannersForWebsite.get(2, 3, limit=5)
 
 
 Notes

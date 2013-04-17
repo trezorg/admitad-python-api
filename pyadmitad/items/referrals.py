@@ -1,5 +1,4 @@
 from pyadmitad.items.base import Item
-from pyadmitad.constants import *
 
 
 __all__ = (
@@ -23,6 +22,9 @@ class Referrals(Item):
     )
     """
 
+    URL = Item.prepare_url('referrals')
+    SINGLE_URL = Item.prepare_url('referrals/%(id)s')
+
     FILTERING = {
         'date_start': Item.check_date,
         'date_end': Item.check_date
@@ -33,7 +35,7 @@ class Referrals(Item):
         res = client.Referrals.get()
         res = client.Referrals.get(limit=2)
         """
-        kwargs['url'] = REFERRALS_URL
+        kwargs['url'] = self.URL
         kwargs['allowed_filtering'] = self.FILTERING
         return self.transport.GET.set_pagination(**kwargs).\
             set_filtering(**kwargs).request(**kwargs)
@@ -43,6 +45,6 @@ class Referrals(Item):
         res = client.Referrals.getOne(_id=2)
         res = client.Referrals.getOne(2)
         """
-        kwargs['url'] = REFERRALS_SINGLE_URL
+        kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         return self.transport.GET.request(**kwargs)
