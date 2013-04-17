@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from pyadmitad.constants import DATE_FORMAT
+from pyadmitad.constants import DATE_FORMAT, BASE_URL
 
 
 class Item(object):
@@ -27,6 +27,15 @@ class Item(object):
         if s > date.today():
             s = date.today()
         return s.strftime(DATE_FORMAT)
+
+    @staticmethod
+    def prepare_url(path):
+        url = '%s%s' % (BASE_URL,  path)
+        if not url.endswith('/'):
+            url += '/'
+        return url
+
+
 
 
 
