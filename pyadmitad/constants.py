@@ -58,3 +58,7 @@ STATISTIC_ACTIONS_URL = prepare_url('statistics/actions')
 STATISTIC_SUB_IDS_URL = prepare_url('statistics/sub_ids')
 STATISTIC_SOURCES_URL = prepare_url('statistics/sources')
 STATISTIC_KEYWORDS_URL = prepare_url('statistics/keywords')
+
+# referrals
+REFERRALS_URL = prepare_url('referrals')
+REFERRALS_SINGLE_URL = prepare_url('referrals/%(id)s')

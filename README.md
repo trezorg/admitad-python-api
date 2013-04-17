@@ -202,6 +202,14 @@ API Items
     res = client.StatisticKeywords.get(limit=2)
 
 
+### Referrals ###
+
+    res = client.Referrals.get()
+    res = client.Referrals.get(limit=2)
+    res = client.Referrals.getOne(_id=2)
+    res = client.Referrals.getOne(2)
+
+
 Notes
 ------
 

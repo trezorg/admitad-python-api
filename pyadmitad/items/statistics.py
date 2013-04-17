@@ -1,4 +1,3 @@
-from datetime import datetime, date
 from pyadmitad.items.base import Item
 from pyadmitad.constants import *
 
@@ -13,13 +12,6 @@ __all__ = (
     'StatisticSources',
     'StatisticKeywords',
 )
-
-
-def check_date(d):
-    s = datetime.strptime(d, DATE_FORMAT).date()
-    if s > date.today():
-        s = date.today()
-    return s.strftime(DATE_FORMAT)
 
 
 class StatisticBase(Item):
@@ -46,8 +38,8 @@ class StatisticBase(Item):
     )
 
     FILTERING = {
-        'date_start': check_date,
-        'date_end': check_date,
+        'date_start': Item.check_date,
+        'date_end': Item.check_date,
         'website': int,
         'campaign': int,
         'sub_id': (
@@ -209,8 +201,8 @@ class StatisticActions(StatisticBase):
     )
 
     FILTERING = {
-        'date_start': check_date,
-        'date_end': check_date,
+        'date_start': Item.check_date,
+        'date_end': Item.check_date,
         'website': int,
         'campaign': int,
         'sub_id': (
@@ -270,8 +262,8 @@ class StatisticSubIds(StatisticBase):
     )
 
     FILTERING = {
-        'date_start': check_date,
-        'date_end': check_date,
+        'date_start': Item.check_date,
+        'date_end': Item.check_date,
         'website': int,
         'campaign': int,
     }
@@ -318,8 +310,8 @@ class StatisticSources(StatisticBase):
     )
 
     FILTERING = {
-        'date_start': check_date,
-        'date_end': check_date,
+        'date_start': Item.check_date,
+        'date_end': Item.check_date,
         'website': int,
         'campaign': int,
     }
@@ -367,8 +359,8 @@ class StatisticKeywords(StatisticBase):
     )
 
     FILTERING = {
-        'date_start': check_date,
-        'date_end': check_date,
+        'date_start': Item.check_date,
+        'date_end': Item.check_date,
         'website': int,
         'campaign': int,
         'source': (

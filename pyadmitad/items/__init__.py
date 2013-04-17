@@ -3,3 +3,4 @@ from pyadmitad.items.auxiliary import *
 from pyadmitad.items.coupons import *
 from pyadmitad.items.websites import *
 from pyadmitad.items.statistics import *
+from pyadmitad.items.referrals import *

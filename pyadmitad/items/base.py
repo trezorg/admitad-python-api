@@ -1,3 +1,7 @@
+from datetime import datetime, date
+from pyadmitad.constants import DATE_FORMAT
+
+
 class Item(object):
 
     def __init__(self, transport):
@@ -16,3 +20,13 @@ class Item(object):
         if not value:
             raise ValueError("Invalid non-blank value %s: %s" % (name, value))
         return value
+
+    @staticmethod
+    def check_date(dt):
+        s = datetime.strptime(dt, DATE_FORMAT).date()
+        if s > date.today():
+            s = date.today()
+        return s.strftime(DATE_FORMAT)
+
+
+
