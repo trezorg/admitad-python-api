@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyadmitad.items import Campaigns, CampaignsForWebsite
+from pyadmitad.items import Campaigns, CampaignsForWebsite,\
+    CampaignConnectWebsite
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -222,6 +223,17 @@ CAMPAIGNS_FOR_WEBSITE_RESULT = {
     }
 }
 
+CAMPAIGN_CONNECT_RESULT = {
+    "message": "Заявка на добавление кампании Campaign успешно создана.",
+    "success": "OK"
+}
+
+CAMPAIGN_DISCONNECT_RESULT = {
+    "message": "Кампания Campaign была удалена из ваших предложений."
+               " Вы можете позже добавить ее снова.",
+    "success": "Deleted"
+}
+
 
 class CampaignsTestCase(BaseTestCase):
 
@@ -268,6 +280,29 @@ class CampaignsForWebsiteTestCase(BaseTestCase):
         self.mocker.replay()
         res = self.client.CampaignsForWebsite.getOne(22, 6)
         self.assertEqual(res[u'id'], 6)
+        self.mocker.verify()
+
+
+class CampaignsConnectWebsiteTestCase(BaseTestCase):
+
+    def test_campaign_connect_websites_request(self):
+        self.set_mocker(CampaignConnectWebsite.CONNECT_URL, w_id=22,
+                        c_id=6, with_pagination=False, method='POST')
+        self.mocker.result(CAMPAIGN_CONNECT_RESULT)
+        self.mocker.replay()
+        res = self.client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
+        self.assertIn(u'message', res)
+        self.assertIn(u'success', res)
+        self.mocker.verify()
+
+    def test_campaign_disconnect_websites_request(self):
+        self.set_mocker(CampaignConnectWebsite.DISCONNECT_URL, w_id=22,
+                        c_id=6, with_pagination=False, method='POST')
+        self.mocker.result(CAMPAIGN_CONNECT_RESULT)
+        self.mocker.replay()
+        res = self.client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+        self.assertIn(u'message', res)
+        self.assertIn(u'success', res)
         self.mocker.verify()
 
 

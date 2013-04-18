@@ -9,5 +9,6 @@ SUB_ID_MAX_LENGTH = 50
 
 # urls
 BASE_URL = 'https://api.admitad.com/'
+BASE_URL = 'https://api.admitad.trezor.by/'
 AUTHORIZE_URL = '%s%s' % (BASE_URL, 'authorize/')
 TOKEN_URL = '%s%s' % (BASE_URL, 'token/')

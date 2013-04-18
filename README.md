@@ -236,6 +236,12 @@ API Items
     res = client.CampaignsForWebsite.get(limit=2)
     res = client.CampaignsForWebsite.getOne(6, 22)
 
+### CampaignConnectWebsite ###
+
+    res = client.CampaignConnectWebsite.connect(6, 22)
+    res = client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
+    res = client.CampaignConnectWebsite.disconnect(6, 22)
+    res = client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
 
 Notes
 ------

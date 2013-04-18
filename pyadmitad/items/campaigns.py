@@ -4,6 +4,7 @@ from pyadmitad.items.base import Item
 __all__ = (
     'Campaigns',
     'CampaignsForWebsite',
+    'CampaignConnectWebsite',
 )
 
 
@@ -85,3 +86,49 @@ class CampaignsForWebsite(Item):
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
         return self.transport.GET.request(**kwargs)
+
+
+class CampaignConnectWebsite(Item):
+    """
+    Connect an advertising campaign for a website
+
+    How to prepare client:
+
+    scope = "manage_advcampaigns"
+    client = api.get_oauth_password_client(
+        client_id,
+        client_secret,
+        username,
+        password,
+        scope
+    )
+    """
+    CONNECT_URL = Item.prepare_url('advcampaigns/%(c_id)s/attach/%(w_id)s')
+    DISCONNECT_URL = Item.prepare_url('advcampaigns/%(c_id)s/detach/%(w_id)s')
+
+    def _request(self, c_id, w_id, **kwargs):
+        kwargs['c_id'] = self.sanitize_id(c_id)
+        kwargs['w_id'] = self.sanitize_id(w_id)
+        return self.transport.POST.request(**kwargs)
+
+    def connect(self, c_id, w_id, **kwargs):
+        """
+        Here w_id is a website id and c_id is a campaign id
+
+        res = client.CampaignConnectWebsite.connect(6, 22)
+        res = client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
+
+        """
+        kwargs['url'] = self.CONNECT_URL
+        return self._request(c_id, w_id, **kwargs)
+
+    def disconnect(self, c_id, w_id, **kwargs):
+        """
+        Here w_id is a website id and c_id is a campaign id
+
+        res = client.CampaignConnectWebsite.disconnect(6, 22)
+        res = client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+
+        """
+        kwargs['url'] = self.DISCONNECT_URL
+        return self._request(c_id, w_id, **kwargs)

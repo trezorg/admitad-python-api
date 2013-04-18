@@ -359,10 +359,7 @@ class HttpTransport(object):
         response = self.api_request(
             self._url, method=self._method,
             headers=self._headers, data=self._data)
-        if 'handler' in kwargs:
-            return kwargs['handler'](response)
-        else:
-            return self._handle_response(response)
+        return kwargs.get('handler', self._handle_response)(response)
 
     def __call__(self, **kwargs):
         return self.request(**kwargs)
