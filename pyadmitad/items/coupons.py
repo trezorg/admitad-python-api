@@ -89,6 +89,8 @@ class CouponsForWebsite(CouponsBase):
 
     def get(self, _id, **kwargs):
         """
+        Here id is a websites id
+
         res = client.CouponsForWebsite.get(_id=2)
         res = client.CouponsForWebsite.get(2)
         res = client.CouponsForWebsite.get(2, order_by=date_start)
@@ -112,6 +114,8 @@ class CouponsForWebsite(CouponsBase):
 
     def getOne(self, _id, c_id, **kwargs):
         """
+        Here id is a websites id and c_id is a coupon id
+
         res = client.CouponsForWebsite.getOne(_id=2, c_id=1)
         res = client.CouponsForWebsite.getOne(2, 1)
         """

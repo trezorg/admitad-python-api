@@ -137,6 +137,7 @@ API Items
     res = client.Websites.getOne(_id=2)
     res = client.Websites.getOne(2)
 
+
 ### Statistics ###
 
 ###### Statistics by websites ######
@@ -221,6 +222,19 @@ API Items
     res = client.BannersForWebsite.get(_id=2, w_id=3)
     res = client.BannersForWebsite.get(2, 3)
     res = client.BannersForWebsite.get(2, 3, limit=5)
+
+
+### Campaigns ###
+
+    res = client.Campaigns.get()
+    res = client.Campaigns.get(limit=2)
+    res = client.Campaigns.getOne(2)
+
+### CampaignsForWebsite ###
+
+    res = client.CampaignsForWebsite.get(22)
+    res = client.CampaignsForWebsite.get(limit=2)
+    res = client.CampaignsForWebsite.getOne(6, 22)
 
 
 Notes
