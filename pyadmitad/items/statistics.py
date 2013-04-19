@@ -60,16 +60,7 @@ class StatisticWebsites(StatisticBase):
     """
     Statistics by websites
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     URL = Item.prepare_url('statistics/websites')
@@ -90,16 +81,7 @@ class StatisticCampaigns(StatisticBase):
     """
     Statistics by campaigns
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     URL = Item.prepare_url('statistics/campaigns')
@@ -120,16 +102,7 @@ class StatisticDays(StatisticBase):
     """
     Statistics by days
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     URL = Item.prepare_url('statistics/dates')
@@ -149,16 +122,7 @@ class StatisticMonths(StatisticBase):
     """
     Statistics by months
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     URL = Item.prepare_url('statistics/months')
@@ -179,16 +143,7 @@ class StatisticActions(StatisticBase):
     """
     Statistics by actions
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     ORDERING = (
@@ -242,16 +197,7 @@ class StatisticSubIds(StatisticBase):
     """
     Statistics by sub-ids
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     ORDERING = (
@@ -292,16 +238,7 @@ class StatisticSources(StatisticBase):
     """
     Statistics by sources
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     ORDERING = (
@@ -341,16 +278,7 @@ class StatisticKeywords(StatisticBase):
     """
     Statistics by keywords
 
-    How to prepare client:
-
-    scope = "statistics"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "statistics"
     """
 
     ORDERING = (

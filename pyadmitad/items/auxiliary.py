@@ -15,17 +15,9 @@ class WebsiteTypes(Item):
     """
     List of websites types
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
+
     URL = Item.prepare_url('websites/kinds')
 
     def get(self, **kwargs):
@@ -42,16 +34,7 @@ class WebsiteRegions(Item):
     """
     List of websites regions
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
 
     URL = Item.prepare_url('websites/regions')
@@ -70,16 +53,7 @@ class SystemLanguages(Item):
     """
     List of system languages
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
 
     URL = Item.prepare_url('languages')
@@ -104,16 +78,7 @@ class SystemCurrencies(Item):
     """
     List of system currencies
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
 
     URL = Item.prepare_url('currencies')
@@ -131,16 +96,7 @@ class AdvertiserServices(Item):
     """
     List of advertiser services
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
 
     URL = Item.prepare_url('adservices')
@@ -193,16 +149,7 @@ class CampaignCategories(Item):
     """
     List of campaigns categories
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
 
     ORDERING = ('name',)

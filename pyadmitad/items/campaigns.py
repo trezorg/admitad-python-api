@@ -4,7 +4,7 @@ from pyadmitad.items.base import Item
 __all__ = (
     'Campaigns',
     'CampaignsForWebsite',
-    'CampaignConnectWebsite',
+    'CampaignsManage',
 )
 
 
@@ -12,16 +12,7 @@ class Campaigns(Item):
     """
     List of advertising campaigns
 
-    How to prepare client:
-
-    scope = "advcampaigns"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "advcampaigns"
     """
     URL = Item.prepare_url('advcampaigns')
     SINGLE_URL = Item.prepare_url('advcampaigns/%(id)s')
@@ -50,16 +41,7 @@ class CampaignsForWebsite(Item):
     """
     List of advertising campaigns for a website
 
-    How to prepare client:
-
-    scope = "advcampaigns_for_website"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "advcampaigns_for_website"
     """
     URL = Item.prepare_url('advcampaigns/website/%(id)s')
     SINGLE_URL = Item.prepare_url('advcampaigns/%(c_id)s/website/%(id)s')
@@ -88,20 +70,11 @@ class CampaignsForWebsite(Item):
         return self.transport.GET.request(**kwargs)
 
 
-class CampaignConnectWebsite(Item):
+class CampaignsManage(Item):
     """
     Connect an advertising campaign for a website
 
-    How to prepare client:
-
-    scope = "manage_advcampaigns"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "manage_advcampaigns"
     """
     CONNECT_URL = Item.prepare_url('advcampaigns/%(c_id)s/attach/%(w_id)s')
     DISCONNECT_URL = Item.prepare_url('advcampaigns/%(c_id)s/detach/%(w_id)s')
@@ -115,8 +88,8 @@ class CampaignConnectWebsite(Item):
         """
         Here w_id is a website id and c_id is a campaign id
 
-        res = client.CampaignConnectWebsite.connect(6, 22)
-        res = client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
+        res = client.CampaignsManage.connect(6, 22)
+        res = client.CampaignsManage.connect(c_id=6, w_id=22)
 
         """
         kwargs['url'] = self.CONNECT_URL
@@ -126,8 +99,8 @@ class CampaignConnectWebsite(Item):
         """
         Here w_id is a website id and c_id is a campaign id
 
-        res = client.CampaignConnectWebsite.disconnect(6, 22)
-        res = client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+        res = client.CampaignsManage.disconnect(6, 22)
+        res = client.CampaignsManage.disconnect(c_id=6, w_id=22)
 
         """
         kwargs['url'] = self.DISCONNECT_URL

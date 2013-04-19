@@ -111,7 +111,7 @@ API Items
 
 ### Coupons ##
 
-###### Public coupons ######
+###### List of coupons ######
 
     res = client.Coupons.get()
     res = client.Coupons.get(order_by=date_start)
@@ -121,7 +121,7 @@ API Items
     res = client.Coupons.getOne(_id=2)
     res = client.Coupons.getOne(2)
 
-###### Website coupons ######
+###### List of coupons for a website ######
 
     res = client.CouponsForWebsite.get(_id=2)
     res = client.CouponsForWebsite.get(2)
@@ -214,14 +214,14 @@ API Items
 
 ### Banners ###
 
-###### Public banners ######
+###### List of banners ######
 
     res = client.Banners.get(_id=2)
     res = client.Banners.get(2)
     res = client.Banners.get(2, limit=2)
 
 
-###### Website banners ######
+###### List of banners for a website ######
 
     res = client.BannersForWebsite.get(_id=2, w_id=3)
     res = client.BannersForWebsite.get(2, 3)
@@ -230,24 +230,24 @@ API Items
 
 ### Campaigns ###
 
-###### Public campaigns ######
+###### List of campaigns ######
 
     res = client.Campaigns.get()
     res = client.Campaigns.get(limit=2)
     res = client.Campaigns.getOne(2)
 
-###### Website campaigns ######
+###### List of campaigns for a website ######
 
     res = client.CampaignsForWebsite.get(22)
     res = client.CampaignsForWebsite.get(limit=2)
     res = client.CampaignsForWebsite.getOne(6, 22)
 
-###### Connect and disconnect campaigns to websites ######
+###### Manage campaigns ######
 
-    res = client.CampaignConnectWebsite.connect(6, 22)
-    res = client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
-    res = client.CampaignConnectWebsite.disconnect(6, 22)
-    res = client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+    res = client.CampaignsManage.connect(6, 22)
+    res = client.CampaignsManage.connect(c_id=6, w_id=22)
+    res = client.CampaignsManage.disconnect(6, 22)
+    res = client.CampaignsManage.disconnect(c_id=6, w_id=22)
 
 
 ### Products ###
@@ -280,6 +280,21 @@ API Items
     res = client.Products.get(22, limit=1, order_by=-price)
     res = client.Products.get(22, price_from=1000)
     res = client.ProductCampaigns.getOne(22, 2)
+
+
+### Announcements ###
+
+
+###### List of announcements ######
+
+    res = client.Announcements.get()
+    res = client.Announcements.get(limit=1, offset=2)
+    res = client.Announcements.getOne(2)
+
+###### Manage announcements ######
+
+    res = client.AnnouncementsManage.delete(12)
+
 
 Notes
 ------

@@ -10,16 +10,7 @@ class Websites(Item):
     """
     List of websites
 
-    How to prepare client:
-
-    scope = "websites"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "websites"
     """
     URL = Item.prepare_url('websites')
     SINGLE_URL = Item.prepare_url('websites/%(id)s')

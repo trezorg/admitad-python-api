@@ -10,16 +10,7 @@ class Referrals(Item):
     """
     List of referrals
 
-    How to prepare client:
-
-    scope = "referrals"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "referrals"
     """
 
     URL = Item.prepare_url('referrals')

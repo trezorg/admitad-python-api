@@ -12,16 +12,7 @@ class ProductCategories(Item):
     """
     List of products categories
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
     URL = Item.prepare_url('products/categories')
     SINGLE_URL = Item.prepare_url('products/categories/%(id)s')
@@ -53,16 +44,7 @@ class ProductVendors(Item):
     """
     List of products vendors
 
-    How to prepare client:
-
-    scope = "public_data"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "public_data"
     """
     URL = Item.prepare_url('products/vendors')
     SINGLE_URL = Item.prepare_url('products/vendors/%(id)s')
@@ -94,16 +76,7 @@ class ProductCampaigns(Item):
     """
     List of campaigns that have products
 
-    How to prepare client:
-
-    scope = "products_for_website"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "products_for_website"
     """
     URL = Item.prepare_url('products/advcampaigns/website/%(id)s')
     SINGLE_URL = Item.prepare_url(
@@ -140,16 +113,7 @@ class Products(Item):
     """
     List of products
 
-    How to prepare client:
-
-    scope = "products_for_website"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "products_for_website"
     """
     URL = Item.prepare_url('products/website/%(id)s')
     SINGLE_URL = Item.prepare_url('products/%(p_id)s/website/%(id)s')

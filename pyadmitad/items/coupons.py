@@ -22,16 +22,7 @@ class Coupons(CouponsBase):
     """
     List of coupons
 
-    How to prepare client:
-
-    scope = "coupons"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "coupons"
     """
 
     URL = Item.prepare_url('coupons')
@@ -72,16 +63,7 @@ class CouponsForWebsite(CouponsBase):
     """
     List of the website coupons
 
-    How to prepare client:
-
-    scope = "coupons_for_website"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "coupons_for_website"
     """
 
     URL = Item.prepare_url('coupons/website/%(id)s')

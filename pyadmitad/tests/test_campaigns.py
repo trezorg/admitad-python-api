@@ -2,7 +2,7 @@
 
 import unittest
 from pyadmitad.items import Campaigns, CampaignsForWebsite,\
-    CampaignConnectWebsite
+    CampaignsManage
 from pyadmitad.tests.base import BaseTestCase
 
 
@@ -286,21 +286,21 @@ class CampaignsForWebsiteTestCase(BaseTestCase):
 class CampaignsConnectWebsiteTestCase(BaseTestCase):
 
     def test_campaign_connect_websites_request(self):
-        self.set_mocker(CampaignConnectWebsite.CONNECT_URL, w_id=22,
+        self.set_mocker(CampaignsManage.CONNECT_URL, w_id=22,
                         c_id=6, with_pagination=False, method='POST')
         self.mocker.result(CAMPAIGN_CONNECT_RESULT)
         self.mocker.replay()
-        res = self.client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
+        res = self.client.CampaignsManage.connect(c_id=6, w_id=22)
         self.assertIn(u'message', res)
         self.assertIn(u'success', res)
         self.mocker.verify()
 
     def test_campaign_disconnect_websites_request(self):
-        self.set_mocker(CampaignConnectWebsite.DISCONNECT_URL, w_id=22,
+        self.set_mocker(CampaignsManage.DISCONNECT_URL, w_id=22,
                         c_id=6, with_pagination=False, method='POST')
         self.mocker.result(CAMPAIGN_CONNECT_RESULT)
         self.mocker.replay()
-        res = self.client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+        res = self.client.CampaignsManage.disconnect(c_id=6, w_id=22)
         self.assertIn(u'message', res)
         self.assertIn(u'success', res)
         self.mocker.verify()

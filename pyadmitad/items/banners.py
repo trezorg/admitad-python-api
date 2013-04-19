@@ -11,16 +11,7 @@ class Banners(Item):
     """
     List of banners
 
-    How to prepare client:
-
-    scope = "banners"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "banners"
     """
 
     URL = Item.prepare_url('banners/%(id)s')
@@ -43,16 +34,7 @@ class BannersForWebsite(Item):
     """
     List of banners for the website
 
-    How to prepare client:
-
-    scope = "banners_for_website"
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
+    Required scope - "banners_for_website"
     """
 
     URL = Item.prepare_url('banners/%(id)s/website/%(w_id)s')
