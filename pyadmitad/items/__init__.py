@@ -6,3 +6,4 @@ from pyadmitad.items.statistics import *
 from pyadmitad.items.referrals import *
 from pyadmitad.items.banners import *
 from pyadmitad.items.campaigns import *
+from pyadmitad.items.products import *

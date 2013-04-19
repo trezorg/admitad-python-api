@@ -67,30 +67,30 @@ API Items
     res = client.Me.get()
 
 
-### WebsiteTypes ###
+### Types of websites ###
 
     res = client.WebsiteTypes.get()
     res = client.WebsiteTypes.get(limit=2, offset=1)
 
 
-### WebsiteRegions ###
+### Regions of websites ###
 
     res = client.WebsiteRegions.get()
     res = client.WebsiteRegions.get(limit=2, offset=1)
 
-### SystemLanguages ###
+### Languages ###
 
     res = client.SystemLanguages.get()
     res = client.SystemLanguages.get(limit=2, offset=1)
     res = client.SystemLanguages.getOne(code='ru')
 
-### SystemCurrencies ###
+### Currencies ###
 
     res = client.SystemCurrencies.get()
     res = client.SystemCurrencies.get(limit=2, offset=1)
 
 
-### AdvertiserServices ###
+### Advertising services ###
 
     res = client.AdvertiserServices.get()
     res = client.AdvertiserServices.get(limit=2, offset=1)
@@ -102,7 +102,7 @@ API Items
     res = client.AdvertiserServices.getForKindOne(2, 'website')
 
 
-### CampaignCategories ###
+### Categories of advertising campaigns ###
 
     res = client.CampaignCategories.get()
     res = client.CampaignCategories.get(limit=2, offset=1)
@@ -110,6 +110,8 @@ API Items
     res = client.CampaignCategories.getOne(2)
 
 ### Coupons ##
+
+###### Public coupons ######
 
     res = client.Coupons.get()
     res = client.Coupons.get(order_by=date_start)
@@ -119,7 +121,7 @@ API Items
     res = client.Coupons.getOne(_id=2)
     res = client.Coupons.getOne(2)
 
-### CouponsForWebsite ###
+###### Website coupons ######
 
     res = client.CouponsForWebsite.get(_id=2)
     res = client.CouponsForWebsite.get(2)
@@ -212,12 +214,14 @@ API Items
 
 ### Banners ###
 
+###### Public banners ######
+
     res = client.Banners.get(_id=2)
     res = client.Banners.get(2)
     res = client.Banners.get(2, limit=2)
 
 
-### BannersForWebsite ###
+###### Website banners ######
 
     res = client.BannersForWebsite.get(_id=2, w_id=3)
     res = client.BannersForWebsite.get(2, 3)
@@ -226,22 +230,56 @@ API Items
 
 ### Campaigns ###
 
+###### Public campaigns ######
+
     res = client.Campaigns.get()
     res = client.Campaigns.get(limit=2)
     res = client.Campaigns.getOne(2)
 
-### CampaignsForWebsite ###
+###### Website campaigns ######
 
     res = client.CampaignsForWebsite.get(22)
     res = client.CampaignsForWebsite.get(limit=2)
     res = client.CampaignsForWebsite.getOne(6, 22)
 
-### CampaignConnectWebsite ###
+###### Connect and disconnect campaigns to websites ######
 
     res = client.CampaignConnectWebsite.connect(6, 22)
     res = client.CampaignConnectWebsite.connect(c_id=6, w_id=22)
     res = client.CampaignConnectWebsite.disconnect(6, 22)
     res = client.CampaignConnectWebsite.disconnect(c_id=6, w_id=22)
+
+
+### Products ###
+
+###### Categories of products ######
+
+    res = client.ProductCategories.get()
+    res = client.ProductCategories.get(limit=1, order_by=-name)
+    res = client.ProductCategories.getOne(2)
+
+
+###### Vendors of products ######
+
+    res = client.ProductVendors.get()
+    res = client.ProductVendors.get(limit=1, order_by=-name)
+    res = client.ProductVendors.getOne(2)
+
+
+###### Campaigns with products ######
+
+    res = client.ProductCampaigns.get(22)
+    res = client.ProductCampaigns.get(22, limit=1, order_by=-name)
+    res = client.ProductCampaigns.getOne(22, 6)
+
+
+###### Products for website ######
+
+    res = client.Products.get(22)
+    res = client.Products.get(22, limit=1)
+    res = client.Products.get(22, limit=1, order_by=-price)
+    res = client.Products.get(22, price_from=1000)
+    res = client.ProductCampaigns.getOne(22, 2)
 
 Notes
 ------
