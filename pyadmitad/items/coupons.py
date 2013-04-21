@@ -38,9 +38,9 @@ class Coupons(CouponsBase):
         If you want to filter by many values of the same key:
             on example - campaign=1, campaign=2:
 
-            use "filtering" parameter: filtering={'campaign': [1, 2]}
+            use campaign=[1, 2]
 
-        res = client.Coupons.get(filtering={'campaign': [1, 2]}, category=2)
+        res = client.Coupons.get(campaign=[1, 2], category=2)
 
         """
         kwargs['url'] = self.URL
@@ -81,10 +81,9 @@ class CouponsForWebsite(CouponsBase):
         If you want to filter by many values of the same key:
             on example - campaign=1, campaign=2:
 
-            use "filtering" parameter: filtering={'campaign': [1, 2]}
+            use campaign=[1, 2]
 
-        res = client.CouponsForWebsite.get(
-            2, filtering={'campaign': [1, 2]}, category=2)
+        res = client.CouponsForWebsite.get(2, campaign=[1, 2], category=2)
 
         """
         kwargs['url'] = self.URL

@@ -117,7 +117,7 @@ API Items
     res = client.Coupons.get(order_by=date_start)
     res = client.Coupons.get(order_by=-date_end)
     res = client.Coupons.get(campaign=1, category=2)
-    res = client.Coupons.get(filtering={'campaign': [1, 2]}, category=2)
+    res = client.Coupons.get(campaign=[1, 2], category=2)
     res = client.Coupons.getOne(_id=2)
     res = client.Coupons.getOne(2)
 
@@ -127,7 +127,7 @@ API Items
     res = client.CouponsForWebsite.get(2)
     res = client.CouponsForWebsite.get(2, order_by=date_start)
     res = client.CouponsForWebsite.get(2, campaign=1, category=2)
-    res = client.CouponsForWebsite.get(2, filtering={'campaign': [1, 2]}, category=2)
+    res = client.CouponsForWebsite.get(2, campaign=[1, 2], category=2)
     res = client.CouponsForWebsite.getOne(_id=2, c_id=1)
     res = client.CouponsForWebsite.getOne(2, 1)
 

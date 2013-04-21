@@ -243,9 +243,6 @@ class HttpTransportFiltering(object):
             return
         self.allowed_filtering = allowed_filtering
         self.check_filtering(**kwargs)
-        additional_filter = kwargs.get('filtering')
-        if additional_filter and isinstance(additional_filter, dict):
-            self.check_filtering(**additional_filter)
 
     def check_value(self, val, func):
         """
