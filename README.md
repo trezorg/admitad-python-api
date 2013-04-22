@@ -43,6 +43,10 @@ Example
         scope
     )
 
+    or
+
+    client = api.get_oauth_client(access_token)
+
     print client.Me.get()
 
     scope = "public_data"
@@ -57,6 +61,7 @@ Example
 
     print client.WebsiteTypes.get()
     print client.WebsiteTypes.get(limit=2, offset=1)
+
 
 
 API Items
@@ -134,13 +139,30 @@ API Items
 
 ### Websites ###
 
+###### List of websites ######
+
     res = client.Websites.get()
     res = client.Websites.get(status='new', campaign_status='active')
     res = client.Websites.getOne(_id=2)
     res = client.Websites.getOne(2)
 
+###### Manage websites ######
+
+    res = client.WebsitesManage.create(
+        regions=['RU'],
+        atnd_hits='20',
+        atnd_visits='10',
+        name='website1',
+        language='ru',
+        site_url='http://site.com',
+        description='description',
+        categories=['1', '2'],
+        kind='website'
+    )
+
 
 ### Statistics ###
+
 
 ###### Statistics by websites ######
 

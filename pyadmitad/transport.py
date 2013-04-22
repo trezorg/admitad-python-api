@@ -4,12 +4,33 @@ import simplejson
 import urllib
 import urlparse
 import uuid
+import logging
 from pyadmitad.constants import *
 from pyadmitad.exceptions import *
 
 
-def prepare_request_data(data=None, headers=None, method='GET',
-                         timeout=None, ssl_verify=False):
+LOG = logging.getLogger(__file__)
+LOG.addHandler(logging.StreamHandler())
+
+
+def to_json(content):
+    try:
+        return simplejson.loads(content)
+    except simplejson.JSONDecodeError:
+        return content
+
+
+def DEBUG(value, debug=True):
+    if debug:
+        LOG.setLevel(logging.DEBUG)
+        LOG.debug(value)
+    else:
+        LOG.setLevel(logging.NOTSET)
+
+
+def prepare_request_data(
+        data=None, headers=None, method='GET',
+        timeout=None, ssl_verify=False):
     if headers is None:
         headers = {}
     kwargs = {}
@@ -26,22 +47,26 @@ def prepare_request_data(data=None, headers=None, method='GET',
     return kwargs
 
 
-def api_request(url, data=None, headers=None, method='GET',
-                timeout=None, ssl_verify=False):
+def api_request(
+        url, data=None, headers=None, method='GET',
+        timeout=None, ssl_verify=False, debug=False):
     kwargs = prepare_request_data(
         data=data, headers=headers, method=method,
         timeout=timeout, ssl_verify=ssl_verify)
     status_code = 500
-    content = {}
+    content = u''
     try:
         response = requests.request(method, url, **kwargs)
+        DEBUG(u'Request url: %s' % response.url, debug)
+        if method == 'POST':
+            DEBUG(u'Request body: %s' % response.request.body, debug)
         status_code = response.status_code
-        content = response.json()
+        content = response.content
         if status_code >= 400:
             response.raise_for_status()
-        return content
+        return response.json()
     except requests.HTTPError as err:
-        raise HttpException(status_code, content, err)
+        raise HttpException(status_code, to_json(content), err)
     except requests.RequestException as err:
         raise ConnectionException(err)
     except simplejson.JSONDecodeError as err:
@@ -282,12 +307,13 @@ class HttpTransport(object):
     SUPPORTED_METHODS = ('GET', 'POST')
     SUPPORTED_LANGUAGES = ('ru', 'en', 'de', 'pl')
 
-    def __init__(self, access_token, method=None, user_agent=None):
+    def __init__(self, access_token, method=None, user_agent=None, debug=False):
         self._headers = build_headers(access_token, user_agent=user_agent)
         self._method = method or 'GET'
         self._data = None
         self._url = None
         self._language = None
+        self._debug = debug
 
     def set_url(self, url, **kwargs):
         self._url = url % kwargs
@@ -335,6 +361,10 @@ class HttpTransport(object):
         self.clean_data()
         return self
 
+    def set_debug(self, debug):
+        self._debug = debug
+        return self
+
     def _handle_response(self, response):
         return response
 
@@ -349,13 +379,15 @@ class HttpTransport(object):
             self.set_language(kwargs['language'])
         if 'url' in kwargs:
             self.set_url(kwargs.pop('url'), **kwargs)
+        if 'debug' in kwargs:
+            self.set_debug(kwargs.pop('debug'))
         if not self._url:
             raise AttributeError(
                 'Absent url parameter. Use set_url method or pass '
                 'url parameter in this method.')
         response = self.api_request(
             self._url, method=self._method,
-            headers=self._headers, data=self._data)
+            headers=self._headers, data=self._data, debug=self._debug)
         return kwargs.get('handler', self._handle_response)(response)
 
     def __call__(self, **kwargs):

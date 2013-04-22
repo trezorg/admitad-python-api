@@ -72,7 +72,7 @@ class CampaignsForWebsite(Item):
 
 class CampaignsManage(Item):
     """
-    Connect an advertising campaign for a website
+    Manage an advertising campaign
 
     Required scope - "manage_advcampaigns"
     """
@@ -86,6 +86,7 @@ class CampaignsManage(Item):
 
     def connect(self, c_id, w_id, **kwargs):
         """
+        Connect an advertising campaign for a website
         Here w_id is a website id and c_id is a campaign id
 
         res = client.CampaignsManage.connect(6, 22)
@@ -97,6 +98,7 @@ class CampaignsManage(Item):
 
     def disconnect(self, c_id, w_id, **kwargs):
         """
+        Disconnect an advertising campaign from a website
         Here w_id is a website id and c_id is a campaign id
 
         res = client.CampaignsManage.disconnect(6, 22)

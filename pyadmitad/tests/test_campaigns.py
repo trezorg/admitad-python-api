@@ -114,6 +114,7 @@ CAMPAIGNS_FOR_WEBSITE_RESULT = {
             "ecpc": None,
             "description": "Gmail is a mail service by google",
             "name": "AdvCamp 1",
+            "gotolink": "http://ad.admitad.com/goto/some_link/",
             "avg_hold_time": None,
             "actions": [
                 {

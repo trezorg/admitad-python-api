@@ -12,7 +12,7 @@ class BaseTestCase(MockerTestCase):
         with_pagination = kwargs.pop('with_pagination', True)
         with_ordering = kwargs.pop('with_ordering', True)
         with_filtering = kwargs.pop('with_filtering', True)
-        data = {}
+        data = kwargs.get('data', {}) or {}
         if with_pagination:
             data.update(HttpTransportPagination(**kwargs).to_value())
         if with_ordering:
@@ -33,6 +33,7 @@ class BaseTestCase(MockerTestCase):
         kwargs = {
             'data': self.prepare_data(**kwargs),
             'headers': build_headers(access_token),
-            'method': self.prepare_method(**kwargs)
+            'method': self.prepare_method(**kwargs),
+            'debug': False
         }
         obj.api_request(url, **kwargs)
