@@ -223,6 +223,33 @@ class WebsitesManageTestCase(BaseTestCase):
         self.assertEqual(u'de', res['language'])
         self.mocker.verify()
 
+    def test_verify_website_request(self):
+        self.set_mocker(
+            WebsitesManage.VERIFY_URL,
+            id=52, method='POST', with_pagination=False)
+        result = {
+            "message": "Площадка прошла автоматическую проверку."
+                       " Ожидайте подтверждения администрацией.",
+            "success": "Accepted"
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.WebsitesManage.verify(52)
+        self.assertIn(u'success', res)
+
+    def test_delete_website_request(self):
+        self.set_mocker(
+            WebsitesManage.DELETE_URL,
+            id=52, method='POST', with_pagination=False)
+        result = {
+            "message": "Площадка удалена успешно.",
+            "success": "Deleted"
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.WebsitesManage.delete(52)
+        self.assertIn(u'success', res)
+
 
 if __name__ == '__main__':
     unittest.main()

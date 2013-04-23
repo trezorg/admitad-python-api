@@ -166,6 +166,15 @@ API Items
 
     res = client.WebsitesManage.update(50, name='test', language='de')
 
+###### Verify website ######
+
+    res = client.WebsitesManage.verify(50)
+
+###### Delete website ######
+
+    res = client.WebsitesManage.delete(50)
+
+
 ### Statistics ###
 
 ###### Statistics by websites ######

@@ -118,7 +118,7 @@ class WebsitesManage(Item):
         """
         Here _id is a website id.
 
-        res = client.WebsitesManage.update(name='test', ....)
+        res = client.WebsitesManage.update(22, name='test', ....)
 
         """
         data = self.sanitize_fields(self.UPDATE_FIELDS, **kwargs)
@@ -126,3 +126,24 @@ class WebsitesManage(Item):
         kwargs['id'] = self.sanitize_id(_id)
         kwargs.pop('language', None)
         return self.transport.POST.set_data(data).request(**kwargs)
+
+    def verify(self, _id):
+        """
+        Here _id is a website id.
+
+        res = client.WebsitesManage.verify(40)
+
+        """
+
+        data = {'url': self.VERIFY_URL, 'id': self.sanitize_id(_id)}
+        return self.transport.POST.request(**data)
+
+    def delete(self, _id):
+        """
+        Here _id is a website id.
+
+        res = client.WebsitesManage.delete(40)
+
+        """
+        data = {'url': self.DELETE_URL, 'id': self.sanitize_id(_id)}
+        return self.transport.POST.request(**data)
