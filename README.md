@@ -139,14 +139,16 @@ API Items
 
 ### Websites ###
 
-###### List of websites ######
+##### List of websites #####
 
     res = client.Websites.get()
     res = client.Websites.get(status='new', campaign_status='active')
     res = client.Websites.getOne(_id=2)
     res = client.Websites.getOne(2)
 
-###### Manage websites ######
+##### Manage websites #####
+
+###### Create website ######
 
     res = client.WebsitesManage.create(
         regions=['RU'],
@@ -160,9 +162,11 @@ API Items
         kind='website'
     )
 
+###### Update website ######
+
+    res = client.WebsitesManage.update(50, name='test', language='de')
 
 ### Statistics ###
-
 
 ###### Statistics by websites ######
 

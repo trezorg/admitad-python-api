@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pyadmitad.items.base import Item
 
 
@@ -56,7 +57,7 @@ class WebsitesManage(Item):
     VERIFY_URL = Item.prepare_url('website/verify/%(id)s')
     DELETE_URL = Item.prepare_url('website/delete/%(id)s')
 
-    FIELDS = {
+    CREATE_FIELDS = {
         'name': lambda x: Item.sanitize_string_value(x, 'name', max_length=200),
         'kind': lambda x: Item.sanitize_string_value(x, 'kind', max_length=20),
         'language': lambda x: Item.sanitize_string_value(
@@ -76,17 +77,52 @@ class WebsitesManage(Item):
             x, 'atnd_hits', blank=False)
     }
 
-    def sanitize_fields(self, **kwargs):
-        for field in self.FIELDS:
-            kwargs[field] = self.FIELDS[field](kwargs.get(field))
-        return kwargs
+    UPDATE_FIELDS = {
+        'name': lambda x: Item.sanitize_string_value(
+            x, 'name', max_length=200, blank=True),
+        'language': lambda x: Item.sanitize_string_value(
+            x, 'language', max_length=2, blank=True),
+        'adservice': lambda x: Item.sanitize_integer_value(
+            x, 'adservice', blank=True),
+        'site_url': lambda x: Item.sanitize_string_value(
+            x, 'site_url', max_length=255, blank=True),
+        'description': lambda x: Item.sanitize_string_value(
+            x, 'description', max_length=20000, min_length=100, blank=True),
+        'categories': lambda x: Item.sanitize_integer_array(
+            x, 'categories', blank=True),
+        'regions': lambda x: Item.sanitize_string_array(
+            x, 'regions', max_length=2, blank=True),
+        'atnd_visits': lambda x: Item.sanitize_integer_value(
+            x, 'atnd_visits', blank=True),
+        'atnd_hits': lambda x: Item.sanitize_integer_value(
+            x, 'atnd_hits', blank=True)
+    }
+
+    def sanitize_fields(self, fields, **kwargs):
+        data = deepcopy(kwargs)
+        for field in fields:
+            data[field] = fields[field](data.get(field))
+        return dict([(key, value) for (key, value) in data.items() if value])
 
     def create(self, **kwargs):
         """
         res = client.WebsitesManage.create(name='test', ....)
 
         """
-        data = self.sanitize_fields(**kwargs)
+        data = self.sanitize_fields(self.CREATE_FIELDS, **kwargs)
         kwargs['url'] = self.CREATE_URL
+        kwargs.pop('language', None)
+        return self.transport.POST.set_data(data).request(**kwargs)
+
+    def update(self, _id, **kwargs):
+        """
+        Here _id is a website id.
+
+        res = client.WebsitesManage.update(name='test', ....)
+
+        """
+        data = self.sanitize_fields(self.UPDATE_FIELDS, **kwargs)
+        kwargs['url'] = self.UPDATE_URL
+        kwargs['id'] = self.sanitize_id(_id)
         kwargs.pop('language', None)
         return self.transport.POST.set_data(data).request(**kwargs)

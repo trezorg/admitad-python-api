@@ -8,7 +8,21 @@ from pyadmitad.tests.base import BaseTestCase
 WEBSITE_CREATE_DATA = dict(
     regions=['RU'],
     atnd_hits='20',
-    adservice=None,
+    atnd_visits='10',
+    name='website1',
+    language='ru',
+    site_url='http://google.com',
+    description='descriptiondescriptiondescriptiondescription'
+                'descriptiondescriptiondescriptiondescription'
+                'descriptiondescription',
+    categories=['1', '2'],
+    kind='website'
+)
+
+
+WEBSITE_CREATE_DATA = dict(
+    regions=['RU'],
+    atnd_hits='20',
     atnd_visits='10',
     name='website1',
     language='ru',
@@ -32,7 +46,7 @@ class WebsitesTestCase(BaseTestCase):
                     u'kind': u'website',
                     u'is_old': True,
                     u'name': u'site',
-                    u'language': None,
+                    u'language': 'ru',
                     u'description': u'site',
                     u'verification_code': u'59505879f5',
                     u'creation_date': u'2010-03-31 18:25:19',
@@ -79,7 +93,7 @@ class WebsitesTestCase(BaseTestCase):
             u'kind': u'website',
             u'is_old': True,
             u'name': u'site',
-            u'language': None,
+            u'language': 'ru',
             u'description': u'site',
             u'verification_code': u'59505879f5',
             u'creation_date': u'2010-03-31 18:25:19',
@@ -118,7 +132,6 @@ class WebsitesManageTestCase(BaseTestCase):
             with_pagination=False,
             data=WEBSITE_CREATE_DATA)
         result = {
-            u'adservice': None,
             u'atnd_hits': 20,
             u'atnd_visits': 10,
             u'categories': [
@@ -158,6 +171,56 @@ class WebsitesManageTestCase(BaseTestCase):
         self.assertIn(u'id', res)
         self.assertEqual(u'new', res['status'])
         self.assertEqual(u'website', res['kind'])
+        self.mocker.verify()
+
+    def test_update_website_request(self):
+        self.set_mocker(
+            WebsitesManage.UPDATE_URL,
+            id=52,
+            method='POST',
+            with_pagination=False,
+            data={'language': 'de', 'name': 'test-update'})
+        result = {
+            u'atnd_hits': 20,
+            u'atnd_visits': 10,
+            u'categories': [
+                {
+                    u'id': 1,
+                    u'name': u'Магазин',
+                    u'parent': None
+                },
+                {
+                    u'id': 2,
+                    u'name': u'Онлайн-игры',
+                    u'parent': None
+                }
+            ],
+            u'creation_date': u'2013-04-22 14:41:29',
+            u'description': u'descriptiondescriptiondescriptiondescription'
+                            u'descriptiondescriptiondescriptiondescription'
+                            u'descriptiondescription',
+            u'id': 52,
+            u'is_old': False,
+            u'kind': u'website',
+            u'language': u'de',
+            u'name': u'test-update',
+            u'regions': [
+                {
+                    u'id': 25,
+                    u'region': u'RU'
+                }
+            ],
+            u'site_url': u'http://google.com/',
+            u'status': u'new',
+            u'verification_code': u'fde88f4b6b'
+        }
+        self.mocker.result(result)
+        self.mocker.replay()
+        res = self.client.WebsitesManage.update(
+            52, language='de', name='test-update')
+        self.assertIn(u'id', res)
+        self.assertEqual(u'test-update', res['name'])
+        self.assertEqual(u'de', res['language'])
         self.mocker.verify()
 
 
