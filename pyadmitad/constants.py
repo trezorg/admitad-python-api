@@ -1,3 +1,4 @@
+CURRENCIES = ('USD', 'RUB', 'EUR')
 # API date-format
 DATE_FORMAT = "%d.%m.%Y"
 

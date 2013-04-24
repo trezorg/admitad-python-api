@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from pyadmitad.constants import DATE_FORMAT, BASE_URL
+from pyadmitad.constants import DATE_FORMAT, BASE_URL, CURRENCIES
 
 
 class Item(object):
@@ -69,6 +69,18 @@ class Item(object):
         return [Item.sanitize_string_value(
             x, name, max_length=max_length,
             min_length=min_length, blank=blank) for x in values]
+
+    @staticmethod
+    def sanitize_currency(value, blank=True):
+        if not value:
+            if not blank:
+                raise ValueError(
+                    "Blank currency value: %s" % value)
+            return value
+        if value not in CURRENCIES:
+                raise ValueError(
+                    "Invalid currency value: %s" % value)
+        return value
 
     @staticmethod
     def check_date(dt):

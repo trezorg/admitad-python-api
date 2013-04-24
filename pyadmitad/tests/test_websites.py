@@ -20,21 +20,6 @@ WEBSITE_CREATE_DATA = dict(
 )
 
 
-WEBSITE_CREATE_DATA = dict(
-    regions=['RU'],
-    atnd_hits='20',
-    atnd_visits='10',
-    name='website1',
-    language='ru',
-    site_url='http://google.com',
-    description='descriptiondescriptiondescriptiondescription'
-                'descriptiondescriptiondescriptiondescription'
-                'descriptiondescription',
-    categories=['1', '2'],
-    kind='website'
-)
-
-
 class WebsitesTestCase(BaseTestCase):
 
     def test_get_websites_request(self):

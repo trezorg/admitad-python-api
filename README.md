@@ -331,6 +331,22 @@ API Items
     res = client.AnnouncementsManage.delete(12)
 
 
+### Payments ###
+
+
+###### List of payment ######
+
+    res = client.Payments.get()
+    res = client.Payments.get(limit=2)
+    res = client.Payments.getOne(2)
+
+###### Manage payments ######
+
+    res = client.PaymentsManage.create('USD')
+    res = client.PaymentsManage.confirm(71)
+    res = client.PaymentsManage.delete(71)
+
+
 Notes
 ------
 
