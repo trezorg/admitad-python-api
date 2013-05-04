@@ -180,7 +180,7 @@ API Items
 ###### Statistics by websites ######
 
     res = client.StatisticWebsites.get(website=1, campaign=1)
-    res = client.StatisticWebsites.get(sub_id="ADS778")
+    res = client.StatisticWebsites.get(subid="ADS778")
     res = client.StatisticWebsites.get(limit=2)
     res = client.StatisticWebsites.get(date_start='01.01.2013')
 
@@ -188,7 +188,7 @@ API Items
 
     res = client.StatisticCampaigns.get()
     res = client.StatisticCampaigns.get(website=1, campaign=1)
-    res = client.StatisticCampaigns.get(sub_id="ADS778")
+    res = client.StatisticCampaigns.get(subid="ADS778")
     res = client.StatisticCampaigns.get(limit=2)
     res = client.StatisticCampaigns.get(date_start='01.01.2013')
 
@@ -197,7 +197,7 @@ API Items
 
     res = client.StatisticDays.get()
     res = client.StatisticDays.get(website=1, campaign=1)
-    res = client.StatisticDays.get(sub_id="ADS778")
+    res = client.StatisticDays.get(subid="ADS778")
     res = client.StatisticDays.get(limit=2)
     res = client.StatisticDays.get(date_start='01.01.2013')
 
@@ -205,7 +205,7 @@ API Items
 
     res = client.StatisticMonths.get()
     res = client.StatisticMonths.get(website=1, campaign=1)
-    res = client.StatisticMonths.get(sub_id="ADS778")
+    res = client.StatisticMonths.get(subid="ADS778")
     res = client.StatisticMonths.get(limit=2)
     res = client.StatisticMonths.get(date_start='01.01.2013')
 
@@ -215,14 +215,16 @@ API Items
     res = client.StatisticActions.get()
     res = client.StatisticActions.get(date_start='01.01.2013')
     res = client.StatisticActions.get(website=1, campaign=1)
-    res = client.StatisticActions.get(sub_id="ADS778")
+    res = client.StatisticActions.get(subid="ADS778")
+    res = client.StatisticActions.get(subid2="ADS778")
     res = client.StatisticActions.get(limit=2)
 
 ###### Statistics by sub-ids ######
 
     res = client.StatisticSubIds.get()
     res = client.StatisticSubIds.get(date_start='01.01.2013')
-    res = client.StatisticSubIds.get(sub_id="ADS778")
+    res = client.StatisticSubIds.get(subid="ADS778")
+    res = client.StatisticSubIds.get(subid1="ADS778", sub_id_number=2)
     res = client.StatisticSubIds.get(limit=2)
 
 

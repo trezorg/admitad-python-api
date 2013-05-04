@@ -1,3 +1,4 @@
+from copy import copy
 from pyadmitad.constants import SUB_ID_MAX_LENGTH
 from pyadmitad.items.base import Item
 
@@ -42,7 +43,7 @@ class StatisticBase(Item):
         'date_end': Item.check_date,
         'website': int,
         'campaign': int,
-        'sub_id': (
+        'subid': (
             lambda x:
             unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None)
     }
@@ -69,7 +70,7 @@ class StatisticWebsites(StatisticBase):
         """
         res = client.StatisticWebsites.get()
         res = client.StatisticWebsites.get(website=1, campaign=1)
-        res = client.StatisticWebsites.get(sub_id="ADS778")
+        res = client.StatisticWebsites.get(subid="ADS778")
         res = client.StatisticWebsites.get(limit=2)
         res = client.StatisticWebsites.get(date_start='01.01.2013')
 
@@ -158,6 +159,10 @@ class StatisticActions(StatisticBase):
         'payment',
         'status',
         'subid',
+        'subid1',
+        'subid2',
+        'subid3',
+        'subid4',
         'website'
     )
 
@@ -166,7 +171,19 @@ class StatisticActions(StatisticBase):
         'date_end': Item.check_date,
         'website': int,
         'campaign': int,
-        'sub_id': (
+        'subid': (
+            lambda x:
+            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
+        'subid1': (
+            lambda x:
+            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
+        'subid2': (
+            lambda x:
+            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
+        'subid3': (
+            lambda x:
+            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
+        'subid4': (
             lambda x:
             unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
         'source': (
@@ -185,7 +202,7 @@ class StatisticActions(StatisticBase):
         """
         res = client.StatisticActions.get()
         res = client.StatisticActions.get(website=1, campaign=1)
-        res = client.StatisticActions.get(sub_id="ADS778")
+        res = client.StatisticActions.get(subid="ADS778")
         res = client.StatisticActions.get(limit=2)
         res = client.StatisticActions.get(date_start='01.01.2013')
 
@@ -199,6 +216,7 @@ class StatisticSubIds(StatisticBase):
 
     Required scope - "statistics"
     """
+    SUB_ID_NUMBERS = range(0, 5)
 
     ORDERING = (
         'actions',
@@ -210,8 +228,7 @@ class StatisticSubIds(StatisticBase):
         'payment_sum_approved',
         'payment_sum_declined',
         'payment_sum_open',
-        'sales',
-        'subid',
+        'sales'
     )
 
     FILTERING = {
@@ -221,17 +238,47 @@ class StatisticSubIds(StatisticBase):
         'campaign': int,
     }
 
-    URL = Item.prepare_url('statistics/sub_ids')
+    URL = Item.prepare_url('statistics/sub_ids%s')
 
-    def get(self, **kwargs):
+    def sanitize_sub_id_number(self, number):
+        if number not in self.SUB_ID_NUMBERS:
+            raise ValueError("Invalid subid number. '%s': %s" % (
+                number, self.SUB_ID_NUMBERS))
+
+    def prepare_filtering(self, sub_id_number):
+        params = copy(self.FILTERING)
+        subid_params = dict([
+            ('subid%s' % (val or ''),
+                lambda x: unicode(x)
+                if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None)
+            for val in self.SUB_ID_NUMBERS if val != sub_id_number])
+        params.update(subid_params)
+        return params
+
+    def prepare_ordering(self, sub_id_number):
+        sub_id_name = 'subid%s' % (sub_id_number or '')
+        return self.ORDERING + (sub_id_name,)
+
+    def get(self, sub_id_number=0, **kwargs):
         """
+        Here sub_id_number is subid number.
+        It is allowed from 0 to 5 excluding.
+        It just will send request to sub_ids, sub_ids1, sub_ids2,
+         sub_ids3, sub_ids4 urls correspondingly.
+
         res = client.StatisticSubIds.get()
         res = client.StatisticSubIds.get(date_start='01.01.2013')
-        res = client.StatisticSubIds.get(sub_id="ADS778")
+        res = client.StatisticSubIds.get(subid="ADS778")
+        res = client.StatisticSubIds.get(subid1="ADS778", sub_id_number=2)
         res = client.StatisticSubIds.get(limit=2)
 
         """
-        return super(StatisticSubIds, self).get(self.URL, **kwargs)
+        self.sanitize_sub_id_number(sub_id_number)
+        kwargs['url'] = self.URL % (sub_id_number or '')
+        kwargs['allowed_filtering'] = self.prepare_filtering(sub_id_number)
+        kwargs['allowed_ordering'] = self.prepare_ordering(sub_id_number)
+        return self.transport.GET.set_pagination(**kwargs).\
+            set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
 
 
 class StatisticSources(StatisticBase):

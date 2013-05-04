@@ -228,6 +228,10 @@ class StatisticsActionsTestCase(BaseTestCase):
                     u'payment': 50.0,
                     u'status': u'pending',
                     u'subid': None,
+                    u'subid1': None,
+                    u'subid2': None,
+                    u'subid3': None,
+                    u'subid4': None,
                     u'website_name': u'site1_of_webmaster1'
                 }
             ],
@@ -256,7 +260,7 @@ class StatisticsSubIdsTestCase(BaseTestCase):
 
     def test_get_statistics_sub_ids_request(self):
         self.set_mocker(
-            StatisticSubIds.URL,
+            StatisticSubIds.URL % '',
             campaign=9,
             date_start='01.01.2013',
             date_end='01.31.2013',
