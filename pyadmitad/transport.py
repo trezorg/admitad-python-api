@@ -100,7 +100,15 @@ def build_headers(access_token, user_agent=None, language=None):
 def oauth_password_authorization(data):
     """
     OAuth2 password authorization
-    Used to get access_token with the user's password and username
+    Used to get an access_token with the user's password and username
+    The function parameter should be a dictionary with next structure:
+    data = {
+        'client_id': '',
+        'client_secret': '',
+        'username': '',
+        'password': '',
+        'scope': ''
+    }
     """
     client_id = data['client_id']
     client_secret = data['client_secret']
@@ -119,10 +127,40 @@ def oauth_password_authorization(data):
     return api_post_request(TOKEN_URL, data=params, headers=headers)
 
 
+def oauth_refresh_access_token(data):
+    """
+    refresh an access token. Returns dictionary with new access_token.
+    data['access-token']
+    The function parameter should be a dictionary with next structure:
+    data = {
+        'refresh_token': '',
+        'client_secret': '',
+        'client_id': ''
+    }
+    """
+    refresh_token = data['refresh_token']
+    client_id = data['client_id']
+    client_secret = data['client_secret']
+    params = {
+        'grant_type': 'refresh_token',
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'refresh_token': refresh_token
+    }
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    return api_post_request(TOKEN_URL, data=params, headers=headers)
+
+
 def oauth_client_authorization(data):
     """
     OAuth2 client authorization.
-    Used to get access_token with the oauth client credentials
+    Used to get an access_token with the oauth client credentials
+    The function parameter should be a dictionary with next structure:
+    data = {
+        'client_secret': '',
+        'client_id': ''
+        'scopes': '',
+    }
     """
     client_id = data['client_id']
     client_secret = data['client_secret']
@@ -140,8 +178,21 @@ def oauth_client_authorization(data):
 
 
 class OAuthServerAuthorisation(object):
+    """
+    OAuth2 server authorization.
+    Used to get an access_token with the web authentication
+    """
 
     def __init__(self, data):
+        """
+        The constructor parameter should be a dictionary with next structure:
+        data = {
+            'client_secret': '',
+            'client_id': ''
+            'scopes': '',
+            'redirect_uri': '',
+        }
+        """
         self.client_id = data['client_id']
         self.client_secret = data['client_secret']
         self.scopes = data['scopes']

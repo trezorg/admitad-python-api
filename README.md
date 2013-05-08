@@ -43,11 +43,11 @@ Example
         scope
     )
 
-    or
+    or already having an access token
 
     client = api.get_oauth_client(access_token)
 
-    print client.Me.get()
+    info = client.Me.get()
 
     scope = "public_data"
 
