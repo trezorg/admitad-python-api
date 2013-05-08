@@ -1,4 +1,6 @@
 """The setup and build script for the pyadmitad library."""
+from ez_setup import use_setuptools
+use_setuptools()
 from setuptools import setup, find_packages
 
 __author__ = 'trezorg@gmail.com'
@@ -13,7 +15,7 @@ setup(
     license='MIT',
     url='https://github.com/trezorg/admitad-python-api.git',
     keywords='admitad',
-    packages=find_packages(),
+    packages=find_packages(exclude='tests'),
     install_requires=['requests', 'simplejson'],
     test_suite='unittest2.collector',
     tests_require=['mocker', 'unittest2'],
