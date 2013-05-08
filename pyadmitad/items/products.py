@@ -120,7 +120,7 @@ class Products(Item):
 
     ORDERING = ('price', 'category', 'vendor', 'campaign', 'date_updated')
     FILTERING = {
-        'keyword': unicode,
+        'keyword': Item.to_unicode,
         'price_from': int,
         'price_to': int,
         'campaign': int,

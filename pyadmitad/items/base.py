@@ -95,3 +95,8 @@ class Item(object):
         if not url.endswith('/'):
             url += '/'
         return url
+
+    @staticmethod
+    def to_unicode(text):
+        return u'%s' % text
+

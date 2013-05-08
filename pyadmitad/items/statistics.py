@@ -38,14 +38,29 @@ class StatisticBase(Item):
         'views',
     )
 
+    @staticmethod
+    def check_sub_id(sub_id):
+        return u'%s' % sub_id if len(sub_id) <= SUB_ID_MAX_LENGTH else None
+
+    @staticmethod
+    def check_sources(source):
+        return source if source in StatisticBase.SOURCES else None,
+
+    @staticmethod
+    def check_status(status):
+        return status if status in StatisticBase.STATUSES else None,
+
+    @staticmethod
+    def check_actions_type(action_type):
+        return action_type if action_type\
+            in StatisticBase.ACTION_TYPES else None,
+
     FILTERING = {
         'date_start': Item.check_date,
         'date_end': Item.check_date,
         'website': int,
         'campaign': int,
-        'subid': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None)
+        'subid': check_sub_id
     }
 
     def get(self, url, **kwargs):
@@ -171,29 +186,16 @@ class StatisticActions(StatisticBase):
         'date_end': Item.check_date,
         'website': int,
         'campaign': int,
-        'subid': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
-        'subid1': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
-        'subid2': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
-        'subid3': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
-        'subid4': (
-            lambda x:
-            unicode(x) if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None),
-        'source': (
-            lambda x: x if x in StatisticBase.SOURCES else None),
-        'status': (
-            lambda x: x if x in StatisticBase.STATUSES else None),
-        'keyword': unicode,
-        'action': unicode,
-        'action_type': (
-            lambda x: x if x in StatisticActions.ACTION_TYPES else None),
+        'subid': StatisticBase.check_sub_id,
+        'subid1': StatisticBase.check_sub_id,
+        'subid2': StatisticBase.check_sub_id,
+        'subid3': StatisticBase.check_sub_id,
+        'subid4': StatisticBase.check_sub_id,
+        'source': StatisticBase.check_sources,
+        'status': StatisticBase.check_status,
+        'keyword': Item.to_unicode,
+        'action': Item.to_unicode,
+        'action_type': StatisticBase.check_actions_type
     }
 
     URL = Item.prepare_url('statistics/actions')
@@ -248,9 +250,7 @@ class StatisticSubIds(StatisticBase):
     def prepare_filtering(self, sub_id_number):
         params = copy(self.FILTERING)
         subid_params = dict([
-            ('subid%s' % (val or ''),
-                lambda x: unicode(x)
-                if len(unicode(x)) <= SUB_ID_MAX_LENGTH else None)
+            ('subid%s' % (val or ''), StatisticBase.check_sub_id)
             for val in self.SUB_ID_NUMBERS if val != sub_id_number])
         params.update(subid_params)
         return params
