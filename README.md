@@ -72,6 +72,11 @@ API Items
     res = client.Me.get()
 
 
+### Balance ###
+
+    res = client.Balance.get()
+
+
 ### Types of websites ###
 
     res = client.WebsiteTypes.get()

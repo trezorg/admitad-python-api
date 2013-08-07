@@ -1,4 +1,4 @@
-from pyadmitad.items.me import Me
+from pyadmitad.items.me import *
 from pyadmitad.items.auxiliary import *
 from pyadmitad.items.coupons import *
 from pyadmitad.items.websites import *
