@@ -221,6 +221,8 @@ class StatisticsActionsTestCase(BaseTestCase):
                     u'advcampaign_name': u'Campaign',
                     u'cart': 777.0,
                     u'click_date': u'2011-01-13 18:23:50',
+                    u'closing_date': u'2012-04-02',
+                    u'status_updated': u'2011-09-16 23:13:35',
                     u'comment': None,
                     u'conversion_time': 4,
                     u'currency': u'RUB',

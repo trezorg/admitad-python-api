@@ -184,6 +184,10 @@ class StatisticActions(StatisticBase):
     FILTERING = {
         'date_start': Item.check_date,
         'date_end': Item.check_date,
+        'closing_date_start': Item.check_date,
+        'closing_date_end': Item.check_date,
+        'status_updated_start': Item.check_date,
+        'status_updated_end': Item.check_date,
         'website': int,
         'campaign': int,
         'subid': StatisticBase.check_sub_id,
