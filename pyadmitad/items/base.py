@@ -1,5 +1,6 @@
 from datetime import datetime, date
-from pyadmitad.constants import DATE_FORMAT, BASE_URL, CURRENCIES
+from pyadmitad.constants import DATE_FORMAT, BASE_URL,\
+    CURRENCIES, LONG_DATE_FORMAT
 
 
 class Item(object):
@@ -55,8 +56,8 @@ class Item(object):
                 raise ValueError(
                     "Blank integer values '%s': %s" % (name, values))
             return values
-        return [Item.sanitize_integer_value(
-            x, name, blank=blank) for x in values]
+        return [Item.sanitize_integer_value(x, name, blank=blank)
+                for x in values]
 
     @staticmethod
     def sanitize_string_array(
@@ -67,8 +68,8 @@ class Item(object):
                     "Blank string values '%s': %s" % (name, values))
             return values
         return [Item.sanitize_string_value(
-            x, name, max_length=max_length,
-            min_length=min_length, blank=blank) for x in values]
+            x, name, max_length=max_length, min_length=min_length, blank=blank)
+            for x in values]
 
     @staticmethod
     def sanitize_currency(value, blank=True):
@@ -88,6 +89,13 @@ class Item(object):
         if s > date.today():
             s = date.today()
         return s.strftime(DATE_FORMAT)
+
+    @staticmethod
+    def check_long_date(dt):
+        s = datetime.strptime(dt, LONG_DATE_FORMAT)
+        if s > datetime.now():
+            s = datetime.now()
+        return s.strftime(LONG_DATE_FORMAT)
 
     @staticmethod
     def prepare_url(path):

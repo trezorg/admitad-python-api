@@ -1,6 +1,7 @@
 CURRENCIES = ('USD', 'RUB', 'EUR')
 # API date-format
 DATE_FORMAT = "%d.%m.%Y"
+LONG_DATE_FORMAT = "%d.%m.%Y %H:%M:%S"
 
 # default values
 DEFAULT_REQUEST_TIMEOUT = 60
