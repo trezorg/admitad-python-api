@@ -199,7 +199,8 @@ class StatisticActions(StatisticBase):
         'status': StatisticBase.check_status,
         'keyword': Item.to_unicode,
         'action': Item.to_unicode,
-        'action_type': StatisticBase.check_actions_type
+        'action_type': StatisticBase.check_actions_type,
+        'action_id': int
     }
 
     URL = Item.prepare_url('statistics/actions')
