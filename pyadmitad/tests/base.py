@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mocker import MockerTestCase
+from .mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
 from pyadmitad.transport import build_headers, \
     HttpTransportPagination, HttpTransportOrdering, HttpTransportFiltering
@@ -21,7 +21,8 @@ class BaseTestCase(MockerTestCase):
             data.update(HttpTransportFiltering(**kwargs).to_value())
         return data or None
 
-    def prepare_method(self, **kwargs):
+    @staticmethod
+    def prepare_method(**kwargs):
         method = kwargs.get('method', 'GET')
         return method if method in ('POST', 'GET') else 'GET'
 
@@ -33,7 +34,7 @@ class BaseTestCase(MockerTestCase):
         kwargs = {
             'data': self.prepare_data(**kwargs),
             'headers': build_headers(access_token),
-            'method': self.prepare_method(**kwargs),
+            'method': BaseTestCase.prepare_method(**kwargs),
             'debug': False
         }
         obj.api_request(url, **kwargs)

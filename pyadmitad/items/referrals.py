@@ -28,7 +28,7 @@ class Referrals(Item):
         """
         kwargs['url'] = self.URL
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -38,4 +38,4 @@ class Referrals(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)

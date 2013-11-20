@@ -27,7 +27,7 @@ class Banners(Item):
         """
         kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
 
 class BannersForWebsite(Item):
@@ -51,4 +51,4 @@ class BannersForWebsite(Item):
         kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['w_id'] = self.sanitize_id(w_id)
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)

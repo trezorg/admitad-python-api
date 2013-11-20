@@ -26,7 +26,7 @@ class ProductCategories(Item):
         """
         kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -37,7 +37,7 @@ class ProductCategories(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class ProductVendors(Item):
@@ -58,7 +58,7 @@ class ProductVendors(Item):
         """
         kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs). \
+        return self.transport.set_method('GET').set_pagination(**kwargs). \
             set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -69,7 +69,7 @@ class ProductVendors(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class ProductCampaigns(Item):
@@ -94,7 +94,7 @@ class ProductCampaigns(Item):
         kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs). \
+        return self.transport.set_method('GET').set_pagination(**kwargs). \
             set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, c_id, **kwargs):
@@ -106,7 +106,7 @@ class ProductCampaigns(Item):
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class Products(Item):
@@ -141,7 +141,7 @@ class Products(Item):
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, p_id, **kwargs):
@@ -153,4 +153,4 @@ class Products(Item):
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['p_id'] = self.sanitize_id(p_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)

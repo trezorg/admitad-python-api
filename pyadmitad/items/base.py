@@ -12,7 +12,8 @@ class Item(object):
     def sanitize_id(self, _id, name='_id'):
         return self.sanitize_integer_value(_id, name)
 
-    def sanitize_non_blank_value(self, value, name):
+    @staticmethod
+    def sanitize_non_blank_value(value, name):
         if not value:
             raise ValueError("Invalid non-blank value '%s': %s" % (name, value))
         return value
@@ -107,4 +108,3 @@ class Item(object):
     @staticmethod
     def to_unicode(text):
         return u'%s' % text
-

@@ -27,7 +27,7 @@ class WebsiteTypes(Item):
         res = client.WebsiteTypes.get(limit=2, offset=1, language='ru')
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
 
 class WebsiteRegions(Item):
@@ -46,7 +46,7 @@ class WebsiteRegions(Item):
         res = client.WebsiteRegions.get(limit=2, offset=1, language='ru')
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
 
 class SystemLanguages(Item):
@@ -65,13 +65,13 @@ class SystemLanguages(Item):
         res = client.SystemLanguages.get(limit=2, offset=1)
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, code='ru'):
         """
         res = client.SystemLanguages.getOne(code='ru')
         """
-        return self.transport.GET.request(url=self.SINGLE_URL, code=code)
+        return self.transport.set_method('GET').request(url=self.SINGLE_URL, code=code)
 
 
 class SystemCurrencies(Item):
@@ -89,7 +89,7 @@ class SystemCurrencies(Item):
         res = client.SystemCurrencies.get(limit=2, offset=1)
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
 
 class AdvertiserServices(Item):
@@ -110,7 +110,7 @@ class AdvertiserServices(Item):
         res = client.AdvertiserServices.get(limit=2, offset=1)
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
         """
@@ -119,7 +119,7 @@ class AdvertiserServices(Item):
         """
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['url'] = self.SINGLE_URL
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
     def getForKind(self, kind=None, **kwargs):
         """
@@ -130,7 +130,7 @@ class AdvertiserServices(Item):
         """
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['url'] = self.KIND_URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getForKindOne(self, _id, kind, **kwargs):
         """
@@ -142,7 +142,7 @@ class AdvertiserServices(Item):
         kwargs['kind'] = self.sanitize_non_blank_value(kind, 'kind')
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['url'] = self.KIND_SINGLE_URL
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class CampaignCategories(Item):
@@ -164,7 +164,7 @@ class CampaignCategories(Item):
         """
         kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_ordering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -174,4 +174,4 @@ class CampaignCategories(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)

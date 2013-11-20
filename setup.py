@@ -16,9 +16,9 @@ setup(
     url='https://github.com/trezorg/admitad-python-api.git',
     keywords='admitad',
     packages=find_packages(exclude='tests'),
-    install_requires=['requests', 'simplejson'],
-    test_suite='unittest2.collector',
-    tests_require=['mocker', 'unittest2'],
+    install_requires=['requests'],
+    test_suite='nose.collector',
+    tests_require=['nose'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

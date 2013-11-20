@@ -22,7 +22,7 @@ class Announcements(Item):
         res = client.Announcements.get(limit=1, offset=2)
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
         """
@@ -32,7 +32,7 @@ class Announcements(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class AnnouncementsManage(Item):
@@ -51,4 +51,4 @@ class AnnouncementsManage(Item):
         """
         kwargs['url'] = self.DELETE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.POST.request(**kwargs)
+        return self.transport.set_method('POST').request(**kwargs)

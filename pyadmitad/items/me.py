@@ -25,7 +25,7 @@ class Me(Item):
         res = client.Me.get(language='ru')
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method("GET").request(**kwargs)
 
 
 class Balance(Item):
@@ -45,4 +45,4 @@ class Balance(Item):
         res = client.Balance.get()
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').set_method("GET").request(**kwargs)

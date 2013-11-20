@@ -313,7 +313,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.AdvertiserServices.getOne(_id=2)
-        self.assertEquals(res[u'id'], 2)
+        self.assertEqual(res[u'id'], 2)
         self.mocker.verify()
 
     def test_get_advertiser_services_with_kind(self):
@@ -366,7 +366,7 @@ class AdvertiserServiceTestCase(BaseTestCase):
         self.mocker.result(result)
         self.mocker.replay()
         res = self.client.AdvertiserServices.getForKindOne(2, 'contextual')
-        self.assertEquals(res[u'id'], 2)
+        self.assertEqual(res[u'id'], 2)
         self.mocker.verify()
 
 

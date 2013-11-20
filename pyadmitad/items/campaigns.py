@@ -24,7 +24,7 @@ class Campaigns(Item):
 
         """
         kwargs['url'] = self.URL
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
         """
@@ -34,7 +34,7 @@ class Campaigns(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class CampaignsForWebsite(Item):
@@ -56,7 +56,7 @@ class CampaignsForWebsite(Item):
         """
         kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.set_pagination(**kwargs).request(**kwargs)
+        return self.transport.set_method('GET').set_pagination(**kwargs).request(**kwargs)
 
     def getOne(self, _id, c_id, **kwargs):
         """
@@ -67,7 +67,7 @@ class CampaignsForWebsite(Item):
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class CampaignsManage(Item):
@@ -82,7 +82,7 @@ class CampaignsManage(Item):
     def _request(self, c_id, w_id, **kwargs):
         kwargs['c_id'] = self.sanitize_id(c_id)
         kwargs['w_id'] = self.sanitize_id(w_id)
-        return self.transport.POST.request(**kwargs)
+        return self.transport.set_method('POST').request(**kwargs)
 
     def connect(self, c_id, w_id, **kwargs):
         """

@@ -1,12 +1,16 @@
 import requests
 from base64 import b64encode
-import simplejson
+import json
 import urllib
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse
 import uuid
 import logging
 from pyadmitad.constants import *
 from pyadmitad.exceptions import *
+from pyadmitad.py3 import binary
 
 
 LOG = logging.getLogger(__file__)
@@ -15,12 +19,12 @@ LOG.addHandler(logging.StreamHandler())
 
 def to_json(content):
     try:
-        return simplejson.loads(content)
-    except simplejson.JSONDecodeError:
+        return json.loads(content)
+    except (TypeError, ValueError):
         return content
 
 
-def DEBUG(value, debug=True):
+def debug_log(value, debug=True):
     if debug:
         LOG.setLevel(logging.DEBUG)
         LOG.debug(value)
@@ -57,9 +61,9 @@ def api_request(
     content = u''
     try:
         response = requests.request(method, url, **kwargs)
-        DEBUG(u'Request url: %s' % response.url, debug)
+        debug_log(u'Request url: %s' % response.url, debug)
         if method == 'POST':
-            DEBUG(u'Request body: %s' % response.request.body, debug)
+            debug_log(u'Request body: %s' % response.request.body, debug)
         status_code = response.status_code
         content = response.content
         if status_code >= 400:
@@ -69,8 +73,13 @@ def api_request(
         raise HttpException(status_code, to_json(content), err)
     except requests.RequestException as err:
         raise ConnectionException(err)
-    except simplejson.JSONDecodeError as err:
+    except (ValueError, TypeError) as err:
         raise JsonException(err)
+
+
+def get_credentials(client_id, client_secret):
+    return b64encode(
+        binary("%s:%s" % (client_id, client_secret))).decode('utf-8')
 
 
 def api_post_request(url, **kwargs):
@@ -119,7 +128,7 @@ def oauth_password_authorization(data):
         'password': data['password'],
         'scope': data['scopes']
     }
-    credentials = b64encode("%s:%s" % (client_id, client_secret))
+    credentials = get_credentials(client_id, client_secret)
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic %s' % credentials
@@ -169,7 +178,7 @@ def oauth_client_authorization(data):
         'client_id': client_id,
         'scope': data['scopes']
     }
-    credentials = b64encode("%s:%s" % (client_id, client_secret))
+    credentials = get_credentials(client_id, client_secret)
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic %s' % credentials
@@ -409,20 +418,18 @@ class HttpTransport(object):
             raise AttributeError(
                 'This http method "%s" is not supported' % method)
         # here we should clean data
-        self.clean_data()
-        return self
+        return self.clean_data()
 
     def set_debug(self, debug):
         self._debug = debug
         return self
 
-    def _handle_response(self, response):
+    @staticmethod
+    def _handle_response(response):
         return response
 
-    def __getattr__(self, name):
-        return self.set_method(name)
-
-    def api_request(self, url, **kwargs):
+    @staticmethod
+    def api_request(url, **kwargs):
         return api_request(url, **kwargs)
 
     def request(self, **kwargs):

@@ -68,7 +68,7 @@ class StatisticBase(Item):
         kwargs['url'] = url
         kwargs['allowed_filtering'] = self.FILTERING
         kwargs['allowed_ordering'] = self.ORDERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
 
 
@@ -282,7 +282,7 @@ class StatisticSubIds(StatisticBase):
         kwargs['url'] = self.URL % (sub_id_number or '')
         kwargs['allowed_filtering'] = self.prepare_filtering(sub_id_number)
         kwargs['allowed_ordering'] = self.prepare_ordering(sub_id_number)
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_filtering(**kwargs).set_ordering(**kwargs).request(**kwargs)
 
 

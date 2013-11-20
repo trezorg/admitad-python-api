@@ -46,7 +46,7 @@ class Coupons(CouponsBase):
         kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_ordering(**kwargs).set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -56,7 +56,7 @@ class Coupons(CouponsBase):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class CouponsForWebsite(CouponsBase):
@@ -90,7 +90,7 @@ class CouponsForWebsite(CouponsBase):
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_ordering(**kwargs).set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, c_id, **kwargs):
@@ -103,4 +103,4 @@ class CouponsForWebsite(CouponsBase):
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)

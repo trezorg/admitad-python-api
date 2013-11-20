@@ -33,7 +33,7 @@ class Websites(Item):
         """
         kwargs['url'] = self.URL
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.GET.set_pagination(**kwargs).\
+        return self.transport.set_method('GET').set_pagination(**kwargs).\
             set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -43,7 +43,7 @@ class Websites(Item):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.GET.request(**kwargs)
+        return self.transport.set_method('GET').request(**kwargs)
 
 
 class WebsitesManage(Item):
@@ -112,7 +112,7 @@ class WebsitesManage(Item):
         data = self.sanitize_fields(self.CREATE_FIELDS, **kwargs)
         kwargs['url'] = self.CREATE_URL
         kwargs.pop('language', None)
-        return self.transport.POST.set_data(data).request(**kwargs)
+        return self.transport.set_method('POST').set_data(data).request(**kwargs)
 
     def update(self, _id, **kwargs):
         """
@@ -125,7 +125,7 @@ class WebsitesManage(Item):
         kwargs['url'] = self.UPDATE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs.pop('language', None)
-        return self.transport.POST.set_data(data).request(**kwargs)
+        return self.transport.set_method('POST').set_data(data).request(**kwargs)
 
     def verify(self, _id):
         """
@@ -136,7 +136,7 @@ class WebsitesManage(Item):
         """
 
         data = {'url': self.VERIFY_URL, 'id': self.sanitize_id(_id)}
-        return self.transport.POST.request(**data)
+        return self.transport.set_method('POST').request(**data)
 
     def delete(self, _id):
         """
@@ -146,4 +146,4 @@ class WebsitesManage(Item):
 
         """
         data = {'url': self.DELETE_URL, 'id': self.sanitize_id(_id)}
-        return self.transport.POST.request(**data)
+        return self.transport.set_method('POST').request(**data)
