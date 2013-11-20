@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .mocker import MockerTestCase
+from mocker import MockerTestCase
 from pyadmitad.api import get_oauth_client
 from pyadmitad.transport import build_headers, \
     HttpTransportPagination, HttpTransportOrdering, HttpTransportFiltering

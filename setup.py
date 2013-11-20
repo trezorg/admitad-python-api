@@ -18,7 +18,7 @@ setup(
     packages=find_packages(exclude='tests'),
     install_requires=['requests'],
     test_suite='nose.collector',
-    tests_require=['nose'],
+    tests_require=['nose', 'mocker'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -26,6 +26,9 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Communications',
         'Topic :: Internet',
+    ],
+    dependency_links=[
+        "git+https://github.com/trezorg/mocker.git#egg=mocker",
     ],
 )
 
