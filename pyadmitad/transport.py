@@ -10,7 +10,6 @@ import uuid
 import logging
 from pyadmitad.constants import *
 from pyadmitad.exceptions import *
-from pyadmitad.py3 import binary
 
 
 LOG = logging.getLogger(__file__)
@@ -79,7 +78,8 @@ def api_request(
 
 def get_credentials(client_id, client_secret):
     return b64encode(
-        binary("%s:%s" % (client_id, client_secret))).decode('utf-8')
+        ("%s:%s" % (client_id, client_secret)).encode('utf-8')
+    ).decode('utf-8')
 
 
 def api_post_request(url, **kwargs):
