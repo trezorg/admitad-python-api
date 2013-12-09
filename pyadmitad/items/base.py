@@ -51,6 +51,22 @@ class Item(object):
         raise ValueError("Invalid integer value '%s': %s" % (name, value))
 
     @staticmethod
+    def sanitize_float_value(value, name, blank=False):
+        if not value:
+            if not blank:
+                raise ValueError("Blank float value '%s': %s" % (name, value))
+            return value
+        if type(value) in (float, int):
+            return str(value)
+        elif type(value) == str:
+            try:
+                float(value)
+                return value
+            except ValueError:
+                raise ValueError("Invalid float value '%s': %s" % (name, value))
+        raise ValueError("Invalid float value '%s': %s" % (name, value))
+
+    @staticmethod
     def sanitize_integer_array(values, name, blank=False):
         if not values:
             if not blank:

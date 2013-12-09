@@ -443,9 +443,13 @@ class HttpTransport(object):
             raise AttributeError(
                 'Absent url parameter. Use set_url method or pass '
                 'url parameter in this method.')
-        response = self.api_request(
-            self._url, method=self._method,
-            headers=self._headers, data=self._data, debug=self._debug)
+        requests_kwargs = {
+            'method': self._method,
+            'headers': self._headers,
+            'data': self._data,
+            'debug': self._debug
+        }
+        response = self.api_request(self._url, **requests_kwargs)
         return kwargs.get('handler', self._handle_response)(response)
 
     def __call__(self, **kwargs):

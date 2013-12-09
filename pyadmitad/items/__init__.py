@@ -9,3 +9,4 @@ from pyadmitad.items.campaigns import *
 from pyadmitad.items.products import *
 from pyadmitad.items.announcements import *
 from pyadmitad.items.payments import *
+from pyadmitad.items.money_transfers import *

@@ -98,7 +98,8 @@ class WebsitesManage(Item):
             x, 'atnd_hits', blank=True)
     }
 
-    def sanitize_fields(self, fields, **kwargs):
+    @staticmethod
+    def sanitize_fields(fields, **kwargs):
         data = deepcopy(kwargs)
         for field in fields:
             data[field] = fields[field](data.get(field))
