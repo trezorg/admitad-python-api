@@ -1,68 +1,34 @@
 admitad-python-api
 ==================
 
-A Python wrapper around the Admitad API
+A Python wrapper around the [Admitad API](https://developers.admitad.com/en/)
 
 Install
 -------
 
-Dependencies
-
-* requests
-* simplejson
-
-Install by cloning from the GitHub repo:
-
-    $ git clone git://github.com/trezorg/admitad-python-api.git
-    $ cd admitad-python-api
-    $ python setup.py test
-    $ python setup.py build
-    $ python setup.py install
-
-    or just
-
-    $ cp -r admitad-python-api/pyadmitad path/to/destination
-
+    pip install admitad-api
 
 Example
 -------
-
+```python
     from pyadmitad import api
 
     client_id = ""
     client_secret = ""
-    username = ""
-    password = ""
     scope = "private_data"
-
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        username,
-        password,
-        scope
-    )
-
-    or already having an access token
-
-    client = api.get_oauth_client(access_token)
-
-    info = client.Me.get()
+    access_toke = ""
 
     scope = "public_data"
 
     client = api.get_oauth_password_client(
         client_id,
         client_secret,
-        username,
-        password,
         scope
     )
 
-    print client.WebsiteTypes.get()
-    print client.WebsiteTypes.get(limit=2, offset=1)
-
-
+    print(client.WebsiteTypes.get())
+    print(client.WebsiteTypes.get(limit=2, offset=1))
+```
 
 API Items
 -------------
@@ -290,38 +256,6 @@ API Items
     res = client.CampaignsManage.connect(c_id=6, w_id=22)
     res = client.CampaignsManage.disconnect(6, 22)
     res = client.CampaignsManage.disconnect(c_id=6, w_id=22)
-
-
-### Products ###
-
-###### Categories of products ######
-
-    res = client.ProductCategories.get()
-    res = client.ProductCategories.get(limit=1, order_by=-name)
-    res = client.ProductCategories.getOne(2)
-
-
-###### Vendors of products ######
-
-    res = client.ProductVendors.get()
-    res = client.ProductVendors.get(limit=1, order_by=-name)
-    res = client.ProductVendors.getOne(2)
-
-
-###### Campaigns with products ######
-
-    res = client.ProductCampaigns.get(22)
-    res = client.ProductCampaigns.get(22, limit=1, order_by=-name)
-    res = client.ProductCampaigns.getOne(22, 6)
-
-
-###### Products for website ######
-
-    res = client.Products.get(22)
-    res = client.Products.get(22, limit=1)
-    res = client.Products.get(22, limit=1, order_by=-price)
-    res = client.Products.get(22, price_from=1000)
-    res = client.ProductCampaigns.getOne(22, 2)
 
 
 ### Announcements ###

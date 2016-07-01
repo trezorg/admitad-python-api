@@ -45,4 +45,4 @@ class Balance(Item):
         res = client.Balance.get()
         """
         kwargs['url'] = self.URL
-        return self.transport.set_method('GET').set_method("GET").request(**kwargs)
+        return self.transport.set_method("GET").request(**kwargs)

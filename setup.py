@@ -4,7 +4,7 @@ use_setuptools()
 from setuptools import setup, find_packages
 
 __author__ = 'trezorg@gmail.com'
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 
 setup(
     name="pyadmitad",
@@ -13,10 +13,10 @@ setup(
     author_email='trezorg@gmail.com',
     description='A Python wrapper around the Admitad API',
     license='MIT',
-    url='https://github.com/trezorg/admitad-python-api.git',
+    url='https://github.com/admitad/admitad-python-api.git',
     keywords='admitad',
     packages=find_packages(exclude='tests'),
-    install_requires=['requests'],
+    install_requires=['requests', 'simplejson'],
     test_suite='nose.collector',
     tests_require=['nose', 'mocker'],
     classifiers=[
