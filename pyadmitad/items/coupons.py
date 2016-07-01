@@ -4,6 +4,7 @@ from pyadmitad.items.base import Item
 __all__ = (
     'Coupons',
     'CouponsForWebsite',
+    'CouponsCategories',
 )
 
 
@@ -46,7 +47,7 @@ class Coupons(CouponsBase):
         kwargs['url'] = self.URL
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.set_method('GET').set_pagination(**kwargs).\
+        return self.transport.get().set_pagination(**kwargs).\
             set_ordering(**kwargs).set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, **kwargs):
@@ -56,7 +57,7 @@ class Coupons(CouponsBase):
         """
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
-        return self.transport.set_method('GET').request(**kwargs)
+        return self.transport.get().request(**kwargs)
 
 
 class CouponsForWebsite(CouponsBase):
@@ -84,13 +85,12 @@ class CouponsForWebsite(CouponsBase):
             use campaign=[1, 2]
 
         res = client.CouponsForWebsite.get(2, campaign=[1, 2], category=2)
-
         """
         kwargs['url'] = self.URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['allowed_ordering'] = self.ORDERING
         kwargs['allowed_filtering'] = self.FILTERING
-        return self.transport.set_method('GET').set_pagination(**kwargs).\
+        return self.transport.get().set_pagination(**kwargs).\
             set_ordering(**kwargs).set_filtering(**kwargs).request(**kwargs)
 
     def getOne(self, _id, c_id, **kwargs):
@@ -103,4 +103,18 @@ class CouponsForWebsite(CouponsBase):
         kwargs['url'] = self.SINGLE_URL
         kwargs['id'] = self.sanitize_id(_id)
         kwargs['c_id'] = self.sanitize_id(c_id)
-        return self.transport.set_method('GET').request(**kwargs)
+        return self.transport.get().request(**kwargs)
+
+
+class CouponsCategories(CouponsBase):
+
+    URL = Item.prepare_url('coupons/categories')
+    SINGLE_URL = Item.prepare_url('coupons/categories/%(id)s')
+
+    def get(self, **kwargs):
+        kwargs['url'] = self.URL
+        return self.transport.get().set_pagination(**kwargs).request(**kwargs)
+
+    def getOne(self, _id, **kwargs):
+        kwargs['url'] = self.SINGLE_URL
+        return self.transport.get().set_pagination(**kwargs).request(**kwargs)
