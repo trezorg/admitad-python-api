@@ -109,12 +109,13 @@ class CouponsForWebsite(CouponsBase):
 class CouponsCategories(CouponsBase):
 
     URL = Item.prepare_url('coupons/categories')
-    SINGLE_URL = Item.prepare_url('coupons/categories/%(id)s')
+    SINGLE_URL = Item.prepare_url('coupons/categories/%(coupon_category_id)s')
 
     def get(self, **kwargs):
         kwargs['url'] = self.URL
         return self.transport.get().set_pagination(**kwargs).request(**kwargs)
 
-    def getOne(self, _id, **kwargs):
+    def getOne(self, coupon_category_id, **kwargs):
         kwargs['url'] = self.SINGLE_URL
-        return self.transport.get().set_pagination(**kwargs).request(**kwargs)
+        kwargs['coupon_category_id'] = self.sanitize_id(coupon_category_id)
+        return self.transport.get().request(**kwargs)
