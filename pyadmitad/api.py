@@ -23,5 +23,3 @@ def get_oauth_client_client(
 
 def get_oauth_client(access_token, user_agent=None):
     return get_authorizing_client(access_token, user_agent=user_agent)
-
-
