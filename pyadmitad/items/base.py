@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import datetime, date
 from pyadmitad.constants import DATE_FORMAT, BASE_URL,\
     CURRENCIES, LONG_DATE_FORMAT
@@ -11,6 +12,13 @@ class Item(object):
 
     def sanitize_id(self, _id, name='_id'):
         return self.sanitize_integer_value(_id, name)
+
+    @staticmethod
+    def sanitize_fields(fields, **kwargs):
+        data = deepcopy(kwargs)
+        for field in fields:
+            data[field] = fields[field](data.get(field))
+        return dict([(key, value) for (key, value) in data.items() if value])
 
     @staticmethod
     def sanitize_non_blank_value(value, name):

@@ -98,13 +98,6 @@ class WebsitesManage(Item):
             x, 'atnd_hits', blank=True)
     }
 
-    @staticmethod
-    def sanitize_fields(fields, **kwargs):
-        data = deepcopy(kwargs)
-        for field in fields:
-            data[field] = fields[field](data.get(field))
-        return dict([(key, value) for (key, value) in data.items() if value])
-
     def create(self, **kwargs):
         """
         res = client.WebsitesManage.create(name='test', ....)
