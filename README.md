@@ -11,23 +11,23 @@ Install
 Example
 -------
 ```python
-    from pyadmitad import api
+from pyadmitad import api
 
-    client_id = ""
-    client_secret = ""
-    scope = "private_data"
-    access_toke = ""
+client_id = ""
+client_secret = ""
+scope = "private_data"
+access_toke = ""
 
-    scope = "public_data"
+scope = "public_data"
 
-    client = api.get_oauth_password_client(
-        client_id,
-        client_secret,
-        scope
-    )
+client = api.get_oauth_password_client(
+    client_id,
+    client_secret,
+    scope
+)
 
-    print(client.WebsiteTypes.get())
-    print(client.WebsiteTypes.get(limit=2, offset=1))
+print(client.WebsiteTypes.get())
+print(client.WebsiteTypes.get(limit=2, offset=1))
 ```
 
 API Items

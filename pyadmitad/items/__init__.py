@@ -9,4 +9,5 @@ from pyadmitad.items.campaigns import *
 from pyadmitad.items.announcements import *
 from pyadmitad.items.payments import *
 from pyadmitad.items.landings import *
+from pyadmitad.items.optcodes import *
 
