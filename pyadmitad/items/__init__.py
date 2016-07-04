@@ -12,3 +12,4 @@ from pyadmitad.items.landings import *
 from pyadmitad.items.optcodes import *
 from pyadmitad.items.news import *
 from pyadmitad.items.deeplinks import *
+from pyadmitad.items.links import *

@@ -21,4 +21,4 @@ class DeeplinksManage(Item):
         kwargs['url'] = self.CREATE_URL
         kwargs['website_id'] = self.sanitize_id(website_id)
         kwargs['campaign_id'] = self.sanitize_id(campaign_id)
-        return self.transport.set_method('GET').set_data(data).request(**kwargs)
+        return self.transport.get().set_data(data).request(**kwargs)

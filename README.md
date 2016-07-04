@@ -16,9 +16,6 @@ from pyadmitad import api
 client_id = ""
 client_secret = ""
 scope = "private_data"
-access_toke = ""
-
-scope = "public_data"
 
 client = api.get_oauth_password_client(
     client_id,
@@ -26,8 +23,7 @@ client = api.get_oauth_password_client(
     scope
 )
 
-print(client.WebsiteTypes.get())
-print(client.WebsiteTypes.get(limit=2, offset=1))
+print(client.Me.get())
 ```
 
 API Items
@@ -256,20 +252,6 @@ API Items
     res = client.CampaignsManage.connect(c_id=6, w_id=22)
     res = client.CampaignsManage.disconnect(6, 22)
     res = client.CampaignsManage.disconnect(c_id=6, w_id=22)
-
-
-### Announcements ###
-
-
-###### List of announcements ######
-
-    res = client.Announcements.get()
-    res = client.Announcements.get(limit=1, offset=2)
-    res = client.Announcements.getOne(2)
-
-###### Manage announcements ######
-
-    res = client.AnnouncementsManage.delete(12)
 
 
 ### Payments ###
