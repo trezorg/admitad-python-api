@@ -3,14 +3,14 @@ from ez_setup import use_setuptools
 use_setuptools()
 from setuptools import setup, find_packages
 
-__author__ = 'trezorg@gmail.com'
+__author__ = 'dev@admitad.com'
 __version__ = '1.0.0'
 
 setup(
     name="pyadmitad",
     version=__version__,
-    author='Igor Nemilentsev',
-    author_email='trezorg@gmail.com',
+    author='Admitad Dev Bot',
+    author_email='dev@admitad.com',
     description='A Python wrapper around the Admitad API',
     license='MIT',
     url='https://github.com/admitad/admitad-python-api.git',
