@@ -11,3 +11,4 @@ from pyadmitad.items.payments import *
 from pyadmitad.items.landings import *
 from pyadmitad.items.optcodes import *
 from pyadmitad.items.news import *
+from pyadmitad.items.deeplinks import *
