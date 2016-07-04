@@ -288,26 +288,6 @@ API Items
     res = client.PaymentsManage.delete(71)
 
 
-### Money transfers ###
-
-
-###### List of money transfers ######
-
-    res = client.MoneyTransfers.get()
-    res = client.MoneyTransfers.get(limit=2)
-    res = client.MoneyTransfers.getOne(2)
-    res = client.MoneyTransfers.get(sender='sender')
-    res = client.MoneyTransfers.get(currency='USD')
-
-###### Manage money transfers ######
-
-    res = client.MoneyTransfersManage.create(
-        currency='USD',
-        recipient='recipient',
-        comment='comment',
-        sum=10)
-
-
 Notes
 ------
 
