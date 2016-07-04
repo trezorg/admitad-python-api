@@ -420,6 +420,12 @@ class HttpTransport(object):
         # here we should clean data
         return self.clean_data()
 
+    def get(self):
+        return self.set_method('GET')
+
+    def post(self):
+        return self.set_method('POST')
+
     def set_debug(self, debug):
         self._debug = debug
         return self

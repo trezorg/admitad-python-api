@@ -1,4 +1,4 @@
-admitad-python-api
+admitad-python-api [![Build Status](https://travis-ci.org/janitor/admitad-python-api.svg?branch=master)](https://travis-ci.org/janitor/admitad-python-api)
 ==================
 
 A Python wrapper around the [Admitad API](https://developers.admitad.com/en/)
@@ -25,6 +25,11 @@ client = api.get_oauth_password_client(
 
 print(client.Me.get())
 ```
+
+Tests
+-----
+
+    python setup.py test
 
 API Items
 -------------
