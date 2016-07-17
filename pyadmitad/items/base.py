@@ -47,7 +47,7 @@ class Item(object):
 
     @staticmethod
     def sanitize_integer_value(value, name, blank=False):
-        if not value:
+        if value is None:
             if not blank:
                 raise ValueError("Blank integer value '%s': %s" % (name, value))
             return value
