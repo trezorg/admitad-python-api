@@ -3,7 +3,7 @@ from pyadmitad.items.base import Item
 
 __all__ = [
     'OptCodes',
-    'CampaignStatusOptCodesManager',
+    'OfferStatusOptCodesManager',
     'ActionOptCodesManager',
 ]
 
@@ -24,6 +24,10 @@ class BaseOptCodes(Item):
     ACTION_STATUS_APPROVED = 6
     ACTION_STATUS_DECLINED = 7
     ACTION_STATUS_PENDING = 8
+
+    EVENT_ACTION = 0
+    EVENT_OFFER_STATUS = 1
+    EVENT_REFERRAL = 2
 
 
 class OptCodes(BaseOptCodes):
@@ -69,14 +73,22 @@ class BaseOptCodesManager(BaseOptCodes):
         return self.transport.set_method('POST').set_data(data).request(**kwargs)
 
 
-class CampaignStatusOptCodesManager(BaseOptCodesManager):
+class OfferStatusOptCodesManager(BaseOptCodesManager):
 
     CREATE_URL = Item.prepare_url('opt_codes/offer/create')
     UPDATE_URL = Item.prepare_url('opt_codes/offer/update/%(optcode_id)s')
 
     CREATE_FIELDS = {
+        'website': lambda x: Item.sanitize_integer_value(x, 'website', blank=True),
+        'campaign': lambda x: Item.sanitize_integer_value(x, 'campaign', blank=True),
+        'desc_mode': lambda x: Item.sanitize_integer_value(x, 'desc_mode'),
+        'url': lambda x: Item.sanitize_string_value(x, 'url'),
+        'method': lambda x: Item.sanitize_integer_value(x, 'method'),
     }
     UPDATE_FIELDS = {
+        'desc_mode': lambda x: Item.sanitize_integer_value(x, 'desc_mode', blank=True),
+        'url': lambda x: Item.sanitize_string_value(x, 'url', blank=True),
+        'method': lambda x: Item.sanitize_integer_value(x, 'method', blank=True),
     }
 
 
