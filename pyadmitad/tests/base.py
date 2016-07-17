@@ -35,6 +35,7 @@ class BaseTestCase(MockerTestCase):
             'data': self.prepare_data(**kwargs),
             'headers': build_headers(access_token),
             'method': BaseTestCase.prepare_method(**kwargs),
-            'debug': False
+            'debug': False,
+            'files': None,
         }
         obj.api_request(url, **kwargs)
