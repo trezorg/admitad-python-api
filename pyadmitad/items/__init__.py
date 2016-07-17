@@ -13,3 +13,4 @@ from pyadmitad.items.optcodes import *
 from pyadmitad.items.news import *
 from pyadmitad.items.deeplinks import *
 from pyadmitad.items.links import *
+from pyadmitad.items.lost_orders import *
