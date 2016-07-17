@@ -21,5 +21,5 @@ def get_oauth_client_client(
         auth['access_token'], user_agent=user_agent, debug=debug)
 
 
-def get_oauth_client(access_token, user_agent=None):
-    return get_authorizing_client(access_token, user_agent=user_agent)
+def get_oauth_client(access_token, user_agent=None, debug=False):
+    return get_authorizing_client(access_token, user_agent=user_agent, debug=debug)
