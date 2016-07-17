@@ -52,28 +52,28 @@ def prepare_request_data(
 
 def api_request(
         url, data=None, headers=None, method='GET',
-        timeout=None, ssl_verify=False, debug=False):
+        files=None, timeout=None, ssl_verify=False, debug=False):
     kwargs = prepare_request_data(
         data=data, headers=headers, method=method,
         timeout=timeout, ssl_verify=ssl_verify)
     status_code = 500
     content = u''
     try:
-        response = requests.request(method, url, **kwargs)
+        response = requests.request(method, url, files=files, **kwargs)
         debug_log(u'Request url: %s' % response.url, debug)
-        if method == 'POST':
-            debug_log(u'Request body: %s' % response.request.body, debug)
+        # if method == 'POST':
+        #     debug_log(u'Request body: %s' % response.request.body, debug)
         status_code = response.status_code
         content = response.content
         if status_code >= 400:
             response.raise_for_status()
-        return response.json()
     except requests.HTTPError as err:
         raise HttpException(status_code, to_json(content), err)
     except requests.RequestException as err:
         raise ConnectionException(err)
     except (ValueError, TypeError) as err:
         raise JsonException(err)
+    return response.json()
 
 
 def get_credentials(client_id, client_secret):
@@ -364,12 +364,13 @@ class HttpTransportFiltering(object):
 
 class HttpTransport(object):
 
-    SUPPORTED_METHODS = ('GET', 'POST')
+    SUPPORTED_METHODS = ('GET', 'POST', 'DELETE')
     SUPPORTED_LANGUAGES = ('ru', 'en', 'de', 'pl')
 
     def __init__(self, access_token, method=None, user_agent=None, debug=False):
         self._headers = build_headers(access_token, user_agent=user_agent)
         self._method = method or 'GET'
+        self._files = None
         self._data = None
         self._url = None
         self._language = None
@@ -390,6 +391,10 @@ class HttpTransport(object):
 
     def set_data(self, data):
         self._data = data
+        return self
+
+    def set_files(self, files):
+        self._files = files
         return self
 
     def clean_data(self):
@@ -453,7 +458,8 @@ class HttpTransport(object):
             'method': self._method,
             'headers': self._headers,
             'data': self._data,
-            'debug': self._debug
+            'debug': self._debug,
+            'files': self._files,
         }
         response = self.api_request(self._url, **requests_kwargs)
         return kwargs.get('handler', self._handle_response)(response)
