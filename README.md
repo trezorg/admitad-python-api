@@ -6,7 +6,7 @@ A Python wrapper around the [Admitad API](https://developers.admitad.com/en/)
 Install
 -------
 
-    pip install admitad-api
+    pip install pyadmitad
 
 Example
 -------
