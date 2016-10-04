@@ -9,6 +9,7 @@ setup(
     description='A Python wrapper around the Admitad API',
     license='MIT',
     url='https://github.com/admitad/admitad-python-api',
+    download_url='https://github.com/admitad/admitad-python-api/tarball/1.0',
     keywords=['admitad'],
     install_requires=['requests>=2.0', 'future'],
     tests_require=['nose2', 'responses'],
