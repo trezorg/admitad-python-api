@@ -107,10 +107,6 @@ class WebsitesManage(Item):
             x, 'categories'),
         'regions': lambda x: Item.sanitize_string_array(
             x, 'regions', max_length=2),
-        'atnd_visits': lambda x: Item.sanitize_integer_value(
-            x, 'atnd_visits', blank=False),
-        'atnd_hits': lambda x: Item.sanitize_integer_value(
-            x, 'atnd_hits', blank=False),
         'mailing_targeting': lambda x: Item.sanitize_bool_integer_value(
             x, 'mailing_targeting', blank=True)
     }
@@ -118,6 +114,8 @@ class WebsitesManage(Item):
     UPDATE_FIELDS = {
         'name': lambda x: Item.sanitize_string_value(
             x, 'name', max_length=200, blank=True),
+        'kind': lambda x: Item.sanitize_string_value(
+            x, 'kind', max_length=20, blank=True),
         'language': lambda x: Item.sanitize_string_value(
             x, 'language', max_length=2, blank=True),
         'adservice': lambda x: Item.sanitize_integer_value(
@@ -130,10 +128,6 @@ class WebsitesManage(Item):
             x, 'categories', blank=True),
         'regions': lambda x: Item.sanitize_string_array(
             x, 'regions', max_length=2, blank=True),
-        'atnd_visits': lambda x: Item.sanitize_integer_value(
-            x, 'atnd_visits', blank=True),
-        'atnd_hits': lambda x: Item.sanitize_integer_value(
-            x, 'atnd_hits', blank=True),
         'mailing_targeting': lambda x: Item.sanitize_bool_integer_value(
             x, 'mailing_targeting', blank=True)
     }
@@ -149,8 +143,6 @@ class WebsitesManage(Item):
             description (str)
             categories (list of int)
             regions (list of str)
-            atnd_visits (int)
-            atnd_hits (int)
             mailing_targeting (bool)
 
         """
@@ -163,14 +155,13 @@ class WebsitesManage(Item):
         Args:
             _id (int)
             name (str)
+            kind (str)
             language (str)
             adservice (int)
             site_url (str)
             description (str)
             categories (list of int)
             regions (list of str)
-            atnd_visits (int)
-            atnd_hits (int)
             mailing_targeting (bool)
 
         """

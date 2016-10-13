@@ -16,7 +16,7 @@ class DeeplinksManage(Item):
     CREATE_URL = Item.prepare_url('deeplink/%(website_id)s/advcampaign/%(campaign_id)s')
 
     CREATE_FIELDS = {
-        'ulp': lambda x: Item.sanitize_string_value(x, 'ulp'),
+        'ulp': lambda x: Item.sanitize_string_array(x, 'ulp'),
         'subid': lambda x: Item.sanitize_string_value(x, 'subid', max_length=30),
         # todo: subid[1-4]
     }
@@ -26,7 +26,7 @@ class DeeplinksManage(Item):
         Args:
             website_id (int)
             campaign_id (int)
-            ulp (str)
+            ulp (list of str)
             subid (str)
 
         """

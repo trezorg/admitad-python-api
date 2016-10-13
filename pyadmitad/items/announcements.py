@@ -25,19 +25,37 @@ class Announcements(Item):
         Args:
             limit (int)
             offset (int)
+            language (str)
 
         """
-        return self.transport.get().set_pagination(**kwargs).request(url=self.URL)
+        filtering = {
+            'filter_by': kwargs,
+            'available': {
+                'language': lambda x: Item.sanitize_string_value(x, 'language', 2, 2, True),
+            }
+        }
+        return self.transport.get() \
+            .set_pagination(**kwargs) \
+            .set_filtering(filtering) \
+            .request(url=self.URL)
 
     def getOne(self, _id, **kwargs):
         """
         Args:
             _id (int)
+            language (str)
 
         """
+        filtering = {
+            'filter_by': kwargs,
+            'available': {
+                'language': lambda x: Item.sanitize_string_value(x, 'language', 2, 2, True),
+            }
+        }
+
         request_data = {
             'url': self.SINGLE_URL,
             'announcement_id': Item.sanitize_id(_id)
         }
 
-        return self.transport.get().request(**request_data)
+        return self.transport.get().set_filtering(filtering).request(**request_data)
