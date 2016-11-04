@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name="pyadmitad",
-    packages=['pyadmitad'],
+    name="admitad",
+    packages=['admitad'],
     version='1.0.0',
     author='Admitad Dev Bot',
     author_email='dev@admitad.com',

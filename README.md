@@ -6,12 +6,12 @@ A Python wrapper around the [Admitad API](https://developers.admitad.com/en/)
 Install
 -------
 
-    pip install pyadmitad
+    pip install admitad
 
 Example
 -------
 ```python
-from pyadmitad import api, items
+from admitad import api, items
 
 client_id = "[client_id]"
 client_secret = "[client_secret]"
