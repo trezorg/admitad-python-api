@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="admitad",
-    packages=['admitad'],
+    packages=['admitad', 'admitad.items'],
     version='1.1.0',
     author='Admitad Dev Bot',
     author_email='dev@admitad.com',
