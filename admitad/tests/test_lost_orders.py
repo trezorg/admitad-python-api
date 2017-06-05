@@ -16,7 +16,8 @@ class LostOrdersTestCase(BaseTestCase):
                 resp.GET,
                 self.prepare_url(LostOrders.URL, params={
                     'limit': 20,
-                    'offset': 1
+                    'offset': 1,
+                    'appeal_status': 'resolved',
                 }),
                 match_querystring=True,
                 json={'status': 'ok'},
@@ -24,7 +25,8 @@ class LostOrdersTestCase(BaseTestCase):
             )
             result = self.client.LostOrders.get(
                 limit=20,
-                offset=1
+                offset=1,
+                appeal_status='resolved'
             )
 
         self.assertIn('status', result)
@@ -61,7 +63,24 @@ class LostOrdersManagerTestCase(BaseTestCase):
                 order_id='asd3f3',
                 order_date='01.01.2010',
                 order_price=1200,
-                comment='foo bar baz'
+                comment='foo bar baz',
+                appeal_id='foo'
+            )
+
+        self.assertIn('status', result)
+
+    def test_update_lost_order(self):
+        with responses.RequestsMock() as resp:
+            resp.add(
+                resp.PUT,
+                self.prepare_url(LostOrdersManager.UPDATE_URL, lost_order_id=10),
+                match_querystring=True,
+                json={'status': 'ok'},
+                status=200,
+            )
+            result = self.client.LostOrdersManager.update(
+                lost_order_id=10,
+                appeal_status='resolved'
             )
 
         self.assertIn('status', result)

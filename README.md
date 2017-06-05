@@ -470,7 +470,7 @@ res = client.ActionOptCodesManager.update(
 
 ```python
 res = client.LostOrders.get()
-res = client.LostOrders.get(limit=20, offset=0)
+res = client.LostOrders.get(limit=20, offset=0, appeal_status='processing')
 res = client.LostOrders.getOne(76)
 ```
 
@@ -483,6 +483,7 @@ res = client.LostOrdersManager.create(
     order_id='039NRUHFJEW', order_date='12.08.2016', order_price=345.77,
     comment='some comment'
 )
+res = client.LostOrdersManager.update(77, appeal_status='resolved')
 res = client.LostOrdersManager.delete(77)
 ```
 
