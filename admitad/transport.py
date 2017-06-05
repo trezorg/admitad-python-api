@@ -70,9 +70,9 @@ def prepare_request_data(data=None, headers=None, method='GET',
 
     prepared_data = prepare_data(data)
 
-    if method == 'POST':
+    if method in ['POST', 'PUT']:
         kwargs['data'] = prepared_data
-    if method == 'GET':
+    if method in ['GET', 'DELETE']:
         kwargs['params'] = prepared_data
 
     return kwargs
