@@ -1,4 +1,4 @@
-admitad-python-api [![Build Status](https://travis-ci.org/janitor/admitad-python-api.svg?branch=master)](https://travis-ci.org/janitor/admitad-python-api)
+admitad-python-api [![Build Status](https://travis-ci.org/admitad/admitad-python-api.svg?branch=master)](https://travis-ci.org/admitad/admitad-python-api)
 ==================
 
 A Python wrapper around the [Admitad API](https://developers.admitad.com/en/)
