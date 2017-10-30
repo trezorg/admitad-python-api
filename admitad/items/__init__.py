@@ -14,7 +14,6 @@ from admitad.items.banners import *
 from admitad.items.campaigns import *
 from admitad.items.optcodes import *
 from admitad.items.lost_orders import *
-from admitad.items.arecords import *
 from admitad.items.retag import *
 from admitad.items.broken_links import *
 from admitad.items.tickets import *

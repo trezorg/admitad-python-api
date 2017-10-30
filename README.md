@@ -487,16 +487,6 @@ res = client.LostOrdersManager.update(77, appeal_status='resolved')
 res = client.LostOrdersManager.delete(77)
 ```
 
-### Arecords ###
-
-###### List of arecords ######
-
-```python
-res = client.Arecords.get()
-res = client.Arecords.get(limit=50)
-res = client.Arecords.getForWebsite(10)
-```
-
 ### Retag ###
 
 ###### List of retag ######
