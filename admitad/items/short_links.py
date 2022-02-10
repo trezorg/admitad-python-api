@@ -13,23 +13,18 @@ class ShortLinks(Item):
 
     SCOPE = 'short_links'
 
-    URL = Item.prepare_url('short_links')
-    SINGLE_URL = Item.prepare_url('shortlink/modify/')
+    URL = Item.prepare_url('shortlink/modify/')
 
-    def get(self, **kwargs):
+    GET_FIELDS = {
+        'link': lambda x: Item.sanitize_string_value(x, 'link'),
+    }
+
+    def post(self, link, **kwargs):
         """
         Args:
             link (str)
 
         """
-        filtering = {
-            'filter_by': kwargs,
-            'available': {
-                'link': lambda x: Item.sanitize_string_value(x, 'link', blank=True),
-            }
-        }
+        data = Item.sanitize_fields(self.GET_FIELDS, link=link)
 
-        return self.transport.get() \
-                   .set_pagination(**kwargs) \
-                   .set_filtering(filtering) \
-                   .request(url=self.URL)
+        return self.transport.post().set_data(data).request(url=self.URL)
