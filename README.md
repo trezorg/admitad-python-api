@@ -425,7 +425,6 @@ res = client.DeeplinksManage.create(22, 10, ulp='https://admitad.com/some/', sub
 
 ```python
 res = client.ShortLinks.post(link='https://ad.admitad.com/g/some/')
-res = client.DeeplinksManage.create(22, 10, ulp='https://admitad.com/some/', subid='AS32djkd31')
 ```
 
 ### Referrals ###
